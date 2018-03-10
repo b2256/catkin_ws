@@ -1,0 +1,15 @@
+    <launch>
+
+	<node pkg="bag2orb" type="ned_rpy.py" name="afl_tatbry_node">
+	<remap from="tat_bry" to="tat_bry"/>
+	</node>
+
+	<!--<node pkg="bag2orb" type="afl_apprxtimesync_node.py" name="aflsync_node">  -->
+	<!--<remap from="aflsync_node" to="aflsync_node"/> -->
+	<!--</node>	-->	 
+
+	<!-- <node pkg="rosbag" type="record" name="sync_bag"   -->  
+	<!--       args="-o /gps/filtered /afl_tatbry"  />   -->  
+    <!--  </node>	  -->
+
+    </launch>

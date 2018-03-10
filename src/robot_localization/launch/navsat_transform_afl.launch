@@ -1,0 +1,18 @@
+<!-- Launch file for navsat_transform_node -->
+
+<launch>
+  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/navsat_transform_afl.yaml" />
+
+      <!-- Placeholders for input remapping. Set your topic names as the "to" values.       -->
+      <remap from="imu/data" to="imu/data"/>
+      <remap from="odometry/filtered" to="odometry/filtered"/>
+      <remap from="gps/fix" to="gps/fix"/>
+
+      <!-- Placeholders for output remapping. Set your topic names as the "to" values.       -->
+      <remap from="odometry/gps" to="odometry/gps"/>
+      <remap from="/gps/filtered" to="/gps/filtered"/>   
+
+  </node>
+</launch>
+

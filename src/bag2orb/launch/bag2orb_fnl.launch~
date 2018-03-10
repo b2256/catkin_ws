@@ -1,0 +1,14 @@
+    <launch>
+
+	<node pkg="bag2orb" type="q2_rpy.py" name="aflrpy_node">
+	<remap from="euler" to="euler"/>
+	</node>
+
+	<node pkg="bag2orb" type="afl_apprxtimesync_node.py" name="aflsync_node">  
+	<remap from="aflsync_node" to="aflsync_node"/> 
+	</node>		
+
+	<node pkg="rosbag" type="record" name="sync_bag"     
+	      args="-o $(find bag2orb)/sync_bag  /gps/filtered /tat_bry"  />     
+        
+    </launch>

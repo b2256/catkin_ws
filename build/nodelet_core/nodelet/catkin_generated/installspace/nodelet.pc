@@ -1,0 +1,8 @@
+prefix=/home/b2256/catkin_ws/install
+
+Name: nodelet
+Description: Description of nodelet
+Version: 1.9.14
+Cflags: -I/home/b2256/catkin_ws/install/include -I/usr/include
+Libs: -L/home/b2256/catkin_ws/install/lib -lnodeletlib /usr/lib/x86_64-linux-gnu/libuuid.so
+Requires: bondcpp message_runtime pluginlib rosconsole roscpp std_msgs

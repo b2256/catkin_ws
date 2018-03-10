@@ -1,0 +1,19 @@
+<launch>
+	
+		<!--<include file="$(find ublox_gps)/launch/ublox_gps.launch" />  -->
+		<!--<include file="$(find phidgets_imu)/launch/imu.launch" /> -->   
+		<!-- <include file="$(find christa_imu_driver)/launch/christa.launch" /> -->  
+		
+    # insert static frames static_transform_publisher x y z qx qy qz qw frame_id child_frame_id  period_in_ms
+    <node pkg="tf2_ros" type="static_transform_publisher" name="phid_link" args="-0.0023 0.194 0.0635 0 0 0  base_link phid_imu"/>
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="crista_link" args="-0.0023 0.194 0.02857 0 0 0 1 base_link crista_imu"/> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="gps_link" args="0.214 -0.526 0.2032 0 0 0 base_link gps"/>
+	<!-- <node pkg="tf2_ros" type="static_transform_publisher" name="gps_link" args="0.214 -0.526 6.7032 0 0 0 base_link gps"/>  -->	
+		
+		<include file="$(find robot_localization)/launch/afl_navsat_transform.launch" />  
+		<include file="$(find robot_localization)/launch/ukf_afl.launch" />
+		
+		<include file="$(find bag2orb)/launch/sync.launch" />    
+		
+     
+</launch>

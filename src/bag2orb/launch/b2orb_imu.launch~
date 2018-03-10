@@ -1,0 +1,23 @@
+    <launch>
+        
+	        <node pkg="bag2orb" type="ned_rpy_imu.py" name="afl_tatbry_node"> 
+	        <remap from="tat_bry" to="tat_bry"/> 
+	          
+	        </node>
+	        
+	        <remap from="/tat_bry" to="/tat_out"/>
+	        <remap from="/gps/filtered" to="/gps_out"/>  
+	        
+	        <node pkg="bag2orb" type="afl_sync_node.py" name="afl_sync" >  
+            	<!--<remap from="/tat_bry" to="/tat_out"/>  -->
+	        <!--<remap from="/gps/filtered" to="/gps_out"/>  -->
+	               
+	        <!--</node>  -->	
+	        	 
+                
+
+	        <!--<node pkg="rosbag" type="record" name="sync_bag"    -->
+	        <!--      args="-o $(find bag2orb)/sync_bag  /gps/filtered /tat_bry"/> -->
+
+
+    </launch>

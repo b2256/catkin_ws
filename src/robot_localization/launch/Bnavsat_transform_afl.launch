@@ -1,0 +1,31 @@
+<!-- Launch file for navsat_transform_node -->
+
+<launch>
+
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true" output="screen">
+
+      <!-- Frequency of the main run loop. -->
+      <param name="frequency" value="30"/>
+      <param name="delay" value="0"/>
+     <!-- <param name="magnetic_declination_radians" value="0.0000"/>  -->
+      <param name="magnetic_declination_radians" value="-0.206996"/>      
+      <param name="yaw_offset" value="-1.5707963268"/>
+      <param name="zero_altitude" value="false"/>
+      <param name="broadcast_utm_transform" value="false"/>
+      <param name="publish_filtered_gps" value="true"/>
+      <param name="use_odometry_yaw" value="false"/>
+      <param name="wait_for_datum" value="false"/>
+  <!--   rosparam param="datum">[55.944904, -3.186693, 0.0, map, base_link]</rosparam>  -->
+
+      <!-- Placeholders for input remapping. Set your topic names as the "to" values.  -->
+             <remap from="/imu/data" to="/imu/data"/>
+             <remap from="/odometry/filtered" to="/odometry/filtered"/>
+             <remap from="/gps/fix" to="/gps/fix"/>
+
+      <!-- Placeholders for output remapping.        -->
+
+             <remap from="/odometry/gps" to="/odometry/gps"/>
+             <remap from="/gps/filtered" to="/gps/filtered"/>
+    </node>
+
+</launch>

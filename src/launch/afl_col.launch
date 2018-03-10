@@ -1,0 +1,12 @@
+<launch>
+	
+		<include file="$(find ublox_gps)/launch/ublox_gps.launch" />  
+		<include file="$(find phidgets_imu)/launch/imu.launch" />    
+		<!-- <include file="$(find christa_imu_driver)/launch/christa.launch" /> -->  
+		
+		<!--<include file="$(find robot_localization)/launch/navsat_transform_afl.launch" />  -->
+		<!--<include file="$(find robot_localization)/launch/ekf_afl.launch" />   -->
+		<!--<include file="$(find bag2orb)/launch/b2orb.launch" /> -->
+
+     
+</launch>

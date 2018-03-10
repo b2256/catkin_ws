@@ -1,0 +1,15 @@
+    <launch>
+
+	<node pkg="loc2orbgt" type="q2_rpy_cal.py" name="aflrpy_node">
+	<remap from="euler" to="euler"/>
+	</node>
+
+	<!--<node pkg="loc2orbgt" type="afl_apprxtimesync_node.py" name="aflsync_node">  
+	<remap from="aflsync_node" to="aflsync_node"/> 
+	</node>		--> 
+
+	<!-- <node pkg="rosbag" type="record" name="sync_bag"   -->  
+	<!--       args="-o /gps/filtered /euler"  />   -->  
+    <!--  </node>	  -->
+
+    </launch>

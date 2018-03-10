@@ -1,0 +1,8 @@
+prefix=/home/b2256/catkin_ws/install
+
+Name: libphidget21
+Description: Description of libphidget21
+Version: 0.7.4
+Cflags: 
+Libs: -L/home/b2256/catkin_ws/install/lib 
+Requires: 
