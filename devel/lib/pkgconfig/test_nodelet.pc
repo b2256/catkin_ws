@@ -1,8 +1,0 @@
-prefix=/home/b2256/catkin_ws/devel
-
-Name: test_nodelet
-Description: Description of test_nodelet
-Version: 1.9.14
-Cflags: 
-Libs: -L/home/b2256/catkin_ws/devel/lib 
-Requires: 

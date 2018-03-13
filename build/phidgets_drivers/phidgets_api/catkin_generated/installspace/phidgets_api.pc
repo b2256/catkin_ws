@@ -1,8 +1,0 @@
-prefix=/home/b2256/catkin_ws/install
-
-Name: phidgets_api
-Description: Description of phidgets_api
-Version: 0.7.4
-Cflags: -I/home/b2256/catkin_ws/install/include
-Libs: -L/home/b2256/catkin_ws/install/lib -lphidgets_api
-Requires: libphidget21
