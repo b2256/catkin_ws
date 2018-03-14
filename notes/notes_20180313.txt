@@ -1,0 +1,27 @@
+NOTES 20180313
+Testing from my laptop, running with real hardware attached in live (non-test) mode elicited a "permission denied" error on the OpenComport() API call.  Solved it with the following command followed by reboot:
+sudo gpasswd --add ghedger dialout
+
+Below is the working launch command with OBDII connected directly to laptop:
+roslaunch obdii_interface obdii_interface.launch rs232_baud_rate:="115200" rs232_port:="/dev/ttyUSB0" obdii_polling_rate:="1"
+
+launch file would not launch from ODRDOID; running
+catkin_make install
+
+Still no launch; added these lines to ~/.bashrc
+
+export ROS_IP='127.0.0.1'
+export ROS_HOSTNAME=$ROS_IP
+export ROS_MASTER_URI=http://$ROS_IP:11311
+source /opt/ros/kinetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+
+ODroid launches with this command:
+roslaunch obdii_interface obdii_interface.launch
+
+NOTES 20180314
+Set default rs232_port param in launch file to "/dev/ttyUSB0".
+
+Note that this will "float" depending on the final configuration.  Communicated this to client, with possible resolution.
+
