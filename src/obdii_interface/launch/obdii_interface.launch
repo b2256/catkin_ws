@@ -6,13 +6,19 @@
   <arg name="rs232_baud_rate" default="115200" />
   <arg name="rs232_port" default="/dev/ttyUSB0" />
   <arg name="obdii_polling_rate" default="100" />
-  <arg name="pub_topic" default="/obdii_packet" />
+  <arg name="pub_raw_topic" default="/obdii_raw_packet" />
+  <arg name="pub_odom_topic" default="/obdii_odom_packet" />
+  <arg name="frame_id" default="odom" />
+  <arg name="child_frame_id" default="odom_child" />
   <node name="obdii_interface_process" pkg="obdii_interface" type="obdii_interface_node" output="screen">
     <param name="queue_size" value="$(arg output_queue_size)" />
     <param name="rs232_baud_rate" value="$(arg rs232_baud_rate)" />
     <param name="rs232_port" value="$(arg rs232_port)" />
     <param name="obdii_polling_rate" value="$(arg obdii_polling_rate)" />
-    <param name="pub_topic" value="$(arg pub_topic)" />
+    <param name="pub_raw_topic" value="$(arg pub_raw_topic)" />
+    <param name="pub_odom_topic" value="$(arg pub_odom_topic)" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="child_frame_id" value="$(arg child_frame_id)" />
   </node>
 </launch>
 

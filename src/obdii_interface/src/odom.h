@@ -25,7 +25,10 @@ struct WorkerParams {
   std::string port_;
   int polling_rate_;
   ros::NodeHandle nh_;
-  ros::Publisher pub_;
+  ros::Publisher pub_raw_;
+  ros::Publisher pub_odom_;
+  std::string frame_id_;
+  std::string child_frame_id_;
 };
 
 

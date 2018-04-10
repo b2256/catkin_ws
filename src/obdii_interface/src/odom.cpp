@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include <string>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -40,6 +41,7 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
+#include <nav_msgs/Odometry.h>
 #include <std_msgs/Bool.h>
 #include <nav_msgs/Odometry.h>
 #include "obdii_interface/ObdiiState.h"
@@ -62,6 +64,9 @@
 #define ODOM_LOG
 #endif
 #define ODOM_ERROR printf
+
+std::string gFrameId;
+std::string gChildFrameId;
 
 int an_packet_transmit(an_packet_t *an_packet)
 {
@@ -97,7 +102,7 @@ int odom_calc_polling_rate(int perSecond)
   return ( 100000000 / perSecond ) / 100;
 }
 
-// odom_update
+// odom_update_raw
 //
 // Updates the odometry reading and prepares the ROS message for publication.
 //
@@ -107,15 +112,39 @@ int odom_calc_polling_rate(int perSecond)
 //        double distance
 //        int flags          
 // Exit:  -
-int odom_update(obdii_interface::ObdiiState* odomMsg, double delay, double speed, double distance, bool flags)
+int odom_update_raw(obdii_interface::ObdiiState* odomMsg, std::string frameId, double delay, double speed, double distance, bool flags)
 {
   odomMsg->header.stamp = ros::Time::now();
-  odomMsg->header.frame_id = "odom";
+  odomMsg->header.frame_id = frameId.c_str();
   odomMsg->delay = delay;
   odomMsg->speed = speed;
   odomMsg->distance = distance;
   odomMsg->flags = (flags ? 1 : 0);
 }
+
+// odom_update_odom
+//
+// Updates the odometry and translate into a nav_msgs/Odometry message for ROS publication.
+//
+// Entry: pointer to ROS message structure
+//        double delay
+//        double speed
+//        double distance
+//        int flags          
+// Exit:  -
+int odom_update_odom(nav_msgs::Odometry* odomMsg, std::string frameId, std::string childFrameId, double delay, double speed, double distance, bool flags)
+{
+  odomMsg->header.stamp = ros::Time::now();
+  odomMsg->header.frame_id = frameId;
+  odomMsg->child_frame_id = childFrameId;
+  odomMsg->pose.pose.position.x = distance;
+  odomMsg->twist.twist.linear.x = speed;
+  //  odomMsg->speed = speed;
+  //  odomMsg->distance = distance;
+  //  odomMsg->flags = (flags ? 1 : 0);
+}
+
+
 
 void *odom_thread(void *pv)
 {
@@ -137,33 +166,35 @@ void *odom_thread(void *pv)
   /* Calculate sleep time from Hz */
   const int polling_rate = odom_calc_polling_rate(pWorkerParams->polling_rate_);
   ODOM_LOG(
-    "ODOM WORKER THREAD: Polling every %dms, %4.2fHz\n",
-    polling_rate / 1000,
-    (double) (1000000.0 / polling_rate)
-  );
+      "ODOM WORKER THREAD: Polling every %dms, %4.2fHz\n",
+      polling_rate / 1000,
+      (double) (1000000.0 / polling_rate)
+      );
 
   /* set up ROS publisher */
-  ros::Publisher pub = pWorkerParams->pub_;
-  obdii_interface::ObdiiState odomMsg;
+  ros::Publisher pub_raw = pWorkerParams->pub_raw_;
+  ros::Publisher pub_odom = pWorkerParams->pub_odom_;
+  obdii_interface::ObdiiState odomRawMsg;
+  nav_msgs::Odometry odomOdomMsg;
 
   /* open the com port */
   char szPort[MAX_PORT_STR_SIZE];
   strncpy(szPort, pWorkerParams->port_.c_str(), sizeof(szPort));
 
   ODOM_LOG(
-    "ODOM WORKER THREAD: Attempting to open port %s at %d baud.\n",
-    szPort,
-    pWorkerParams->baud_rate_
-  );
+      "ODOM WORKER THREAD: Attempting to open port %s at %d baud.\n",
+      szPort,
+      pWorkerParams->baud_rate_
+      );
 
   if (OpenComport( szPort, pWorkerParams->baud_rate_ ))
   {
     ODOM_ERROR("Could not open serial port %s at %d baud.\n",
-      szPort,
-      pWorkerParams->baud_rate_
-    );
-    ODOM_ERROR("ODOM WORKER THREAD"": EXITING...\n");
+        szPort,
+        pWorkerParams->baud_rate_
+        );
 #if !defined(DEBUG)
+    ODOM_ERROR("ODOM WORKER THREAD2: EXITING...\n");
     return NULL;
 #endif
     //exit(EXIT_FAILURE);
@@ -192,13 +223,24 @@ void *odom_thread(void *pv)
 
             /* GPH Added: Prepare odometry packet for publication
             */
-            odom_update(
-              &odomMsg,
-              odometer_packet.delay,
-              odometer_packet.speed,
-              odometer_packet.distance_travelled,
-              odometer_packet.flags.b.reverse_detection_supported
-            );
+            odom_update_raw(
+                &odomRawMsg,
+                pWorkerParams->frame_id_,
+                odometer_packet.delay,
+                odometer_packet.speed,
+                odometer_packet.distance_travelled,
+                odometer_packet.flags.b.reverse_detection_supported
+                );
+
+            odom_update_odom(
+                &odomOdomMsg,
+                pWorkerParams->frame_id_,
+                pWorkerParams->child_frame_id_,
+                odometer_packet.delay,
+                odometer_packet.speed,
+                odometer_packet.distance_travelled,
+                odometer_packet.flags.b.reverse_detection_supported
+                );
           }
         }
         else
@@ -211,24 +253,36 @@ void *odom_thread(void *pv)
     }
 
 #if defined(ODOM_TEST)
-    odom_update(
-      &odomMsg,
-      testDelay,
-      testSpeed,
-      testDistance,
-      false
-    );
+    odom_update_raw(
+        &odomRawMsg,
+        pWorkerParams->frame_id_,
+        testDelay,
+        testSpeed,
+        testDistance,
+        false
+        );
+
+    odom_update_odom(
+        &odomOdomMsg,
+        pWorkerParams->frame_id_,
+        pWorkerParams->child_frame_id_,
+        testDelay,
+        testSpeed,
+        testDistance,
+        false
+        );
 
     testDistance += 0.1;
     testDelay = 0.1;
-    testSpeed = 25.0;
+    testSpeed = 1.1;
 #endif
 
 #ifdef _WIN32
     Sleep( polling_rate / 1000);
 #else
 
-    pub.publish(odomMsg);
+    pub_raw.publish(odomRawMsg);
+    pub_odom.publish(odomOdomMsg);
     ODOM_LOG("ODOM WORKER THREAD: Polling...\n");
 
     usleep( polling_rate );

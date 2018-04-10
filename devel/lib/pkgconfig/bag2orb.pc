@@ -1,0 +1,8 @@
+prefix=/home/ghedger/git/catkin_ws/devel
+
+Name: bag2orb
+Description: Description of bag2orb
+Version: 0.0.0
+Cflags: -I/home/ghedger/git/catkin_ws/devel/include
+Libs: -L/home/ghedger/git/catkin_ws/devel/lib 
+Requires: nav_msgs roscpp rospy std_msgs
