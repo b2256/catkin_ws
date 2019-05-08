@@ -2,7 +2,11 @@
 
 message(STATUS "obdii_interface: 1 messages, 0 services")
 
+<<<<<<< HEAD
 set(MSG_I_FLAGS "-Iobdii_interface:/home/b2256/catkin_ws/src/obdii_interface/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg")
+=======
+set(MSG_I_FLAGS "-Iobdii_interface:/home/ghedger/git/catkin_ws/src/obdii_interface/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg")
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,9 +21,15 @@ add_custom_target(obdii_interface_generate_messages ALL)
 
 
 
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
 add_custom_target(_obdii_interface_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "obdii_interface" "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" "std_msgs/Header"
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+add_custom_target(_obdii_interface_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "obdii_interface" "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" "std_msgs/Header"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 )
 
 #
@@ -29,7 +39,11 @@ add_custom_target(_obdii_interface_generate_messages_check_deps_${_filename}
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(obdii_interface
+<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+=======
+  "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/obdii_interface
@@ -49,7 +63,11 @@ add_custom_target(obdii_interface_generate_messages_cpp
 add_dependencies(obdii_interface_generate_messages obdii_interface_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(obdii_interface_generate_messages_cpp _obdii_interface_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -62,7 +80,11 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS obdii_interface_generate_messages_c
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(obdii_interface
+<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+=======
+  "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/obdii_interface
@@ -82,7 +104,11 @@ add_custom_target(obdii_interface_generate_messages_eus
 add_dependencies(obdii_interface_generate_messages obdii_interface_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(obdii_interface_generate_messages_eus _obdii_interface_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -95,7 +121,11 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS obdii_interface_generate_messages_e
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(obdii_interface
+<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+=======
+  "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/obdii_interface
@@ -115,7 +145,11 @@ add_custom_target(obdii_interface_generate_messages_lisp
 add_dependencies(obdii_interface_generate_messages obdii_interface_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(obdii_interface_generate_messages_lisp _obdii_interface_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -128,7 +162,11 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS obdii_interface_generate_messages_l
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(obdii_interface
+<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+=======
+  "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/obdii_interface
@@ -148,7 +186,11 @@ add_custom_target(obdii_interface_generate_messages_nodejs
 add_dependencies(obdii_interface_generate_messages obdii_interface_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(obdii_interface_generate_messages_nodejs _obdii_interface_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -161,7 +203,11 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS obdii_interface_generate_messages_n
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(obdii_interface
+<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+=======
+  "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg"
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/obdii_interface
@@ -181,7 +227,11 @@ add_custom_target(obdii_interface_generate_messages_py
 add_dependencies(obdii_interface_generate_messages obdii_interface_generate_messages_py)
 
 # add dependencies to all check dependencies targets
+<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+=======
+get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/obdii_interface/msg/ObdiiState.msg" NAME_WE)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(obdii_interface_generate_messages_py _obdii_interface_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

@@ -25,13 +25,16 @@ Advanced Navigation OBDII Automotive Odometer to publish messages via ROS.
 class ObdiiNode
 {
   ros::NodeHandle nh_;
-  ros::Publisher pub_;
+  ros::Publisher pub_raw_;
+  ros::Publisher pub_odom_;
   ros::Subscriber sub_;
   int queue_size_;
   bool enable_;
   ros::Subscriber enable_sub_;
-  std::string pub_topic_;
-
+  std::string pub_raw_topic_;
+  std::string pub_odom_topic_;
+  std::string frame_id_;
+  std::string child_frame_id_;
 
   WorkerParams  workerParams_;
 
@@ -53,6 +56,7 @@ protected:
 ObdiiNode::ObdiiNode() :
   enable_(true)
 {
+  // Garner launch file parameters
   ros::param::get("~queue_size", queue_size_);
   ROS_INFO("OBDII OUTPUT QUEUE SIZE: %d", queue_size_);
 
@@ -65,13 +69,26 @@ ObdiiNode::ObdiiNode() :
   ros::param::get("~obdii_polling_rate", workerParams_.polling_rate_);
   ROS_INFO("OBDII RS232 POLLING RATE (Hz): %d", workerParams_.polling_rate_);
 
-  ros::param::get("~pub_topic", pub_topic_);
-  ROS_INFO("PUBLICATION TOPIC: %s", pub_topic_.c_str());
+  ros::param::get("~pub_raw_topic", pub_raw_topic_);
+  ROS_INFO("PUBLICATION TOPIC (RAW): %s", pub_raw_topic_.c_str());
 
+  ros::param::get("~pub_odom_topic", pub_odom_topic_);
+  ROS_INFO("PUBLICATION TOPIC (ODOMETRY): %s", pub_odom_topic_.c_str());
+
+  ros::param::get("~frame_id", frame_id_);
+  ROS_INFO("FRAME ID: %s", frame_id_.c_str());
+
+  ros::param::get("~child_frame_id", child_frame_id_);
+  ROS_INFO("CHILD FRAME ID: %s", child_frame_id_.c_str());
+
+  // Set up for ROS publication
   workerParams_.nh_ = nh_;
 
-  pub_ = nh_.advertise<obdii_interface::ObdiiState>(pub_topic_, 2);
-  workerParams_.pub_ = pub_;
+  pub_raw_ = nh_.advertise<obdii_interface::ObdiiState>(pub_raw_topic_, 2);
+  workerParams_.pub_raw_ = pub_raw_;
+
+  pub_odom_ = nh_.advertise<nav_msgs::Odometry>(pub_odom_topic_, 2);
+  workerParams_.pub_odom_ = pub_odom_;
 
   ros::param::get("~enable", enable_);
   enable_sub_ = nh_.subscribe("enable", 1, &ObdiiNode::enableCallback, this);

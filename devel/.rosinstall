@@ -1,2 +1,6 @@
 - setup-file:
+<<<<<<< HEAD
     local-name: /home/b2256/catkin_ws/devel/setup.sh
+=======
+    local-name: /home/ghedger/git/catkin_ws/devel/setup.sh
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396

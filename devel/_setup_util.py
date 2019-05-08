@@ -262,7 +262,11 @@ if __name__ == '__main__':
             sys.exit(1)
 
         # environment at generation time
+<<<<<<< HEAD
         CMAKE_PREFIX_PATH = '/opt/ros/kinetic'.split(';')
+=======
+        CMAKE_PREFIX_PATH = '/home/ghedger/git/catkin_ws/devel;/opt/ros/kinetic'.split(';')
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
         # prepend current workspace if not already part of CPP
         base_path = os.path.dirname(__file__)
         if base_path not in CMAKE_PREFIX_PATH:

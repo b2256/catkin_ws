@@ -67,14 +67,23 @@ set(obdii_interface_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
+<<<<<<< HEAD
   set(obdii_interface_SOURCE_PREFIX /home/b2256/catkin_ws/src/obdii_interface)
   set(obdii_interface_DEVEL_PREFIX /home/b2256/catkin_ws/devel)
+=======
+  set(obdii_interface_SOURCE_PREFIX /home/ghedger/git/catkin_ws/src/obdii_interface)
+  set(obdii_interface_DEVEL_PREFIX /home/ghedger/git/catkin_ws/devel)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   set(obdii_interface_INSTALL_PREFIX "")
   set(obdii_interface_PREFIX ${obdii_interface_DEVEL_PREFIX})
 else()
   set(obdii_interface_SOURCE_PREFIX "")
   set(obdii_interface_DEVEL_PREFIX "")
+<<<<<<< HEAD
   set(obdii_interface_INSTALL_PREFIX /home/b2256/catkin_ws/install)
+=======
+  set(obdii_interface_INSTALL_PREFIX /home/ghedger/git/catkin_ws/install)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   set(obdii_interface_PREFIX ${obdii_interface_INSTALL_PREFIX})
 endif()
 
@@ -110,7 +119,11 @@ if(NOT "include " STREQUAL " ")
         message(FATAL_ERROR "Project 'obdii_interface' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
+<<<<<<< HEAD
       message(FATAL_ERROR "Project 'obdii_interface' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/b2256/catkin_ws/install/${idir}'.  ${_report}")
+=======
+      message(FATAL_ERROR "Project 'obdii_interface' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/ghedger/git/catkin_ws/install/${idir}'.  ${_report}")
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
     endif()
     _list_append_unique(obdii_interface_INCLUDE_DIRS ${include})
   endforeach()
@@ -129,7 +142,11 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
+<<<<<<< HEAD
     foreach(path /home/b2256/catkin_ws/install/lib;/opt/ros/kinetic/lib)
+=======
+    foreach(path /home/ghedger/git/catkin_ws/install/lib;/home/ghedger/git/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

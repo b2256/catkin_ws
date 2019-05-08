@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 prefix=/home/b2256/catkin_ws/install
+=======
+prefix=/home/ghedger/git/catkin_ws/install
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 
 Name: bag2orb
 Description: Description of bag2orb
 Version: 0.0.0
+<<<<<<< HEAD
 Cflags: -I/home/b2256/catkin_ws/install/include
 Libs: -L/home/b2256/catkin_ws/install/lib 
+=======
+Cflags: -I/home/ghedger/git/catkin_ws/install/include
+Libs: -L/home/ghedger/git/catkin_ws/install/lib 
+>>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 Requires: nav_msgs roscpp rospy std_msgs
