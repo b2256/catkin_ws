@@ -1,0 +1,8 @@
+prefix=/home/b2256/catkin_ws/install
+
+Name: bag2orb
+Description: Description of bag2orb
+Version: 0.0.0
+Cflags: -I/home/b2256/catkin_ws/install/include
+Libs: -L/home/b2256/catkin_ws/install/lib 
+Requires: nav_msgs roscpp rospy std_msgs

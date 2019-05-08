@@ -1,0 +1,8 @@
+prefix=/home/b2256/catkin_ws/install
+
+Name: christa_imu_driver
+Description: Description of christa_imu_driver
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/b2256/catkin_ws/install/lib 
+Requires: 

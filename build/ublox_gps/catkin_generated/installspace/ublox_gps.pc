@@ -1,0 +1,8 @@
+prefix=/home/b2256/catkin_ws/install
+
+Name: ublox_gps
+Description: Description of ublox_gps
+Version: 0.0.4
+Cflags: -I/home/b2256/catkin_ws/install/include
+Libs: -L/home/b2256/catkin_ws/install/lib -lublox_gps
+Requires: roscpp ublox_msgs ublox_serialization
