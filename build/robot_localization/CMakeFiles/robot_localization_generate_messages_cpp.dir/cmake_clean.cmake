@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/robot_localization_generate_messages_cpp"
-  "../devel/include/robot_localization/SetDatum.h"
-  "../devel/include/robot_localization/SetPose.h"
+  "/home/b2256/catkin_ws/devel/include/robot_localization/SetDatum.h"
+  "/home/b2256/catkin_ws/devel/include/robot_localization/SetPose.h"
 )
 
 # Per-language clean rules from dependency scanning.

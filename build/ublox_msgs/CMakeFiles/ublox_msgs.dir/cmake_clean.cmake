@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ublox_msgs.dir/src/ublox_msgs.cpp.o"
-  "../devel/lib/libublox_msgs.pdb"
-  "../devel/lib/libublox_msgs.so"
-  "../devel/lib/libublox_msgs.pdb"
+  "/home/b2256/catkin_ws/devel/lib/libublox_msgs.pdb"
+  "/home/b2256/catkin_ws/devel/lib/libublox_msgs.so"
+  "/home/b2256/catkin_ws/devel/lib/libublox_msgs.pdb"
   "CMakeFiles/CMakeRelink.dir/libublox_msgs.so"
 )
 

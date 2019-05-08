@@ -2,9 +2,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/SickLD.dir/c++/drivers/ld/sickld/SickLD.cc.o"
   "CMakeFiles/SickLD.dir/c++/drivers/ld/sickld/SickLDBufferMonitor.cc.o"
   "CMakeFiles/SickLD.dir/c++/drivers/ld/sickld/SickLDMessage.cc.o"
-  "../devel/lib/libSickLD.pdb"
-  "../devel/lib/libSickLD.so"
-  "../devel/lib/libSickLD.pdb"
+  "/home/b2256/catkin_ws/devel/lib/libSickLD.pdb"
+  "/home/b2256/catkin_ws/devel/lib/libSickLD.so"
+  "/home/b2256/catkin_ws/devel/lib/libSickLD.pdb"
   "CMakeFiles/CMakeRelink.dir/libSickLD.so"
 )
 

@@ -360,3 +360,9 @@
 /home/b2256/catkin_ws/build/ublox_gps/CMakeFiles/ublox_gps_node.dir
 /home/b2256/catkin_ws/build/ublox_gps/CMakeFiles/install/local.dir
 /home/b2256/catkin_ws/build/ublox_gps/CMakeFiles/test.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/list_install_components.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/install.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/install/local.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/rebuild_cache.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/test.dir
+/home/b2256/catkin_ws/build/ethzasl_xsens_driver/CMakeFiles/edit_cache.dir

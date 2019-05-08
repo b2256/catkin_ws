@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gps_common_generate_messages_cpp"
-  "../../devel/include/gps_common/GPSStatus.h"
-  "../../devel/include/gps_common/GPSFix.h"
+  "/home/b2256/catkin_ws/devel/include/gps_common/GPSStatus.h"
+  "/home/b2256/catkin_ws/devel/include/gps_common/GPSFix.h"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lms2xx_stream_range_and_reflect.dir/c++/examples/lms2xx/lms2xx_stream_range_and_reflect/src/main.cc.o"
-  "../devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect.pdb"
-  "../devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect"
-  "../devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_stream_range_and_reflect.pdb"
   "CMakeFiles/CMakeRelink.dir/lms2xx_stream_range_and_reflect"
 )
 

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lms2xx_real_time_indices.dir/c++/examples/lms2xx/lms2xx_real_time_indices/src/main.cc.o"
-  "../devel/lib/sicktoolbox/lms2xx_real_time_indices.pdb"
-  "../devel/lib/sicktoolbox/lms2xx_real_time_indices"
-  "../devel/lib/sicktoolbox/lms2xx_real_time_indices.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_real_time_indices.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_real_time_indices"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_real_time_indices.pdb"
   "CMakeFiles/CMakeRelink.dir/lms2xx_real_time_indices"
 )
 

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ublox_gps_node.dir/src/node.cpp.o"
-  "../devel/lib/ublox_gps/ublox_gps.pdb"
-  "../devel/lib/ublox_gps/ublox_gps"
-  "../devel/lib/ublox_gps/ublox_gps.pdb"
+  "/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps.pdb"
+  "/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps"
+  "/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps.pdb"
   "CMakeFiles/CMakeRelink.dir/ublox_gps"
 )
 

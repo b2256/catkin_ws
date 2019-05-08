@@ -4,6 +4,7 @@
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/an_packet_protocol.cpp
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/an_packet_protocol.h
 
+obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /home/b2256/catkin_ws/devel/include/obdii_interface/ObdiiState.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/obdii_interface_node.cpp
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/odom.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /opt/ros/kinetic/include/geometry_msgs/Point.h
@@ -75,12 +76,12 @@ obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /opt/ros/kinetic/include/std_msgs/Header.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcValue.h
-obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o: devel/include/obdii_interface/ObdiiState.h
 
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/an_packet_protocol.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/obdii_odometer_packets.cpp
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/obdii_odometer_packets.h
 
+obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /home/b2256/catkin_ws/devel/include/obdii_interface/ObdiiState.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/an_packet_protocol.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/obdii_odometer_packets.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/odom.cpp
@@ -155,7 +156,6 @@ obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /opt/ros/kin
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /opt/ros/kinetic/include/std_msgs/Header.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcValue.h
-obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o: devel/include/obdii_interface/ObdiiState.h
 
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/rs232/rs232.cpp
 obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o: /home/b2256/catkin_ws/src/obdii_interface/src/rs232/rs232.h

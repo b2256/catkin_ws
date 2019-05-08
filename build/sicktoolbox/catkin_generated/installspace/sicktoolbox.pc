@@ -1,8 +1,8 @@
-prefix=/usr/local
+prefix=/home/b2256/catkin_ws/install
 
 Name: sicktoolbox
 Description: Description of sicktoolbox
 Version: 1.0.103
-Cflags: -I/usr/local/include
-Libs: -L/usr/local/lib -lSickLD -lSickLMS1xx -lSickLMS2xx
+Cflags: -I/home/b2256/catkin_ws/install/include
+Libs: -L/home/b2256/catkin_ws/install/lib -lSickLD -lSickLMS1xx -lSickLMS2xx
 Requires: 

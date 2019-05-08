@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gps_common_generate_messages_eus"
-  "../../devel/share/roseus/ros/gps_common/msg/GPSStatus.l"
-  "../../devel/share/roseus/ros/gps_common/msg/GPSFix.l"
-  "../../devel/share/roseus/ros/gps_common/manifest.l"
+  "/home/b2256/catkin_ws/devel/share/roseus/ros/gps_common/msg/GPSStatus.l"
+  "/home/b2256/catkin_ws/devel/share/roseus/ros/gps_common/msg/GPSFix.l"
+  "/home/b2256/catkin_ws/devel/share/roseus/ros/gps_common/manifest.l"
 )
 
 # Per-language clean rules from dependency scanning.

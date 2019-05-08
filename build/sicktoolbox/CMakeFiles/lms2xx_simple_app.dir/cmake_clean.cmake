@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lms2xx_simple_app.dir/c++/examples/lms2xx/lms2xx_simple_app/src/main.cc.o"
-  "../devel/lib/sicktoolbox/lms2xx_simple_app.pdb"
-  "../devel/lib/sicktoolbox/lms2xx_simple_app"
-  "../devel/lib/sicktoolbox/lms2xx_simple_app.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_simple_app.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_simple_app"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_simple_app.pdb"
   "CMakeFiles/CMakeRelink.dir/lms2xx_simple_app"
 )
 

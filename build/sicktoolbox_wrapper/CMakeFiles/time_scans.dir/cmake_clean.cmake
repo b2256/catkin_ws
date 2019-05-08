@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/time_scans.dir/standalone/time_scans.cpp.o"
-  "../devel/lib/sicktoolbox_wrapper/time_scans.pdb"
-  "../devel/lib/sicktoolbox_wrapper/time_scans"
-  "../devel/lib/sicktoolbox_wrapper/time_scans.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/time_scans.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/time_scans"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/time_scans.pdb"
   "CMakeFiles/CMakeRelink.dir/time_scans"
 )
 

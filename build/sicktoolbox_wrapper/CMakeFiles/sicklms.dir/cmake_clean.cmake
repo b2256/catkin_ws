@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/sicklms.dir/ros/sicklms/sicklms.cpp.o"
-  "../devel/lib/sicktoolbox_wrapper/sicklms.pdb"
-  "../devel/lib/sicktoolbox_wrapper/sicklms"
-  "../devel/lib/sicktoolbox_wrapper/sicklms.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/sicklms.pdb"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/sicklms"
+  "/home/b2256/catkin_ws/devel/lib/sicktoolbox_wrapper/sicklms.pdb"
   "CMakeFiles/CMakeRelink.dir/sicklms"
 )
 

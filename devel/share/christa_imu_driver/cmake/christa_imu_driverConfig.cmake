@@ -67,23 +67,14 @@ set(christa_imu_driver_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-<<<<<<< HEAD
   set(christa_imu_driver_SOURCE_PREFIX /home/b2256/catkin_ws/src/christa_imu_driver)
   set(christa_imu_driver_DEVEL_PREFIX /home/b2256/catkin_ws/devel)
-=======
-  set(christa_imu_driver_SOURCE_PREFIX /home/ghedger/git/catkin_ws/src/christa_imu_driver)
-  set(christa_imu_driver_DEVEL_PREFIX /home/ghedger/git/catkin_ws/devel)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   set(christa_imu_driver_INSTALL_PREFIX "")
   set(christa_imu_driver_PREFIX ${christa_imu_driver_DEVEL_PREFIX})
 else()
   set(christa_imu_driver_SOURCE_PREFIX "")
   set(christa_imu_driver_DEVEL_PREFIX "")
-<<<<<<< HEAD
   set(christa_imu_driver_INSTALL_PREFIX /home/b2256/catkin_ws/install)
-=======
-  set(christa_imu_driver_INSTALL_PREFIX /home/ghedger/git/catkin_ws/install)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   set(christa_imu_driver_PREFIX ${christa_imu_driver_INSTALL_PREFIX})
 endif()
 
@@ -119,11 +110,7 @@ if(NOT " " STREQUAL " ")
         message(FATAL_ERROR "Project 'christa_imu_driver' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-<<<<<<< HEAD
       message(FATAL_ERROR "Project 'christa_imu_driver' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/b2256/catkin_ws/src/christa_imu_driver/${idir}'.  ${_report}")
-=======
-      message(FATAL_ERROR "Project 'christa_imu_driver' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/ghedger/git/catkin_ws/src/christa_imu_driver/${idir}'.  ${_report}")
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
     endif()
     _list_append_unique(christa_imu_driver_INCLUDE_DIRS ${include})
   endforeach()
@@ -142,11 +129,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-<<<<<<< HEAD
     foreach(path /home/b2256/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
-=======
-    foreach(path /home/ghedger/git/catkin_ws/devel/lib;/home/ghedger/git/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

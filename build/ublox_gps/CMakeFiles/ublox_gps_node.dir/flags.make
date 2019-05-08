@@ -6,5 +6,5 @@ CXX_FLAGS =  -lrt -pthread
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"ublox_gps\"
 
-CXX_INCLUDES = -I/home/b2256/catkin_ws/src/ublox_gps/include -I/home/b2256/catkin_ws/build/devel/include -I/home/b2256/catkin_ws/src/ublox_msgs/include -I/home/b2256/catkin_ws/src/ublox_serialization/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
+CXX_INCLUDES = -I/home/b2256/catkin_ws/src/ublox_gps/include -I/home/b2256/catkin_ws/devel/include -I/home/b2256/catkin_ws/src/ublox_msgs/include -I/home/b2256/catkin_ws/src/ublox_serialization/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
 

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/bag2orb_generate_messages_nodejs"
-  "../devel/share/gennodejs/ros/bag2orb/msg/Sync_orb.js"
-  "../devel/share/gennodejs/ros/bag2orb/msg/TatBry.js"
+  "/home/b2256/catkin_ws/devel/share/gennodejs/ros/bag2orb/msg/Sync_orb.js"
+  "/home/b2256/catkin_ws/devel/share/gennodejs/ros/bag2orb/msg/TatBry.js"
 )
 
 # Per-language clean rules from dependency scanning.

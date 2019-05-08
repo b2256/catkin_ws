@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gps_common_generate_messages_lisp"
-  "../../devel/share/common-lisp/ros/gps_common/msg/GPSStatus.lisp"
-  "../../devel/share/common-lisp/ros/gps_common/msg/GPSFix.lisp"
+  "/home/b2256/catkin_ws/devel/share/common-lisp/ros/gps_common/msg/GPSStatus.lisp"
+  "/home/b2256/catkin_ws/devel/share/common-lisp/ros/gps_common/msg/GPSFix.lisp"
 )
 
 # Per-language clean rules from dependency scanning.

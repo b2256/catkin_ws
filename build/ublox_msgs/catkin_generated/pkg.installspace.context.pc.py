@@ -1,8 +1,8 @@
 # generated from catkin/cmake/template/pkg.context.pc.in
 CATKIN_PACKAGE_PREFIX = ""
-PROJECT_PKG_CONFIG_INCLUDE_DIRS = "/usr/local/include".split(';') if "/usr/local/include" != "" else []
+PROJECT_PKG_CONFIG_INCLUDE_DIRS = "/home/b2256/catkin_ws/install/include".split(';') if "/home/b2256/catkin_ws/install/include" != "" else []
 PROJECT_CATKIN_DEPENDS = "message_runtime;ublox_serialization;std_msgs;sensor_msgs".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "-lublox_msgs".split(';') if "-lublox_msgs" != "" else []
 PROJECT_NAME = "ublox_msgs"
-PROJECT_SPACE_DIR = "/usr/local"
+PROJECT_SPACE_DIR = "/home/b2256/catkin_ws/install"
 PROJECT_VERSION = "0.0.0"
