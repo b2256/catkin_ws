@@ -2,11 +2,7 @@
 
 message(STATUS "bag2orb: 2 messages, 0 services")
 
-<<<<<<< HEAD
 set(MSG_I_FLAGS "-Ibag2orb:/home/b2256/catkin_ws/src/bag2orb/msg;-Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg")
-=======
-set(MSG_I_FLAGS "-Ibag2orb:/home/ghedger/git/catkin_ws/src/bag2orb/msg;-Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg")
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -21,7 +17,6 @@ add_custom_target(bag2orb_generate_messages ALL)
 
 
 
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bag2orb" "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" "std_msgs/Header"
@@ -30,16 +25,6 @@ add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
 add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bag2orb" "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" "std_msgs/Header"
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bag2orb" "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" "std_msgs/Header"
-)
-
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "bag2orb" "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" "std_msgs/Header"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 )
 
 #
@@ -49,21 +34,13 @@ add_custom_target(_bag2orb_generate_messages_check_deps_${_filename}
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bag2orb
 )
 _generate_msg_cpp(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/bag2orb
@@ -83,15 +60,9 @@ add_custom_target(bag2orb_generate_messages_cpp
 add_dependencies(bag2orb_generate_messages bag2orb_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_dependencies(bag2orb_generate_messages_cpp _bag2orb_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_dependencies(bag2orb_generate_messages_cpp _bag2orb_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(bag2orb_generate_messages_cpp _bag2orb_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -104,21 +75,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS bag2orb_generate_messages_cpp)
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bag2orb
 )
 _generate_msg_eus(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/bag2orb
@@ -138,15 +101,9 @@ add_custom_target(bag2orb_generate_messages_eus
 add_dependencies(bag2orb_generate_messages bag2orb_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_dependencies(bag2orb_generate_messages_eus _bag2orb_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_dependencies(bag2orb_generate_messages_eus _bag2orb_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(bag2orb_generate_messages_eus _bag2orb_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -159,21 +116,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS bag2orb_generate_messages_eus)
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bag2orb
 )
 _generate_msg_lisp(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/bag2orb
@@ -193,15 +142,9 @@ add_custom_target(bag2orb_generate_messages_lisp
 add_dependencies(bag2orb_generate_messages bag2orb_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_dependencies(bag2orb_generate_messages_lisp _bag2orb_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_dependencies(bag2orb_generate_messages_lisp _bag2orb_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(bag2orb_generate_messages_lisp _bag2orb_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -214,21 +157,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS bag2orb_generate_messages_lisp)
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bag2orb
 )
 _generate_msg_nodejs(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/bag2orb
@@ -248,15 +183,9 @@ add_custom_target(bag2orb_generate_messages_nodejs
 add_dependencies(bag2orb_generate_messages bag2orb_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_dependencies(bag2orb_generate_messages_nodejs _bag2orb_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_dependencies(bag2orb_generate_messages_nodejs _bag2orb_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(bag2orb_generate_messages_nodejs _bag2orb_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -269,21 +198,13 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS bag2orb_generate_messages_nodejs)
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bag2orb
 )
 _generate_msg_py(bag2orb
-<<<<<<< HEAD
   "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg"
-=======
-  "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg"
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
   "${MSG_I_FLAGS}"
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/bag2orb
@@ -303,15 +224,9 @@ add_custom_target(bag2orb_generate_messages_py
 add_dependencies(bag2orb_generate_messages bag2orb_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-<<<<<<< HEAD
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
 add_dependencies(bag2orb_generate_messages_py _bag2orb_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/b2256/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
-=======
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/Sync_orb.msg" NAME_WE)
-add_dependencies(bag2orb_generate_messages_py _bag2orb_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/ghedger/git/catkin_ws/src/bag2orb/msg/TatBry.msg" NAME_WE)
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396
 add_dependencies(bag2orb_generate_messages_py _bag2orb_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

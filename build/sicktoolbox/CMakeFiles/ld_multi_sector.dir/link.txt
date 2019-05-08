@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/ld_multi_sector.dir/c++/examples/ld/ld_multi_sector/src/main.cc.o  -o /home/b2256/catkin_ws/devel/lib/sicktoolbox/ld_multi_sector -rdynamic /home/b2256/catkin_ws/devel/lib/libSickLD.so -lpthread -Wl,-rpath,/home/b2256/catkin_ws/devel/lib: 
+/usr/bin/c++      CMakeFiles/ld_multi_sector.dir/c++/examples/ld/ld_multi_sector/src/main.cc.o  -o ../devel/lib/sicktoolbox/ld_multi_sector -rdynamic ../devel/lib/libSickLD.so -lpthread -Wl,-rpath,/home/b2256/catkin_ws/build/devel/lib 

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/obdii_interface_generate_messages_cpp"
-  "/home/b2256/catkin_ws/devel/include/obdii_interface/ObdiiState.h"
+  "../devel/include/obdii_interface/ObdiiState.h"
 )
 
 # Per-language clean rules from dependency scanning.

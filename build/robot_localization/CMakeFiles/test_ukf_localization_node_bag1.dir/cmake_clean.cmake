@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/test_ukf_localization_node_bag1.dir/test/test_localization_node_bag_pose_tester.cpp.o"
-  "/home/b2256/catkin_ws/devel/lib/robot_localization/test_ukf_localization_node_bag1.pdb"
-  "/home/b2256/catkin_ws/devel/lib/robot_localization/test_ukf_localization_node_bag1"
+  "../devel/lib/robot_localization/test_ukf_localization_node_bag1.pdb"
+  "../devel/lib/robot_localization/test_ukf_localization_node_bag1"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "/home/b2256/catkin_ws/src/sicktoolbox/include
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "-lSickLD;-lSickLMS1xx;-lSickLMS2xx".split(';') if "-lSickLD;-lSickLMS1xx;-lSickLMS2xx" != "" else []
 PROJECT_NAME = "sicktoolbox"
-PROJECT_SPACE_DIR = "/home/b2256/catkin_ws/devel"
+PROJECT_SPACE_DIR = "/home/b2256/catkin_ws/build/devel"
 PROJECT_VERSION = "1.0.103"

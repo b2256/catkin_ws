@@ -78,17 +78,6 @@ install/local/fast: install/local
 
 .PHONY : install/local/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
-
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -179,6 +168,11 @@ ublox_msgs: ublox_msgs/CMakeFiles/ublox_msgs.dir/rule
 ublox_msgs/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f ublox_msgs/CMakeFiles/ublox_msgs.dir/build.make ublox_msgs/CMakeFiles/ublox_msgs.dir/build
 .PHONY : ublox_msgs/fast
+
+# Manual pre-install relink rule for target.
+ublox_msgs/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ublox_msgs/CMakeFiles/ublox_msgs.dir/preinstall
+.PHONY : ublox_msgs/preinstall
 
 # Convenience name for target.
 ublox_msgs/CMakeFiles/ublox_msgs_genpy.dir/rule:
@@ -920,7 +914,6 @@ help:
 	@echo "... depend"
 	@echo "... test"
 	@echo "... install/local"
-	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... ublox_msgs"
 	@echo "... ublox_msgs_genpy"

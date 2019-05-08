@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 bag2orb:christa_imu_driver:gps_umd/gps_common:gps_umd/gps_umd:gps_umd/gpsd_client:obdii_interface:robot_localization:sicktoolbox:sicktoolbox_wrapper:ublox:ublox_gps:ublox_msgs:ublox_serialization
 -DCATKIN_DEVEL_PREFIX=/home/b2256/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/b2256/catkin_ws/install -G Unix Makefiles
-=======
-bag2orb:christa_imu_driver:gps_umd/gps_common:gps_umd/gps_umd:gps_umd/gpsd_client:obdii_interface:robot_localization:ublox:ublox_gps:ublox_msgs:ublox_serialization
--DCATKIN_DEVEL_PREFIX=/home/ghedger/git/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ghedger/git/catkin_ws/install -G Unix Makefiles
->>>>>>> 6b687d5f194866803c08e14a8c5df5743416c396

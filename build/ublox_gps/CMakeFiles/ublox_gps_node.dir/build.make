@@ -88,56 +88,114 @@ ublox_gps_node_OBJECTS = \
 # External object files for target ublox_gps_node
 ublox_gps_node_EXTERNAL_OBJECTS =
 
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/src/node.cpp.o
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/build.make
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librostime.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /home/b2256/catkin_ws/devel/lib/libublox_gps.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /home/b2256/catkin_ws/devel/lib/libublox_msgs.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librostime.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-/home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps"
+devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/src/node.cpp.o
+devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/build.make
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librostime.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/ublox_gps/ublox_gps: devel/lib/libublox_gps.so
+devel/lib/ublox_gps/ublox_gps: devel/lib/libublox_msgs.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/librostime.so
+devel/lib/ublox_gps/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
+devel/lib/ublox_gps/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/ublox_gps/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../devel/lib/ublox_gps/ublox_gps"
 	cd /home/b2256/catkin_ws/build/ublox_gps && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ublox_gps_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-ublox_gps/CMakeFiles/ublox_gps_node.dir/build: /home/b2256/catkin_ws/devel/lib/ublox_gps/ublox_gps
+ublox_gps/CMakeFiles/ublox_gps_node.dir/build: devel/lib/ublox_gps/ublox_gps
 
 .PHONY : ublox_gps/CMakeFiles/ublox_gps_node.dir/build
+
+# Object files for target ublox_gps_node
+ublox_gps_node_OBJECTS = \
+"CMakeFiles/ublox_gps_node.dir/src/node.cpp.o"
+
+# External object files for target ublox_gps_node
+ublox_gps_node_EXTERNAL_OBJECTS =
+
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/src/node.cpp.o
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/build.make
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librostime.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: devel/lib/libublox_gps.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: devel/lib/libublox_msgs.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libroscpp.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libxmlrpcpp.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libroscpp_serialization.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/librostime.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /opt/ros/kinetic/lib/libcpp_common.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_system.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libpthread.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps: ublox_gps/CMakeFiles/ublox_gps_node.dir/relink.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable CMakeFiles/CMakeRelink.dir/ublox_gps"
+	cd /home/b2256/catkin_ws/build/ublox_gps && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ublox_gps_node.dir/relink.txt --verbose=$(VERBOSE)
+
+# Rule to relink during preinstall.
+ublox_gps/CMakeFiles/ublox_gps_node.dir/preinstall: ublox_gps/CMakeFiles/CMakeRelink.dir/ublox_gps
+
+.PHONY : ublox_gps/CMakeFiles/ublox_gps_node.dir/preinstall
 
 ublox_gps/CMakeFiles/ublox_gps_node.dir/requires: ublox_gps/CMakeFiles/ublox_gps_node.dir/src/node.cpp.o.requires
 

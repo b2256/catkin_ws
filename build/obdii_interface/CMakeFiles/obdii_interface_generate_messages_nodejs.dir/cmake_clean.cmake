@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/obdii_interface_generate_messages_nodejs"
-  "/home/b2256/catkin_ws/devel/share/gennodejs/ros/obdii_interface/msg/ObdiiState.js"
+  "../devel/share/gennodejs/ros/obdii_interface/msg/ObdiiState.js"
 )
 
 # Per-language clean rules from dependency scanning.

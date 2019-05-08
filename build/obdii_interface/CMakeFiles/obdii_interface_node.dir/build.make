@@ -188,44 +188,94 @@ obdii_interface_node_OBJECTS = \
 # External object files for target obdii_interface_node
 obdii_interface_node_EXTERNAL_OBJECTS =
 
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/build.make
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf2_ros.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libactionlib.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libmessage_filters.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libxmlrpcpp.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf2.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp_serialization.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librostime.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libcpp_common.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_system.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-/home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable /home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node"
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/build.make
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf2_ros.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libactionlib.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libmessage_filters.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libxmlrpcpp.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libtf2.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp_serialization.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/librostime.so
+devel/lib/obdii_interface/obdii_interface_node: /opt/ros/kinetic/lib/libcpp_common.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_system.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libpthread.so
+devel/lib/obdii_interface/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/obdii_interface/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../devel/lib/obdii_interface/obdii_interface_node"
 	cd /home/b2256/catkin_ws/build/obdii_interface && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/obdii_interface_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-obdii_interface/CMakeFiles/obdii_interface_node.dir/build: /home/b2256/catkin_ws/devel/lib/obdii_interface/obdii_interface_node
+obdii_interface/CMakeFiles/obdii_interface_node.dir/build: devel/lib/obdii_interface/obdii_interface_node
 
 .PHONY : obdii_interface/CMakeFiles/obdii_interface_node.dir/build
+
+# Object files for target obdii_interface_node
+obdii_interface_node_OBJECTS = \
+"CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o" \
+"CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o" \
+"CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o" \
+"CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o" \
+"CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o"
+
+# External object files for target obdii_interface_node
+obdii_interface_node_EXTERNAL_OBJECTS =
+
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/an_packet_protocol.cpp.o
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_odometer_packets.cpp.o
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/odom.cpp.o
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/build.make
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libtf.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libtf2_ros.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libactionlib.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libmessage_filters.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libxmlrpcpp.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libtf2.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libroscpp_serialization.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/librostime.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /opt/ros/kinetic/lib/libcpp_common.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_system.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libpthread.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node: obdii_interface/CMakeFiles/obdii_interface_node.dir/relink.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/b2256/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable CMakeFiles/CMakeRelink.dir/obdii_interface_node"
+	cd /home/b2256/catkin_ws/build/obdii_interface && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/obdii_interface_node.dir/relink.txt --verbose=$(VERBOSE)
+
+# Rule to relink during preinstall.
+obdii_interface/CMakeFiles/obdii_interface_node.dir/preinstall: obdii_interface/CMakeFiles/CMakeRelink.dir/obdii_interface_node
+
+.PHONY : obdii_interface/CMakeFiles/obdii_interface_node.dir/preinstall
 
 obdii_interface/CMakeFiles/obdii_interface_node.dir/requires: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/obdii_interface_node.cpp.o.requires
 obdii_interface/CMakeFiles/obdii_interface_node.dir/requires: obdii_interface/CMakeFiles/obdii_interface_node.dir/src/rs232/rs232.cpp.o.requires

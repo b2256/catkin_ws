@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lms2xx_config.dir/c++/examples/lms2xx/lms2xx_config/src/main.cc.o"
-  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_config.pdb"
-  "/home/b2256/catkin_ws/devel/lib/sicktoolbox/lms2xx_config"
+  "../devel/lib/sicktoolbox/lms2xx_config.pdb"
+  "../devel/lib/sicktoolbox/lms2xx_config"
+  "../devel/lib/sicktoolbox/lms2xx_config.pdb"
+  "CMakeFiles/CMakeRelink.dir/lms2xx_config"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -67,17 +67,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -122,16 +111,16 @@ test/fast: test
 
 .PHONY : test/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
 
-# Special rule for the target install/strip
-install/strip/fast: install/strip
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : install/strip/fast
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -389,6 +378,36 @@ roscpp_generate_messages_lisp: bag2orb/CMakeFiles/roscpp_generate_messages_lisp.
 roscpp_generate_messages_lisp/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make bag2orb/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 .PHONY : roscpp_generate_messages_lisp/fast
+
+# Convenience name for target.
+bag2orb/CMakeFiles/bag2orb_geneus.dir/rule:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
+.PHONY : bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
+
+# Convenience name for target.
+bag2orb_geneus: bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
+
+.PHONY : bag2orb_geneus
+
+# fast build rule for target.
+bag2orb_geneus/fast:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/bag2orb_geneus.dir/build.make bag2orb/CMakeFiles/bag2orb_geneus.dir/build
+.PHONY : bag2orb_geneus/fast
+
+# Convenience name for target.
+bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+.PHONY : bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_eus: bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+
+.PHONY : nav_msgs_generate_messages_eus
+
+# fast build rule for target.
+nav_msgs_generate_messages_eus/fast:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/build.make bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/build
+.PHONY : nav_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 bag2orb/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
@@ -780,36 +799,6 @@ bag2orb_genpy/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/bag2orb_genpy.dir/build.make bag2orb/CMakeFiles/bag2orb_genpy.dir/build
 .PHONY : bag2orb_genpy/fast
 
-# Convenience name for target.
-bag2orb/CMakeFiles/bag2orb_geneus.dir/rule:
-	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
-.PHONY : bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
-
-# Convenience name for target.
-bag2orb_geneus: bag2orb/CMakeFiles/bag2orb_geneus.dir/rule
-
-.PHONY : bag2orb_geneus
-
-# fast build rule for target.
-bag2orb_geneus/fast:
-	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/bag2orb_geneus.dir/build.make bag2orb/CMakeFiles/bag2orb_geneus.dir/build
-.PHONY : bag2orb_geneus/fast
-
-# Convenience name for target.
-bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule:
-	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-.PHONY : bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_eus: bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-
-.PHONY : nav_msgs_generate_messages_eus
-
-# fast build rule for target.
-nav_msgs_generate_messages_eus/fast:
-	cd /home/b2256/catkin_ws/build && $(MAKE) -f bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/build.make bag2orb/CMakeFiles/nav_msgs_generate_messages_eus.dir/build
-.PHONY : nav_msgs_generate_messages_eus/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -817,7 +806,6 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... nav_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_lisp"
@@ -833,6 +821,8 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
+	@echo "... bag2orb_geneus"
+	@echo "... nav_msgs_generate_messages_eus"
 	@echo "... list_install_components"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_py"
@@ -863,9 +853,7 @@ help:
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... test"
 	@echo "... bag2orb_genpy"
-	@echo "... bag2orb_geneus"
-	@echo "... nav_msgs_generate_messages_eus"
-	@echo "... install/strip"
+	@echo "... edit_cache"
 .PHONY : help
 
 

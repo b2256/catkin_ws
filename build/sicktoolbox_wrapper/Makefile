@@ -88,17 +88,6 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -255,6 +244,11 @@ sickld/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox_wrapper/CMakeFiles/sickld.dir/build.make sicktoolbox_wrapper/CMakeFiles/sickld.dir/build
 .PHONY : sickld/fast
 
+# Manual pre-install relink rule for target.
+sickld/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/sickld.dir/preinstall
+.PHONY : sickld/preinstall
+
 # Convenience name for target.
 sicktoolbox_wrapper/CMakeFiles/sicklms.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/sicklms.dir/rule
@@ -269,6 +263,11 @@ sicklms: sicktoolbox_wrapper/CMakeFiles/sicklms.dir/rule
 sicklms/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox_wrapper/CMakeFiles/sicklms.dir/build.make sicktoolbox_wrapper/CMakeFiles/sicklms.dir/build
 .PHONY : sicklms/fast
+
+# Manual pre-install relink rule for target.
+sicklms/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/sicklms.dir/preinstall
+.PHONY : sicklms/preinstall
 
 # Convenience name for target.
 sicktoolbox_wrapper/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/rule:
@@ -300,6 +299,11 @@ time_scans/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox_wrapper/CMakeFiles/time_scans.dir/build.make sicktoolbox_wrapper/CMakeFiles/time_scans.dir/build
 .PHONY : time_scans/fast
 
+# Manual pre-install relink rule for target.
+time_scans/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/time_scans.dir/preinstall
+.PHONY : time_scans/preinstall
+
 # Convenience name for target.
 sicktoolbox_wrapper/CMakeFiles/print_scans.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/print_scans.dir/rule
@@ -314,6 +318,11 @@ print_scans: sicktoolbox_wrapper/CMakeFiles/print_scans.dir/rule
 print_scans/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox_wrapper/CMakeFiles/print_scans.dir/build.make sicktoolbox_wrapper/CMakeFiles/print_scans.dir/build
 .PHONY : print_scans/fast
+
+# Manual pre-install relink rule for target.
+print_scans/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox_wrapper/CMakeFiles/print_scans.dir/preinstall
+.PHONY : print_scans/preinstall
 
 ros/sickld/sickld.o: ros/sickld/sickld.cpp.o
 
@@ -460,7 +469,6 @@ help:
 	@echo "... install/local"
 	@echo "... diagnostic_msgs_generate_messages_nodejs"
 	@echo "... list_install_components"
-	@echo "... install/strip"
 	@echo "... diagnostic_msgs_generate_messages_lisp"
 	@echo "... install"
 	@echo "... diagnostic_msgs_generate_messages_cpp"

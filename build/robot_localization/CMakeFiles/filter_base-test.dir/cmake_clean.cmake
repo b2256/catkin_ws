@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/filter_base-test.dir/test/test_filter_base.cpp.o"
-  "/home/b2256/catkin_ws/devel/lib/robot_localization/filter_base-test.pdb"
-  "/home/b2256/catkin_ws/devel/lib/robot_localization/filter_base-test"
+  "../devel/lib/robot_localization/filter_base-test.pdb"
+  "../devel/lib/robot_localization/filter_base-test"
 )
 
 # Per-language clean rules from dependency scanning.

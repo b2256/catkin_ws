@@ -66,18 +66,6 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -88,17 +76,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -132,6 +109,18 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -180,6 +169,11 @@ ld_single_sector/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/ld_single_sector.dir/build.make sicktoolbox/CMakeFiles/ld_single_sector.dir/build
 .PHONY : ld_single_sector/fast
 
+# Manual pre-install relink rule for target.
+ld_single_sector/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_single_sector.dir/preinstall
+.PHONY : ld_single_sector/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/ld_multi_sector.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_multi_sector.dir/rule
@@ -194,6 +188,11 @@ ld_multi_sector: sicktoolbox/CMakeFiles/ld_multi_sector.dir/rule
 ld_multi_sector/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/ld_multi_sector.dir/build.make sicktoolbox/CMakeFiles/ld_multi_sector.dir/build
 .PHONY : ld_multi_sector/fast
+
+# Manual pre-install relink rule for target.
+ld_multi_sector/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_multi_sector.dir/preinstall
+.PHONY : ld_multi_sector/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/ld_more_config.dir/rule:
@@ -210,6 +209,11 @@ ld_more_config/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/ld_more_config.dir/build.make sicktoolbox/CMakeFiles/ld_more_config.dir/build
 .PHONY : ld_more_config/fast
 
+# Manual pre-install relink rule for target.
+ld_more_config/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_more_config.dir/preinstall
+.PHONY : ld_more_config/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/ld_config.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_config.dir/rule
@@ -224,6 +228,11 @@ ld_config: sicktoolbox/CMakeFiles/ld_config.dir/rule
 ld_config/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/ld_config.dir/build.make sicktoolbox/CMakeFiles/ld_config.dir/build
 .PHONY : ld_config/fast
+
+# Manual pre-install relink rule for target.
+ld_config/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/ld_config.dir/preinstall
+.PHONY : ld_config/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_config.dir/rule:
@@ -240,6 +249,11 @@ lms2xx_config/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_config.dir/build.make sicktoolbox/CMakeFiles/lms2xx_config.dir/build
 .PHONY : lms2xx_config/fast
 
+# Manual pre-install relink rule for target.
+lms2xx_config/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_config.dir/preinstall
+.PHONY : lms2xx_config/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/SickLD.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/SickLD.dir/rule
@@ -254,6 +268,11 @@ SickLD: sicktoolbox/CMakeFiles/SickLD.dir/rule
 SickLD/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/SickLD.dir/build.make sicktoolbox/CMakeFiles/SickLD.dir/build
 .PHONY : SickLD/fast
+
+# Manual pre-install relink rule for target.
+SickLD/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/SickLD.dir/preinstall
+.PHONY : SickLD/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/SickLMS1xx.dir/rule:
@@ -270,6 +289,11 @@ SickLMS1xx/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/SickLMS1xx.dir/build.make sicktoolbox/CMakeFiles/SickLMS1xx.dir/build
 .PHONY : SickLMS1xx/fast
 
+# Manual pre-install relink rule for target.
+SickLMS1xx/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/SickLMS1xx.dir/preinstall
+.PHONY : SickLMS1xx/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/SickLMS2xx.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/SickLMS2xx.dir/rule
@@ -285,6 +309,11 @@ SickLMS2xx/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/SickLMS2xx.dir/build.make sicktoolbox/CMakeFiles/SickLMS2xx.dir/build
 .PHONY : SickLMS2xx/fast
 
+# Manual pre-install relink rule for target.
+SickLMS2xx/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/SickLMS2xx.dir/preinstall
+.PHONY : SickLMS2xx/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/rule
@@ -299,6 +328,11 @@ lms1xx_simple_app: sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/rule
 lms1xx_simple_app/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/build.make sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/build
 .PHONY : lms1xx_simple_app/fast
+
+# Manual pre-install relink rule for target.
+lms1xx_simple_app/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms1xx_simple_app.dir/preinstall
+.PHONY : lms1xx_simple_app/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/LDConfigLib.dir/rule:
@@ -330,6 +364,11 @@ lms2xx_mean_values/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_mean_values.dir/build.make sicktoolbox/CMakeFiles/lms2xx_mean_values.dir/build
 .PHONY : lms2xx_mean_values/fast
 
+# Manual pre-install relink rule for target.
+lms2xx_mean_values/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_mean_values.dir/preinstall
+.PHONY : lms2xx_mean_values/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/rule
@@ -344,6 +383,11 @@ lms2xx_real_time_indices: sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/ru
 lms2xx_real_time_indices/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/build.make sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/build
 .PHONY : lms2xx_real_time_indices/fast
+
+# Manual pre-install relink rule for target.
+lms2xx_real_time_indices/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_real_time_indices.dir/preinstall
+.PHONY : lms2xx_real_time_indices/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_simple_app.dir/rule:
@@ -360,6 +404,11 @@ lms2xx_simple_app/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_simple_app.dir/build.make sicktoolbox/CMakeFiles/lms2xx_simple_app.dir/build
 .PHONY : lms2xx_simple_app/fast
 
+# Manual pre-install relink rule for target.
+lms2xx_simple_app/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_simple_app.dir/preinstall
+.PHONY : lms2xx_simple_app/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/rule
@@ -374,6 +423,11 @@ lms2xx_partial_scan: sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/rule
 lms2xx_partial_scan/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/build.make sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/build
 .PHONY : lms2xx_partial_scan/fast
+
+# Manual pre-install relink rule for target.
+lms2xx_partial_scan/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_partial_scan.dir/preinstall
+.PHONY : lms2xx_partial_scan/preinstall
 
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_stream_range_and_reflect.dir/rule:
@@ -390,6 +444,11 @@ lms2xx_stream_range_and_reflect/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_stream_range_and_reflect.dir/build.make sicktoolbox/CMakeFiles/lms2xx_stream_range_and_reflect.dir/build
 .PHONY : lms2xx_stream_range_and_reflect/fast
 
+# Manual pre-install relink rule for target.
+lms2xx_stream_range_and_reflect/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_stream_range_and_reflect.dir/preinstall
+.PHONY : lms2xx_stream_range_and_reflect/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_subrange.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_subrange.dir/rule
@@ -405,6 +464,11 @@ lms2xx_subrange/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_subrange.dir/build.make sicktoolbox/CMakeFiles/lms2xx_subrange.dir/build
 .PHONY : lms2xx_subrange/fast
 
+# Manual pre-install relink rule for target.
+lms2xx_subrange/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_subrange.dir/preinstall
+.PHONY : lms2xx_subrange/preinstall
+
 # Convenience name for target.
 sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/rule
@@ -419,6 +483,11 @@ lms2xx_set_variant: sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/rule
 lms2xx_set_variant/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/build.make sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/build
 .PHONY : lms2xx_set_variant/fast
+
+# Manual pre-install relink rule for target.
+lms2xx_set_variant/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sicktoolbox/CMakeFiles/lms2xx_set_variant.dir/preinstall
+.PHONY : lms2xx_set_variant/preinstall
 
 c++/drivers/ld/sickld/SickLD.o: c++/drivers/ld/sickld/SickLD.cc.o
 
@@ -1048,7 +1117,6 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... list_install_components"
-	@echo "... install"
 	@echo "... ld_single_sector"
 	@echo "... ld_multi_sector"
 	@echo "... ld_more_config"
@@ -1056,7 +1124,6 @@ help:
 	@echo "... lms2xx_config"
 	@echo "... SickLD"
 	@echo "... edit_cache"
-	@echo "... install/strip"
 	@echo "... SickLMS1xx"
 	@echo "... SickLMS2xx"
 	@echo "... lms1xx_simple_app"
@@ -1071,6 +1138,7 @@ help:
 	@echo "... lms2xx_set_variant"
 	@echo "... install/local"
 	@echo "... test"
+	@echo "... install"
 	@echo "... c++/drivers/ld/sickld/SickLD.o"
 	@echo "... c++/drivers/ld/sickld/SickLD.i"
 	@echo "... c++/drivers/ld/sickld/SickLD.s"

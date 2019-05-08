@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/robot_localization_generate_messages_nodejs"
-  "/home/b2256/catkin_ws/devel/share/gennodejs/ros/robot_localization/srv/SetDatum.js"
-  "/home/b2256/catkin_ws/devel/share/gennodejs/ros/robot_localization/srv/SetPose.js"
+  "../devel/share/gennodejs/ros/robot_localization/srv/SetDatum.js"
+  "../devel/share/gennodejs/ros/robot_localization/srv/SetPose.js"
 )
 
 # Per-language clean rules from dependency scanning.

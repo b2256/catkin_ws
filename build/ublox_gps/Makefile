@@ -100,28 +100,6 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -132,6 +110,17 @@ install/local: preinstall
 install/local/fast: install/local
 
 .PHONY : install/local/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -180,6 +169,11 @@ ublox_gps/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f ublox_gps/CMakeFiles/ublox_gps.dir/build.make ublox_gps/CMakeFiles/ublox_gps.dir/build
 .PHONY : ublox_gps/fast
 
+# Manual pre-install relink rule for target.
+ublox_gps/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ublox_gps/CMakeFiles/ublox_gps.dir/preinstall
+.PHONY : ublox_gps/preinstall
+
 # Convenience name for target.
 ublox_gps/CMakeFiles/ublox_gps_node.dir/rule:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ublox_gps/CMakeFiles/ublox_gps_node.dir/rule
@@ -194,6 +188,11 @@ ublox_gps_node: ublox_gps/CMakeFiles/ublox_gps_node.dir/rule
 ublox_gps_node/fast:
 	cd /home/b2256/catkin_ws/build && $(MAKE) -f ublox_gps/CMakeFiles/ublox_gps_node.dir/build.make ublox_gps/CMakeFiles/ublox_gps_node.dir/build
 .PHONY : ublox_gps_node/fast
+
+# Manual pre-install relink rule for target.
+ublox_gps_node/preinstall:
+	cd /home/b2256/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ublox_gps/CMakeFiles/ublox_gps_node.dir/preinstall
+.PHONY : ublox_gps_node/preinstall
 
 src/gps.o: src/gps.cpp.o
 
@@ -259,11 +258,10 @@ help:
 	@echo "... install"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... test"
 	@echo "... ublox_gps"
 	@echo "... ublox_gps_node"
-	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... test"
 	@echo "... src/gps.o"
 	@echo "... src/gps.i"
 	@echo "... src/gps.s"
