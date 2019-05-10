@@ -1,2 +1,2 @@
-bag2orb:christa_imu_driver:ethzasl_xsens_driver:gps_umd/gps_common:gps_umd/gps_umd:gps_umd/gpsd_client:obdii_interface:robot_localization:sicktoolbox:sicktoolbox_wrapper:ublox:ublox_gps:ublox_msgs:ublox_serialization
+bag2orb:camera1394stereo:christa_imu_driver:ethzasl_xsens_driver:gps_umd/gps_common:gps_umd/gps_umd:gps_umd/gpsd_client:obdii_interface:robot_localization:sicktoolbox:sicktoolbox_wrapper:ublox:ublox_gps:ublox_msgs:ublox_serialization
 -DCATKIN_DEVEL_PREFIX=/home/b2256/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/b2256/catkin_ws/install -G Unix Makefiles

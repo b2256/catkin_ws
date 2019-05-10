@@ -1,6 +1,7 @@
 # Hashes of file build rules.
 af564fa21f47cd0273d4c299e42b9a6a /home/b2256/catkin_ws/devel/include/bag2orb/Sync_orb.h
 33b003c9865c4d920499dfcd872641f6 /home/b2256/catkin_ws/devel/include/bag2orb/TatBry.h
+625221b7c6ccc3bb9c9461d0fe92cbb3 /home/b2256/catkin_ws/devel/include/camera1394stereo/Camera1394StereoConfig.h
 07a6a648ed0842830a607b937d6bbfd0 /home/b2256/catkin_ws/devel/include/gps_common/GPSFix.h
 f145b6f481250e76a73b9a2b737fbf01 /home/b2256/catkin_ws/devel/include/gps_common/GPSStatus.h
 cb9534db50bf3716cb30c7b19e69a352 /home/b2256/catkin_ws/devel/include/obdii_interface/ObdiiState.h
@@ -232,6 +233,7 @@ a1acf09f32f127aeb7a29d7c484139c2 bag2orb/CMakeFiles/bag2orb_generate_messages_eu
 a1acf09f32f127aeb7a29d7c484139c2 bag2orb/CMakeFiles/bag2orb_generate_messages_lisp
 a1acf09f32f127aeb7a29d7c484139c2 bag2orb/CMakeFiles/bag2orb_generate_messages_nodejs
 a1acf09f32f127aeb7a29d7c484139c2 bag2orb/CMakeFiles/bag2orb_generate_messages_py
+785c323217da562bdfefc7b6c3c2f3cf camera1394stereo/CMakeFiles/camera1394stereo_gencfg
 40e6529488f937cd19715eecd65d94e1 devel/include/bag2orb/Sync_orb.h
 32127f9447ef8e5b349f37f3c34ac3e4 devel/include/bag2orb/TatBry.h
 fcb179940932f1803475408104ad2484 devel/include/gps_common/GPSFix.h

@@ -1934,6 +1934,328 @@ print_scans/preinstall:
 .PHONY : print_scans/preinstall
 
 #=============================================================================
+# Target rules for targets named camera1394stereo_nodelet
+
+# Build rule for target.
+camera1394stereo_nodelet: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 camera1394stereo_nodelet
+.PHONY : camera1394stereo_nodelet
+
+# fast build rule for target.
+camera1394stereo_nodelet/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/camera1394stereo_nodelet.dir/build.make camera1394stereo/CMakeFiles/camera1394stereo_nodelet.dir/build
+.PHONY : camera1394stereo_nodelet/fast
+
+# Manual pre-install relink rule for target.
+camera1394stereo_nodelet/preinstall:
+	$(MAKE) -f camera1394stereo/CMakeFiles/camera1394stereo_nodelet.dir/build.make camera1394stereo/CMakeFiles/camera1394stereo_nodelet.dir/preinstall
+.PHONY : camera1394stereo_nodelet/preinstall
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_py
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_py
+.PHONY : dynamic_reconfigure_generate_messages_py
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_py/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named nodelet_generate_messages_lisp
+
+# Build rule for target.
+nodelet_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nodelet_generate_messages_lisp
+.PHONY : nodelet_generate_messages_lisp
+
+# fast build rule for target.
+nodelet_generate_messages_lisp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/nodelet_generate_messages_lisp.dir/build.make camera1394stereo/CMakeFiles/nodelet_generate_messages_lisp.dir/build
+.PHONY : nodelet_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named bond_generate_messages_nodejs
+
+# Build rule for target.
+bond_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bond_generate_messages_nodejs
+.PHONY : bond_generate_messages_nodejs
+
+# fast build rule for target.
+bond_generate_messages_nodejs/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/bond_generate_messages_nodejs.dir/build.make camera1394stereo/CMakeFiles/bond_generate_messages_nodejs.dir/build
+.PHONY : bond_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_nodejs
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_nodejs
+.PHONY : dynamic_reconfigure_generate_messages_nodejs
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_nodejs/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named driver_base_generate_messages_eus
+
+# Build rule for target.
+driver_base_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver_base_generate_messages_eus
+.PHONY : driver_base_generate_messages_eus
+
+# fast build rule for target.
+driver_base_generate_messages_eus/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/driver_base_generate_messages_eus.dir/build.make camera1394stereo/CMakeFiles/driver_base_generate_messages_eus.dir/build
+.PHONY : driver_base_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_eus
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_eus
+.PHONY : dynamic_reconfigure_generate_messages_eus
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_eus/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named nodelet_generate_messages_nodejs
+
+# Build rule for target.
+nodelet_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nodelet_generate_messages_nodejs
+.PHONY : nodelet_generate_messages_nodejs
+
+# fast build rule for target.
+nodelet_generate_messages_nodejs/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/nodelet_generate_messages_nodejs.dir/build.make camera1394stereo/CMakeFiles/nodelet_generate_messages_nodejs.dir/build
+.PHONY : nodelet_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named driver_base_generate_messages_py
+
+# Build rule for target.
+driver_base_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver_base_generate_messages_py
+.PHONY : driver_base_generate_messages_py
+
+# fast build rule for target.
+driver_base_generate_messages_py/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/driver_base_generate_messages_py.dir/build.make camera1394stereo/CMakeFiles/driver_base_generate_messages_py.dir/build
+.PHONY : driver_base_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named driver_base_generate_messages_cpp
+
+# Build rule for target.
+driver_base_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver_base_generate_messages_cpp
+.PHONY : driver_base_generate_messages_cpp
+
+# fast build rule for target.
+driver_base_generate_messages_cpp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/driver_base_generate_messages_cpp.dir/build.make camera1394stereo/CMakeFiles/driver_base_generate_messages_cpp.dir/build
+.PHONY : driver_base_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_gencfg
+
+# Build rule for target.
+dynamic_reconfigure_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_gencfg
+.PHONY : dynamic_reconfigure_gencfg
+
+# fast build rule for target.
+dynamic_reconfigure_gencfg/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
+.PHONY : dynamic_reconfigure_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named driver_base_generate_messages_lisp
+
+# Build rule for target.
+driver_base_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver_base_generate_messages_lisp
+.PHONY : driver_base_generate_messages_lisp
+
+# fast build rule for target.
+driver_base_generate_messages_lisp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/driver_base_generate_messages_lisp.dir/build.make camera1394stereo/CMakeFiles/driver_base_generate_messages_lisp.dir/build
+.PHONY : driver_base_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named driver_base_generate_messages_nodejs
+
+# Build rule for target.
+driver_base_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver_base_generate_messages_nodejs
+.PHONY : driver_base_generate_messages_nodejs
+
+# fast build rule for target.
+driver_base_generate_messages_nodejs/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/driver_base_generate_messages_nodejs.dir/build.make camera1394stereo/CMakeFiles/driver_base_generate_messages_nodejs.dir/build
+.PHONY : driver_base_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named nodelet_generate_messages_cpp
+
+# Build rule for target.
+nodelet_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nodelet_generate_messages_cpp
+.PHONY : nodelet_generate_messages_cpp
+
+# fast build rule for target.
+nodelet_generate_messages_cpp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/nodelet_generate_messages_cpp.dir/build.make camera1394stereo/CMakeFiles/nodelet_generate_messages_cpp.dir/build
+.PHONY : nodelet_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_lisp
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_lisp
+.PHONY : dynamic_reconfigure_generate_messages_lisp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_lisp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named camera1394stereo_gencfg
+
+# Build rule for target.
+camera1394stereo_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 camera1394stereo_gencfg
+.PHONY : camera1394stereo_gencfg
+
+# fast build rule for target.
+camera1394stereo_gencfg/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/camera1394stereo_gencfg.dir/build.make camera1394stereo/CMakeFiles/camera1394stereo_gencfg.dir/build
+.PHONY : camera1394stereo_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named nodelet_generate_messages_eus
+
+# Build rule for target.
+nodelet_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nodelet_generate_messages_eus
+.PHONY : nodelet_generate_messages_eus
+
+# fast build rule for target.
+nodelet_generate_messages_eus/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/nodelet_generate_messages_eus.dir/build.make camera1394stereo/CMakeFiles/nodelet_generate_messages_eus.dir/build
+.PHONY : nodelet_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named nodelet_generate_messages_py
+
+# Build rule for target.
+nodelet_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nodelet_generate_messages_py
+.PHONY : nodelet_generate_messages_py
+
+# fast build rule for target.
+nodelet_generate_messages_py/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/nodelet_generate_messages_py.dir/build.make camera1394stereo/CMakeFiles/nodelet_generate_messages_py.dir/build
+.PHONY : nodelet_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named camera1394stereo_node
+
+# Build rule for target.
+camera1394stereo_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 camera1394stereo_node
+.PHONY : camera1394stereo_node
+
+# fast build rule for target.
+camera1394stereo_node/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/camera1394stereo_node.dir/build.make camera1394stereo/CMakeFiles/camera1394stereo_node.dir/build
+.PHONY : camera1394stereo_node/fast
+
+# Manual pre-install relink rule for target.
+camera1394stereo_node/preinstall:
+	$(MAKE) -f camera1394stereo/CMakeFiles/camera1394stereo_node.dir/build.make camera1394stereo/CMakeFiles/camera1394stereo_node.dir/preinstall
+.PHONY : camera1394stereo_node/preinstall
+
+#=============================================================================
+# Target rules for targets named bond_generate_messages_cpp
+
+# Build rule for target.
+bond_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bond_generate_messages_cpp
+.PHONY : bond_generate_messages_cpp
+
+# fast build rule for target.
+bond_generate_messages_cpp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/bond_generate_messages_cpp.dir/build.make camera1394stereo/CMakeFiles/bond_generate_messages_cpp.dir/build
+.PHONY : bond_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named bond_generate_messages_eus
+
+# Build rule for target.
+bond_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bond_generate_messages_eus
+.PHONY : bond_generate_messages_eus
+
+# fast build rule for target.
+bond_generate_messages_eus/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/bond_generate_messages_eus.dir/build.make camera1394stereo/CMakeFiles/bond_generate_messages_eus.dir/build
+.PHONY : bond_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named bond_generate_messages_lisp
+
+# Build rule for target.
+bond_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bond_generate_messages_lisp
+.PHONY : bond_generate_messages_lisp
+
+# fast build rule for target.
+bond_generate_messages_lisp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/bond_generate_messages_lisp.dir/build.make camera1394stereo/CMakeFiles/bond_generate_messages_lisp.dir/build
+.PHONY : bond_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_cpp
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_cpp
+.PHONY : dynamic_reconfigure_generate_messages_cpp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_cpp/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make camera1394stereo/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named bond_generate_messages_py
+
+# Build rule for target.
+bond_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bond_generate_messages_py
+.PHONY : bond_generate_messages_py
+
+# fast build rule for target.
+bond_generate_messages_py/fast:
+	$(MAKE) -f camera1394stereo/CMakeFiles/bond_generate_messages_py.dir/build.make camera1394stereo/CMakeFiles/bond_generate_messages_py.dir/build
+.PHONY : bond_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named _run_tests_robot_localization_rostest_test_test_ukf_localization_node_bag3.test
 
 # Build rule for target.
@@ -3932,6 +4254,30 @@ help:
 	@echo "... diagnostic_msgs_generate_messages_eus"
 	@echo "... time_scans"
 	@echo "... print_scans"
+	@echo "... camera1394stereo_nodelet"
+	@echo "... dynamic_reconfigure_generate_messages_py"
+	@echo "... nodelet_generate_messages_lisp"
+	@echo "... bond_generate_messages_nodejs"
+	@echo "... dynamic_reconfigure_generate_messages_nodejs"
+	@echo "... driver_base_generate_messages_eus"
+	@echo "... dynamic_reconfigure_generate_messages_eus"
+	@echo "... nodelet_generate_messages_nodejs"
+	@echo "... driver_base_generate_messages_py"
+	@echo "... driver_base_generate_messages_cpp"
+	@echo "... dynamic_reconfigure_gencfg"
+	@echo "... driver_base_generate_messages_lisp"
+	@echo "... driver_base_generate_messages_nodejs"
+	@echo "... nodelet_generate_messages_cpp"
+	@echo "... dynamic_reconfigure_generate_messages_lisp"
+	@echo "... camera1394stereo_gencfg"
+	@echo "... nodelet_generate_messages_eus"
+	@echo "... nodelet_generate_messages_py"
+	@echo "... camera1394stereo_node"
+	@echo "... bond_generate_messages_cpp"
+	@echo "... bond_generate_messages_eus"
+	@echo "... bond_generate_messages_lisp"
+	@echo "... dynamic_reconfigure_generate_messages_cpp"
+	@echo "... bond_generate_messages_py"
 	@echo "... _run_tests_robot_localization_rostest_test_test_ukf_localization_node_bag3.test"
 	@echo "... _run_tests_robot_localization_rostest_test_test_ukf_localization_node_bag2.test"
 	@echo "... test_ukf_localization_node_bag2"
