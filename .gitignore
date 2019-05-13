@@ -1,11 +1,5 @@
 gitignore
 *.sw?
-bin/
-obj/
-catkin_ws/build
-catkin_ws/devel
-catkin_ws/install
-build
-devel
-install
-
+build/**
+devel/**
+install/**
