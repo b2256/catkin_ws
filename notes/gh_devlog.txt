@@ -1,0 +1,7 @@
+2019-05-13
+Attempted to build with latest code pull from github.com/b2256; encountered build errros; installed following packages:
+  ros-kinetic-driver-base
+  ros-kinetic-camera1394
+
+0.25 hours
+  

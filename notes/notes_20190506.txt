@@ -1,0 +1,8 @@
+Completed:
+  - Install of ROS and requisite dependencies for my local OBDII work from 2018.
+  - Install and successful build of Bruce's latest code (https://github.com/b2256/catkin_ws.git)
+
+NOTE:
+  - There is now a native Kinetic GPS:
+    sudo apt install ros-kinetic-gps-umd ros-kinetic-geographic-*
+
