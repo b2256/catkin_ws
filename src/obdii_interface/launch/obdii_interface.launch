@@ -5,7 +5,7 @@
   <arg name="output_queue_size" default="64" />
   <arg name="rs232_baud_rate" default="115200" />
   <arg name="rs232_port" default="/dev/ttyUSB0" />
-  <arg name="obdii_polling_rate" default="100" />
+  <arg name="obdii_polling_rate" default="10" />
   <arg name="pub_raw_topic" default="/obdii_raw_packet" />
   <arg name="pub_odom_topic" default="/obdii_odom_packet" />
   <arg name="frame_id" default="odom" />
