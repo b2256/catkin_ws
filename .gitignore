@@ -2,4 +2,3 @@ gitignore
 *.sw?
 build/**
 devel/**
-install/**
