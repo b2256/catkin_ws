@@ -1,7 +1,60 @@
-2019-05-13
+== 2019-05-13 ==
 Attempted to build with latest code pull from github.com/b2256; encountered build errros; installed following packages:
   ros-kinetic-driver-base
   ros-kinetic-camera1394
+Cleaned up build environemnt: Added a .gitignore with the build/** and devel/** directories.
 
-0.25 hours
-  
+Set OBDII default polling rate to 10Hz in obdii_interface.launch
+
+
+=== Ladybug 6-way camera ===
+Read LadyBug technical manual on interface
+  - No compressed JPG image support on Linux; that's probably okay as we want the raw frames, which will be discarded once they're no longer needed in the pipeline.
+  - GithubFlos/README.txt contains several disturbing references to "Windows" and "the windows pc running the ladybug grabber."  TODO: Will need to acquire raw image data from Ladybug and create a ROS receiver for this; need to cut off any and all dependencies upon Windows.
+  - NOTE: Once we have image data will need to get bag data.
+
+GOAL: Obtain raw image data in ROS bags from all six Ladybug cameras.
+
+URDF MODEL: Want a sim w/Gazebo?
+
+Firewire (1394b): 800Mbps (theoretical upper limit)
+Framerate: 16 FPS w/JPEG compression, 6.5 FPS uncompressed.  Possible issue if Linux only supports uncompressed data...
+
+Resources:
+https://github.com/ros-drivers/camera1394/issues/63
+http://wiki.ros.org/camera1394/Tutorials/UsingMultipleIEEE1394Cameras
+https://answers.ros.org/question/9602/ladybug-camera-driver/
+https://github.com/ros-drivers/camera1394/issues/17 (bricebsamen)
+
+Check into pointgrey_camera_driver:
+http://wiki.ros.org/pointgrey_camera_driver
+This looks very promising... Nope, after further evaluation, black-and-white or slow frame rate.
+
+Must have:
+  Image data
+Nice-to-have / better framerate
+  JPEG data
+    * They seem to want to shove the user toward Windows for this (the slower operating system gets the faster frame rate).
+    * A potential down side to JPEG would be the possible need to decompress later in the pipeline.  However, there may not be a need for this since the lasers are fully integrated with laser and their own camera; telemetric correlation data from GPS would then be sufficient to key the image...
+
+==== Notes from discussion with Bruce ====
+
+ - Sensor package:
+   * 3 Sick lasers, which include integrated acquisition, 
+     - RS422 interface to central hub
+   * accelerometer
+   * GPS
+     - Double feed: centeral hub and ladybug daemon)
+ - No robot model yet, still putting all the pieces together.
+ - Ladybug3 is least understood of all the components.
+ - Need to find out if all six cameras can be set to trigger at same time.
+ - Immediate first goal is to explore 1394 library for ladybug.
+ - Detailed levels of scanning w/lasers and closer to survey grade models required only at intersections.  A key concern is position of curbs for truck turning radius.
+ - Study Robot Localization, which gathers and normalizes all the sensor data.  
+
+
+Billable hours:
+  - Ramp-up and research into project-specific components: 5
+
+Nonbillable hours:
+  - Setup of different Linux/ROS version from previous projects for reference only: 5.5
