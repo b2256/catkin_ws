@@ -128,3 +128,208 @@ Installing and building Google protobufs as per https://gist.github.com/cqpx/ff1
   sudo ldconfig # refresh shared library cache.
   protoc -h
 
+Error on make check:
+  make[1]: Entering directory '/home/dev/install/protobuf'
+  make  check-local
+  make[2]: Entering directory '/home/dev/install/protobuf'
+  Making lib/libgmock.a lib/libgmock_main.a in gmock
+  /bin/bash: line 0: cd: third_party/googletest/googletest: No such file or directory
+  Makefile:2135: recipe for target 'check-local' failed
+  make[2]: *** [check-local] Error 1
+  make[2]: Leaving directory '/home/dev/install/protobuf'
+  Makefile:1997: recipe for target 'check-am' failed
+  make[1]: *** [check-am] Error 2
+  make[1]: Leaving directory '/home/dev/install/protobuf'
+  Makefile:1709: recipe for target 'check-recursive' failed
+  make: *** [check-recursive] Error 1
+
+Glog:
+sudo apt install libgoogle-glog-dev
+sudo apt install libgtest-dev
+
+Back in project root (catkin_ws), catkin_make clean shows another slew of errors and warnings:
+
+	CMake Warning (dev) at camera1394stereo/CMakeLists.txt:58 (add_dependencies):
+		Policy CMP0046 is not set: Error on non-existent dependency in
+		add_dependencies.  Run "cmake --help-policy CMP0046" for policy details.
+		Use the cmake_policy command to set the policy and suppress this warning.
+
+		The dependency target "camera1394stereo_EXPORTED_TARGETS" of target
+		"camera1394stereo_node" does not exist.
+	This warning is for project developers.  Use -Wno-dev to suppress it.
+
+	CMake Error: CMake can not determine linker language for target: receiver_nodelet
+	CMake Error: Cannot determine link language for target "receiver_nodelet".
+	CMake Error: CMake can not determine linker language for target: service
+	CMake Error: Cannot determine link language for target "service".
+	CMake Error: CMake can not determine linker language for target: receiver
+	CMake Error: Cannot determine link language for target "receiver".
+	-- Generating done
+	-- Build files have been written to: /home/dev/git/obdii_ros/build
+	Invoking "cmake" failed
+
+catkin_make fails with the following:
+
+make[2]: *** No rule to make target 'ros-ladybug/CMakeFiles/receiver_nodelet.dir/build'.  Stop.
+
+Removed "system_lib" dependencies from ros-ladybug/CMakeLists.txt and bag2orb/CMakeLists.txt.  This is intended to be an example, not a literal library (see https://answers.ros.org/question/288967/build-package-with-system_lib-not-found/)
+
+Warning:
+
+  Make Warning (dev) at gps_umd/gps_common/CMakeLists.txt:54 (add_executable):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.i
+
+CMP0046 documentation:
+
+	CMP0046
+	-------
+
+	Error on non-existent dependency in add_dependencies.
+
+	CMake 2.8.12 and lower silently ignored non-existent dependencies
+	listed in the ``add_dependencies()`` command.
+
+	The OLD behavior for this policy is to silently ignore non-existent
+	dependencies. The NEW behavior for this policy is to report an error
+	if non-existent dependencies are listed in the ``add_dependencies()``
+	command.
+
+Not addressing at this time; possibly set the policy to OLD for now since this is only a warning, but this is not on critical path...
+
+Commented out lines 149, 169, 225 of ros-ladybuf/CMakeLists.txt.  find -iname 'imageMessage.pb.cc' turned up nothing; why is a non-existent file being included? (Note: we may need to hunt this down later)
+
+Error:
+In file included from /home/dev/git/obdii_ros/src/ros-ladybug/include/zmq_service.h:4:0,
+                 from /home/dev/git/obdii_ros/src/ros-ladybug/src/service/node.cpp:4:
+/home/dev/git/obdii_ros/src/ros-ladybug/include/zmq.hpp:28:17: fatal error: zmq.h: No such file or directory
+
+Install zmq lightweight messaging kernel:
+sudo apt install libzmq-dev
+
+zmq.h now present; check if it's a target link dependency; it is (CMakeLists.txt:158).
+
+More comp.aints about the nonexistent protobuf/imageMessage.pb.h...  Need to find what this, where to get it, and why it's missing though referenced.  It's a generated file from Google Protocol Buffers; now how do we generate it?
+
+Check if it's supposed to be generated as part of build process...
+
+Maybe Google protobufs compiled from source was incorrect; README.txt only references "protobuff" [sic].
+
+sudo apt install protobuf-compiler
+
+Aha... It's a sub-repository in Git.  Copying off my ros-ladybug and re-cloning with this command.
+
+git clone --recurse-submodules git://github.com/foo/bar.git
+
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+fatal: clone of 'git@github.com:Flos/ladybug_calibration.git' into submodule path 'calibration' failed
+
+I don't want to use a "public key".  I want to be given the choice to enter a password and use the https portal...  However, in the interest of expediency, will attempt to add my github SSH key and clone that way.  Working, pulling objects... Completed...
+
+src/ros-ladybug/src/common/protobuf now contains files...
+
+	CMake Error at ros-ladybug/CMakeLists.txt:148 (add_library):
+		Cannot find source file:
+
+			src/common/protobuf/imageMessage.pb.cc
+
+Okay, attempting to build the compiled imageMessage.pb.cc from imageMessage.proto manually -- COME BACK TO THIS; building should be one command eventually (catkin_make)....
+
+After some digging:
+
+protoc -I=. --cpp_out=. imageMessage.proto
+
+Run this from src/ros-ladybug/src/common/protobuf.
+
+Note, this will yield the following warning:
+
+	[libprotobuf WARNING google/protobuf/compiler/parser.cc:637] No syntax specified for the proto file: imageMessage.proto. Please use 'syntax = "proto2";' or 'syntax = "proto3";' to specify a syntax version. (Defaulted to proto2 syntax.)
+
+It's unclear, given the lack of documentation both online and in the repo around ros-ladybug, which syntax it prefers, so probably will have to do some trial-and-error.
+
+New build errors -- lots of them:
+
+/home/dev/git/obdii_ros/src/ros-ladybug/src/common/protobuf/imageMessage.pb.h:1821:30: error: expected ‘}’ before end of line
+
+Errors extended past top of terminal buffer; rebuilt and got root:
+
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+
+Added -std=c++11 to build options for ros-ladybug CMakeLists.txt:
+	include(CheckCXXCompilerFlag)
+	check_cxx_compiler_flag(-std=c++11 HAS_STD_CPP11_FLAG)
+	if(HAS_STD_CPP11_FLAG)
+		add_compile_options(-std=c++11)
+	endif()
+
+
+zmq is wrong version;
+
+	sudo apt-remove
+
+Verify that zmq.h is gone.  Now, reinstall it from a newer repo:
+
+	echo "deb http://download.opensuse.org/repositories/network:/messaging:/zeromq:/release-stable/Debian_9.0/ ./" >> /etc/apt/sources.list
+	wget https://download.opensuse.org/repositories/network:/messaging:/zeromq:/release-stable/Debian_9.0/Release.key -O- | sudo apt-key add
+	apt-get install libzmq3-dev
+
+(Ubuntu 16.04 is Debian 9)
+
+And, play it again, Sam, to get the next spate of errors...
+
+New error:
+
+	/home/dev/git/obdii_ros/src/ros-ladybug/include/zmq.hpp:550:47: error: ‘zmq_event_t’ does not name a type
+					 virtual void on_event_connected(const zmq_event_t &event_, const char* addr_) { (void
+
+Investigating that...
+
+Looks like it installed ZMQ 4.1.4.  Going to have to pull the source and include 3.2.5 (it doesn't have 3.2.4) explicitly.  Following instructions at http://zeromq.org/intro:get-the-software
+
+Rather than re-installing an older version of ZMQ (which may actually break ROS), added an include directive in CMakeLists.txt:
+
+	add_compile_options(-I=/home/dev/install/zeromq-3.2.5/include)
+
+(NOTE, there's a hardcoded username, "dev" in that string; COME BACK TO THIS; baby steps)
+
+We're passed the "error: 'zmq_event_t' does not name a type" errors; now the error is:
+
+  /home/dev/git/obdii_ros/src/ros-ladybug/src/common/opencv_helper.cpp:34:9: error: ‘imdecode’ is not a member of ‘cv’
+
+Suspecting this an OpenCV 2.4 vs. OpenCV 3 problem...  Possible answer here:
+
+  https://stackoverflow.com/questions/33707500/error-imread-is-not-a-member-of-cv
+
+in ros-ladybug/include/opencv_helper.h, commented out opencv/cv.h and added opencv2/opencv.hpp
+
+	// #include <opencv/cv.h>
+	#include <opencv2/opencv.hpp>
+
+Now build completed and erroring out on link:
+
+  /usr/bin/ld: cannot find -lzmq
+
+Trying to put zmq back...
+
+  sudo apt install libzmq3-dev
+
+Build now completes to 84% then errors on link:
+
+  CMakeFiles/service.dir/src/common/protobuf/imageMessage.pb.cc.o: In function `ladybug5_network::ImageType_descriptor()':
+imageMessage.pb.cc:(.text+0x493): undefined reference to `google::protobuf::internal::AssignDescriptors(google::protobuf::internal::DescriptorTable const*)'
+
+From https://github.com/BVLC/caffe/issues/3046
+
+  sudo apt install --reinstall libprotobuf-dev protobuf-compiler
+
+No dice, same error...
+
+https://stackoverflow.com/questions/47786852/unable-to-use-locally-installed-protocol-buffers-inside-ros
+
+Revisiting protocol buffers...
