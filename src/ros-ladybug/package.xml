@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package>
+  <name>ladybug</name>
+  <version>0.0.1</version>
+  <description>The ladybug5 package</description>
+
+  <maintainer email="florian.nolden@googlemail.com">fnolden</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>boost</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>OpenCV</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>rostime</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>camera_info_manager</build_depend>
+  <build_depend>nodelet</build_depend>
+
+
+  <run_depend>boost</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>OpenCV</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>rostime</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>camera_info_manager</run_depend>
+  <run_depend>nodelet</run_depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+	  <nodelet plugin="${prefix}/nodelet_plugins.xml" />
+  </export>
+</package>
