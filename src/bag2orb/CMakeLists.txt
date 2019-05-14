@@ -105,7 +105,6 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES bag2orb
  CATKIN_DEPENDS nav_msgs roscpp rospy std_msgs
- DEPENDS system_lib
 )
 
 ###########
