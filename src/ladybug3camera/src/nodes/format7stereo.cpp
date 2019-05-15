@@ -227,7 +227,7 @@ bool Format7::start(dc1394camera_t *camera,
       ROS_ERROR("Could not set color coding");
       return false;
     }
-      
+
   uint32_t rec_packet_size;
 
   if (DC1394_SUCCESS
@@ -294,7 +294,7 @@ extern std::string bayer_string(dc1394color_filter_t pattern, unsigned int bits)
 /** Unpack Format7 data for an Image frame */
 void Format7::unpackData(sensor_msgs::Image &image, uint8_t *capture_buffer)
 {
-  int image_size;  
+  int image_size;
   switch (coding_)
     {
     case DC1394_COLOR_CODING_MONO8:

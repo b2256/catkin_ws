@@ -419,7 +419,7 @@ namespace Modes
         ROS_WARN("Failed to set iso speed");
         return false;
       }
-    
+
     return true;
   }
 

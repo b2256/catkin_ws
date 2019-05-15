@@ -19,12 +19,12 @@
 // modify it under the terms of the GNU Lesser General Public License
 // as published by the Free Software Foundation; either version 2 of
 // the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -37,7 +37,7 @@
 /** @file
 
     @brief libdc1394 digital camera library interface implementation
- 
+
     This device interface is partly derived from the Player 1394
     camera driver.
 
@@ -84,7 +84,7 @@ Ladybug3Camera::Ladybug3Camera():
   camera_(NULL)
 {}
 
-Ladybug3Camera::~Ladybug3Camera() 
+Ladybug3Camera::~Ladybug3Camera()
 {
   SafeCleanup();
 }
@@ -166,7 +166,7 @@ bool Ladybug3Camera::findStereoMethod(const char* method)
     {
       doStereo = false;
     }
-    
+
   return doStereo;
 }
 
@@ -207,13 +207,13 @@ int Ladybug3Camera::open(ladybug3camera::Ladybug3CameraConfig &newconfig)
       CAM_EXCEPT(ladybug3camera::Exception, "Could not get camera list");
       return -1;
     }
-  
+
   if (list->num == 0)
     {
       CAM_EXCEPT(ladybug3camera::Exception, "No cameras found");
       return -1;
     }
-  
+
   char* temp=(char*)malloc(1024*sizeof(char));
   for (unsigned i=0; i < list->num; i++)
     {
@@ -227,11 +227,11 @@ int Ladybug3Camera::open(ladybug3camera::Ladybug3CameraConfig &newconfig)
                         << std::hex << list->ids[i].guid);
 
       uint32_t value[3];
-      
+
       value[0]= camera_->guid & 0xffffffff;
       value[1]= (camera_->guid >>32) & 0x000000ff;
       value[2]= (camera_->guid >>40) & 0xfffff;
-      
+
       sprintf(temp,"%06x%02x%08x", value[2], value[1], value[0]);
 
       if (strcmp(guid,"")==0)
@@ -252,11 +252,11 @@ int Ladybug3Camera::open(ladybug3camera::Ladybug3CameraConfig &newconfig)
     }
   free (temp);
   dc1394_camera_free_list (list);
-  
+
   if (!camera_)
     {
       if (strcmp(guid,"")==0)
-        { 
+        {
           CAM_EXCEPT(ladybug3camera::Exception, "Could not find camera");
         }
       else
@@ -352,7 +352,7 @@ int Ladybug3Camera::open(ladybug3camera::Ladybug3CameraConfig &newconfig)
       CAM_EXCEPT(ladybug3camera::Exception, "Failed to open device!");
       return -1;
     }
-  
+
   // Start transmitting camera data
   if (DC1394_SUCCESS != dc1394_video_set_transmission(camera_, DC1394_ON))
     {
@@ -367,7 +367,7 @@ int Ladybug3Camera::open(ladybug3camera::Ladybug3CameraConfig &newconfig)
 
   // TODO: pass newconfig here and eliminate initialize() method
   features_.reset(new Features(camera_));
- 
+
   return 0;
 }
 
@@ -430,7 +430,7 @@ std::string bayer_string(dc1394color_filter_t pattern, unsigned int bits)
 
 /** Return an image frame */
 bool Ladybug3Camera::readData(
-    sensor_msgs::Image& image, 
+    sensor_msgs::Image& image,
     sensor_msgs::Image& image2)
 {
   ROS_ASSERT_MSG(camera_, "Attempt to read from camera that is not open.");
@@ -453,7 +453,7 @@ bool Ladybug3Camera::readData(
      }
 
     }
-  
+
   dc1394video_frame_t frame1 = *frame;
 
   if (DoStereoExtract_)
@@ -506,7 +506,7 @@ bool Ladybug3Camera::readData(
       capture_buffer = reinterpret_cast<uint8_t *>(frame2.image);
     }
 
-  ROS_ASSERT(capture_buffer);   
+  ROS_ASSERT(capture_buffer);
 
   image.header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
   image.width = frame->size[0];
@@ -571,7 +571,7 @@ bool Ladybug3Camera::readData(
           image.encoding = sensor_msgs::image_encodings::RGB8;
           image.data.resize(image_size);
           memcpy(&image.data[0], capture_buffer, image_size);
-        } 
+        }
       break;
     case DC1394_COLOR_CODING_MONO16:
     case DC1394_COLOR_CODING_RAW16:
@@ -609,7 +609,7 @@ bool Ladybug3Camera::readData(
           image.encoding = sensor_msgs::image_encodings::RGB8;
           image.data.resize(image_size);
           memcpy(&image.data[0], capture_buffer, image_size);
-        } 
+        }
       else
         {
           image.step=image.width*2;
@@ -629,11 +629,11 @@ bool Ladybug3Camera::readData(
 
   dc1394_capture_enqueue(camera_, frame);
 
-  if (DoStereoExtract_ || DoBayerConversion_) 
-    { 
+  if (DoStereoExtract_ || DoBayerConversion_)
+    {
       free(capture_buffer);
       if (DoStereoExtract_ && DoBayerConversion_)
-         free(frame1.image); 
+         free(frame1.image);
     }
   return true;
 }
