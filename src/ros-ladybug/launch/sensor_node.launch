@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="ladybug" type="sensor_node" name="Sensor_node" />
-</launch>
