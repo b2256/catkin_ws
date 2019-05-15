@@ -80,8 +80,6 @@ https://www.flir.com/support/products/ladybug-sdk#Resources
 Installed:
 sudo dpkg -i ladybug-1.16.3.48_amd64.deb
 
-
-
 dependency error, missing xsdcxx
 sudo apt install xsdcxx
 
@@ -334,4 +332,20 @@ https://stackoverflow.com/questions/47786852/unable-to-use-locally-installed-pro
 
 Revisiting protocol buffers...
 
-Uncommented find_package(Protobuf REQUIRED) in CMakeLists.txt
+Uncommented find_package(Protobuf REQUIRED) in CMakeLists.txt.
+
+Same errors;
+undefined reference to `google::protobuf::internal::
+
+https://github.com/protocolbuffers/protobuf/issues/4001
+
+Uninstalled libprotobuf-dev, which completely wiped out ROS because of dependencies.  Thus, we know that ROS depends on the latest version of protobuf.  Re-evaluating: instead of shoehorning the world to fit ros-ladybug, we'll go the other way...
+
+Reinstalled ROS cleanly, and zmq-dev.  First target is ros-ladybug/include/zmq.hpp...
+
+This is taking too long, and there's no guarantee Ladybug5 for which this was written can be downshifted to Ladybug3.  Going to switch to looking at camera1394 again.
+
+installed coriander
+sudo apt-get install coriander
+
+
