@@ -1,0 +1,9 @@
+<library path="lib/libladybug3camera_nodelet">
+  <class name="ladybug3camera/driver"
+         type="Ladybug3CameraNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description> 
+      IEEE 1394 stereo camera driver nodelet.
+    </description>
+  </class>
+</library>
