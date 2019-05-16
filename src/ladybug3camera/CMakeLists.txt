@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ladybug3camera)
 
-find_package(catkin REQUIRED COMPONENTS 
-	camera_info_manager 
-	driver_base 
-	dynamic_reconfigure 
-	image_transport 
-	nodelet 
+find_package(catkin REQUIRED COMPONENTS
+	camera_info_manager
+	driver_base
+	dynamic_reconfigure
+	image_transport
+	nodelet
 	roscpp
 	rospy
 	tf)
@@ -23,7 +23,7 @@ find_path(DC1394_INCLUDE_DIR
   PATHS ${DC1394_PKGCONF_INCLUDE_DIRS}
 )
 find_library(DC1394_LIBRARY
-  NAMES dc1394
+  NAMES dc1394 ladybug
   PATHS ${DC1394_PKGCONF_LIBRARY_DIRS}
 )
 
@@ -37,7 +37,7 @@ catkin_package(
 include_directories(cfg/cpp ${catkin_INCLUDE_DIRS})
 
 # common source files for both node and nodelet driver interfaces
-set(DRIVER_SOURCES 
+set(DRIVER_SOURCES
   src/nodes/driver1394stereo.cpp
   src/nodes/dev_ladybug3camera.cpp
   src/nodes/featuresstereo.cpp
@@ -54,13 +54,13 @@ endif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 
 
 add_executable(ladybug3camera_node src/nodes/ladybug3camera_node.cpp ${DRIVER_SOURCES})
-add_dependencies(ladybug3camera_node ladybug3camera_gencfg) 
-add_dependencies(ladybug3camera_node ladybug3camera_EXPORTED_TARGETS) 
+add_dependencies(ladybug3camera_node ladybug3camera_gencfg)
+add_dependencies(ladybug3camera_node ladybug3camera_EXPORTED_TARGETS)
 target_link_libraries(ladybug3camera_node ${DC1394} ${catkin_LIBRARIES})
 
 add_library(ladybug3camera_nodelet src/nodes/nodelet.cpp ${DRIVER_SOURCES})
-add_dependencies(ladybug3camera_nodelet ladybug3camera_gencfg) 
-add_dependencies(ladybug3camera_nodelet ladybug3camera_EXPORTED_TARGETS) 
+add_dependencies(ladybug3camera_nodelet ladybug3camera_gencfg)
+add_dependencies(ladybug3camera_nodelet ladybug3camera_EXPORTED_TARGETS)
 target_link_libraries(ladybug3camera_nodelet ${DC1394} ${catkin_LIBRARIES})
 
 ## Mark executables and/or libraries for installation

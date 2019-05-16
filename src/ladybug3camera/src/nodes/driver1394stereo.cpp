@@ -43,6 +43,8 @@
 #include "ladybug3camera/Ladybug3CameraConfig.h"
 #include "featuresstereo.h"
 
+#include "ladybug/ladybug.h"
+
 /** @file
 
 @brief ROS driver for IIDC-compatible IEEE 1394 digital cameras.
@@ -58,10 +60,10 @@ pipeline similar to the other ROS camera drivers.
 
  - @b stereo_camera/right/image_raw topic (sensor_msgs/Image) raw 2D camera images
 
- - @b stereo_camera/left/camera_info topic (sensor_msgs/CameraInfo) Calibration 
+ - @b stereo_camera/left/camera_info topic (sensor_msgs/CameraInfo) Calibration
       information for each image.
 
- - @b stereo_camera/right/camera_info topic (sensor_msgs/CameraInfo) Calibration    
+ - @b stereo_camera/right/camera_info topic (sensor_msgs/CameraInfo) Calibration
       information for each image.
 
 
@@ -205,8 +207,11 @@ namespace ladybug3camera_driver
             sensor_msgs::ImagePtr image[NUM_CAMERAS];
             for (int i=0; i<NUM_CAMERAS; i++)
               image[i] = sensor_msgs::ImagePtr(new sensor_msgs::Image);
+            // GPH MARK: This is where we call the read
             if (read(image))
               {
+                // GPH MARK: Let's put the decompression of JPG here just
+                // before publish.
                 publish(image);
               }
           }
@@ -287,6 +292,7 @@ namespace ladybug3camera_driver
       {
         // Read data from the Camera
         ROS_DEBUG_STREAM("[" << camera_name_ << "] reading data");
+        // GPH MARK: This is where we read over 1394.
         success = dev_->readData(*(image[LEFT]), *(image[RIGHT]));
         ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
       }
