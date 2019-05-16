@@ -348,4 +348,69 @@ This is taking too long, and there's no guarantee Ladybug5 for which this was wr
 installed coriander
 sudo apt-get install coriander
 
+Billable hours:
+8.0
 
+== 2019-05-15 ==
+
+Working on calling the SetRegistersRequest services on camera1394.
+
+From https://github.com/ros-drivers/camera1394/pull/32:
+
+  Possible implementation (draft) of #30.
+
+  Other dc1394_get/set_register(s) functions could be wrapped in a similar way. The messages are generic to be used with all of them.
+
+  I tested it on Ubuntu 12.04/Hydro with Ladybug 3, selecting/querying sensors (side cameras, top camera) participating in auto exposure using
+
+  rosservice call /camera/set_camera_registers "{type: 0, offset: 0x1E90, value: [0b111110]}"
+  rosservice call /camera/set_camera_registers "{type: 0, offset: 0x1E90, value: [0b000001]}"
+  rosservice call /camera/get_camera_registers "{type: 0, offset: 0x1E90, num_regs: 1}"
+
+  and selecting/querying images for transmission (all cameras, side cameras).
+
+  rosservice call /camera/set_camera_registers "{type: 0, offset: 0x1E88, value: [0xffffff]}"
+  rosservice call /camera/set_camera_registers "{type: 0, offset: 0x1E88, value: [0xfffff0]}"
+  rosservice call /camera/get_camera_registers "{type: 0, offset: 0x1E88, num_regs: 1}"
+
+Working on plumbing for ros::service calls...  Documentation is minimal, but the header files are readily available under /opt/ros/kinetic/camera1394.
+
+Distilled down from the heavy C++ templating, a request contains type, offset, value, and mode.  Value is not a simple scalar integer, but a vector of uint13_t, perhaps for serial writing of values to the same offset.
+
+Planning for camera data stream:
+
+* Ladybug image grab
+* camera1394 nodelet
+* Decompression (JPEG -> Raw)
+* Color processing (Bayer)
+* undistort (rectification; will need lens K and D calibration coefficients; does it exist or do we need to create them using the chessboard and undistort?
+* stitch (see /usr/src/ladybug/src/ladybugPanoStitchExample/ladybugPanoStitchExample.cpp)
+* projection
+
+Variables:
+* Are we running 1394b (800Mb/S) or 1394a (400Mb/S)?  This will affect our frame rate.  Assuming it's the IEEE-1394b ExpressCard for notebooks that comes with the development kit (p. 26).
+* Drive throughput will also affect performance.  The Technical Reference recommends a striped RAID array, the lack of which is a potential bottleneck...
+* We can power the camera using VExt (Pin 7 on the Hirose HR25 connector, 8-30VDC) (p. 28) and direct connection to the vehicle's power supply (typically 12-14VDC).
+
+Created a new ladybug3camera project using camera1394stereo as a base, with intent to 1) elminate unwanted "stereo" features; and 2) add the necessary Ladybug3-specific features (like Mode 7)
+
+Add include directories for Ladybug SDK
+
+Investigated whether registers can be written more directly than with the ros::service call..  In this investigation, noted that the camera1394stereo package was authored in 2011 while the ros::service calls for setting registers was not added until mid-2014.
+
+OBDII:
+Looked into possible cause of OBDII issues.
+From Linux man pages for read():
+  RETURN VALUE         top
+
+       On success, the number of bytes read is returned (zero indicates end
+       of file), and the file position is advanced by this number.  It is
+       not an error if this number is smaller than the number of bytes
+       requested; this may happen for example because fewer bytes are
+       actually available right now (maybe because we were close to end-of-
+       file, or because we are reading from a pipe, or from a terminal), or
+       because read() was interrupted by a signal.  See also NOTES.
+
+If there's ever a situation where the bytes available is smaller than the an_decoder packet size, could result in data left over from previous read.  TODO: Check this when on site: add a trigger for byte size less than total packet size.
+
+Billable hours: 6.5
