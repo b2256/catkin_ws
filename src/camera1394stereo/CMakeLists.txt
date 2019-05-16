@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(camera1394stereo)
 
-find_package(catkin REQUIRED COMPONENTS 
-	camera_info_manager 
-	driver_base 
-	dynamic_reconfigure 
-	image_transport 
-	nodelet 
+find_package(catkin REQUIRED COMPONENTS
+	camera_info_manager
+	driver_base
+	dynamic_reconfigure
+	image_transport
+	nodelet
 	roscpp
 	rospy
 	tf)
@@ -37,7 +37,7 @@ catkin_package(
 include_directories(cfg/cpp ${catkin_INCLUDE_DIRS})
 
 # common source files for both node and nodelet driver interfaces
-set(DRIVER_SOURCES 
+set(DRIVER_SOURCES
   src/nodes/driver1394stereo.cpp
   src/nodes/dev_camera1394stereo.cpp
   src/nodes/featuresstereo.cpp
@@ -54,13 +54,13 @@ endif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 
 
 add_executable(camera1394stereo_node src/nodes/camera1394stereo_node.cpp ${DRIVER_SOURCES})
-add_dependencies(camera1394stereo_node camera1394stereo_gencfg) 
-add_dependencies(camera1394stereo_node camera1394stereo_EXPORTED_TARGETS) 
+add_dependencies(camera1394stereo_node camera1394stereo_gencfg)
+add_dependencies(camera1394stereo_node camera1394stereo_EXPORTED_TARGETS)
 target_link_libraries(camera1394stereo_node ${DC1394} ${catkin_LIBRARIES})
 
 add_library(camera1394stereo_nodelet src/nodes/nodelet.cpp ${DRIVER_SOURCES})
-add_dependencies(camera1394stereo_nodelet camera1394stereo_gencfg) 
-add_dependencies(camera1394stereo_nodelet camera1394stereo_EXPORTED_TARGETS) 
+add_dependencies(camera1394stereo_nodelet camera1394stereo_gencfg)
+add_dependencies(camera1394stereo_nodelet camera1394stereo_EXPORTED_TARGETS)
 target_link_libraries(camera1394stereo_nodelet ${DC1394} ${catkin_LIBRARIES})
 
 ## Mark executables and/or libraries for installation
@@ -84,5 +84,6 @@ install(FILES
   launch/nodelet_manager.launch
   launch/nodelet_standalone.launch
   launch/nodelet_pipeline.launch
+  camera1394stereo_nodelet.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
