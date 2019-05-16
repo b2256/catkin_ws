@@ -414,3 +414,28 @@ From Linux man pages for read():
 If there's ever a situation where the bytes available is smaller than the an_decoder packet size, could result in data left over from previous read.  TODO: Check this when on site: add a trigger for byte size less than total packet size.
 
 Billable hours: 6.5
+
+== 2019-05-16 ==
+
+Pivoting back to image pipeline, with intent to find out in the new camera1394-based "ladybug3camera3camera3camera" package, the code where the data is actually pulled from the 1394 into the buffer.  From there, we'll look at jpeg decompression.  Also continuing to explore the LadybugSDK; still have not found any linkable libraries -- where are they?
+
+Libraries are here:
+	./usr/lib/ladybug/libladybug.so.1.16.3.48
+	./usr/lib/ladybug/libladybug.so.1
+	./usr/lib/ladybug/libladybug.so
+
+Incision point for JPEG decompression found driver1394stereo.cpp:296 just prior to publication.
+
+Need rosbridge for image publication per https://answers.ros.org/question/99831/publish-file-to-image-topic/
+
+  sudo apt install ros-kinetic-rosbridge-*
+
+I want to be able to see the realtime image with image_view as this will be important for testing/debugging.
+
+Investigated the camera1394stereo_nodelet.xml, which seems to elicit problems at runtime.  Why is this necessary, and is it still necessary in Kinetic?  It's necessary to run the node as a nodelet, which "designed to provide a way to run multiple algorithms in the same process with zero copy transport between algorithms" (http://wiki.ros.org/nodelet).  Looks like it's not being installed.  Added to CMakeLists.txt, to install in the install/share directory.
+
+ladybug3camera now launches, emitting the expected error opening port, since no camera is connected in the current environment.
+
+Changed topic names from 'stereo_camera' to 'ladybug3_camera' - leaving the underscore deliberately for string/context disambiguation.
+
+
