@@ -87,7 +87,7 @@ void Ladybug3CameraNodelet::onInit()
 {
   ros::NodeHandle priv_nh(getPrivateNodeHandle());
   ros::NodeHandle node(getNodeHandle());
-  ros::NodeHandle camera_nh(node, "stereo_camera");
+  ros::NodeHandle camera_nh(node, "ladybug3_camera");
   dvr_.reset(new ladybug3camera_driver::Ladybug3CameraDriver(priv_nh, camera_nh));
   dvr_->setup();
 

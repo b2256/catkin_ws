@@ -79,10 +79,11 @@ install(DIRECTORY src/nodes
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
-  launch/stereo_camera_full.launch
-  launch/stereo_camera.launch
+  launch/ladybug3camera_full.launch
+  launch/ladybug3camera.launch
   launch/nodelet_manager.launch
   launch/nodelet_standalone.launch
   launch/nodelet_pipeline.launch
+  ladybug3camera_nodelet.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

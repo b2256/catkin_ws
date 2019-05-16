@@ -35,7 +35,7 @@ Changelog for package ladybug3camera
 * Minor fixes in output messages.
 * Fixed name bug in nodelet class.
 * Fixed camera_info_manager:: namespace warning for Electric.
-* Publishing namespace changed to stereo_camera in nodelet.cpp
+* Publishing namespace changed to ladybug3_camera in nodelet.cpp
 * Added launch files to test nodelet version
 * Fixed white space typo
 * Fixed color coding parameter name in launch files

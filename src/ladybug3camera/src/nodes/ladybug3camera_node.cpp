@@ -103,7 +103,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "ladybug3camera_node");
   ros::NodeHandle node;
   ros::NodeHandle priv_nh("~");
-  ros::NodeHandle camera_nh("stereo_camera");
+  ros::NodeHandle camera_nh("ladybug3_camera");
   signal(SIGSEGV, &sigsegv_handler);
   ladybug3camera_driver::Ladybug3CameraDriver dvr(priv_nh, camera_nh);
 

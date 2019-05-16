@@ -56,14 +56,14 @@ pipeline similar to the other ROS camera drivers.
 
 @par Advertises
 
- - @b stereo_camera/left/image_raw topic (sensor_msgs/Image) raw 2D camera images
+ - @b ladybug3_camera/left/image_raw topic (sensor_msgs/Image) raw 2D camera images
 
- - @b stereo_camera/right/image_raw topic (sensor_msgs/Image) raw 2D camera images
+ - @b ladybug3_camera/right/image_raw topic (sensor_msgs/Image) raw 2D camera images
 
- - @b stereo_camera/left/camera_info topic (sensor_msgs/CameraInfo) Calibration
+ - @b ladybug3_camera/left/camera_info topic (sensor_msgs/CameraInfo) Calibration
       information for each image.
 
- - @b stereo_camera/right/camera_info topic (sensor_msgs/CameraInfo) Calibration
+ - @b ladybug3_camera/right/camera_info topic (sensor_msgs/CameraInfo) Calibration
       information for each image.
 
 
@@ -85,7 +85,7 @@ namespace ladybug3camera_driver
     reconfiguring_(false),
     priv_nh_(priv_nh),
     camera_nh_(camera_nh),
-    camera_name_("stereo_camera"),
+    camera_name_("ladybug3_camera"),
     dev_(new ladybug3camera::Ladybug3Camera()),
     srv_(priv_nh),
     cycle_(1.0),                        // slow poll when closed

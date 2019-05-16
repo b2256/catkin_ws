@@ -1,8 +1,8 @@
 <launch>
 
-  <node pkg="nodelet" type="nodelet" name="camera1394_nodelet"
+  <node pkg="nodelet" type="nodelet" name="ladybug3camera_nodelet"
         args="standalone ladybug3camera/driver" >
-    <param name="video_mode" value="format7_mode3" />
+    <param name="video_mode" value="format7_mode7" />
     <param name="format7_color_coding" value="raw16" />
     <param name="bayer_pattern" value="grbg" />
     <param name="bayer_method" value="Simple" />
