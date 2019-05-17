@@ -438,4 +438,6 @@ ladybug3camera now launches, emitting the expected error opening port, since no 
 
 Changed topic names from 'stereo_camera' to 'ladybug3_camera' - leaving the underscore deliberately for string/context disambiguation.
 
+Note on Ladybug3 image pipeline philosophy: the camera firmware relies on image compression to overcome the bottleneck of the 1394b 800Mbps interface.  This, however, imposes a slight processing burden on the software running on the host to then decompress these images for display.  It will prove desirable to monitor unstitched images as part of the pipeline for realtime monitoring of the system (i.e. is it running and recording data?).
+
 
