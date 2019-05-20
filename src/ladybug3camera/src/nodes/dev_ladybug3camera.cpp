@@ -153,14 +153,16 @@ bool Ladybug3Camera::findBayerMethod(const char* method)
 
 bool Ladybug3Camera::findStereoMethod(const char* method)
 {
-  bool doStereo = true;
+  bool doStereo = false;
   if (0 == strcmp(method, "Interlaced"))
     {
       stereoMethod_ = DC1394_STEREO_METHOD_INTERLACED;
+      doStereo = true;
     }
   else if (0 == strcmp(method, "Field"))
     {
       stereoMethod_ = DC1394_STEREO_METHOD_FIELD;
+      doStereo = true;
     }
   else
     {
