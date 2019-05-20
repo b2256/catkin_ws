@@ -458,6 +458,24 @@ Onsite, ran through camera connectivity checks.  Verified operational under Wind
 
 Attempted to run virtualization of PCI from host; not worth the effor, per https://www.virtualbox.org/manual/ch09.html#pcipassthrough.  Would need to install full ROS stack on host.  Abandoning this effort for now.
 
+Looking into compressed_image_transport.
 
+13:00 Contiued in ladybug3camera pipeline changing over image publication to compressed image publication.
+
+
+
+Began down path of changing:
+sensor_msgs::Image& ---> sensor_msgs::CompressedImage&
+sensor_msgs::ImagePtr() ---> sensor_msgs::CompressedImagePtr()
+image_transport::ImageTransport --> compressed_image_transport::CompressedPublisher
+
+Also had to comment out references to image.width and image.height since CompressedImage lacks these (impossible to know without decompressing the image).
+
+Came across the exact unanswered problem designated here:
+http://ros-users.122217.n3.nabble.com/Publishing-jpeg-images-directly-from-a-webcam-td3018614.html
+The real challenges seem to begin when it comes to publishing the compressed image: from http://wiki.ros.org/image_transport/Tutorials/WritingNewTransport
+Looks like a ROS hack...  "Why this indirection? It turns out that in ROS there are two distinct ways to publish messages to a subscriber. The normal way is to broadcast a message to all subscribers; the other way, seldom used, is to publish a message to a single subscriber within a subscriber status callback. SimplePublisherPlugin performs some tricky plumbing to use our implementation of publish() in both cases."
+
+Not sure how far we want to go down this path as it's nonstandard -- words like "to a single publisher" make me very nervous as that's a clue to a deviation from standard ROS behavior -- but will continue investigating.
 
 
