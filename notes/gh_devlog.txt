@@ -440,4 +440,24 @@ Changed topic names from 'stereo_camera' to 'ladybug3_camera' - leaving the unde
 
 Note on Ladybug3 image pipeline philosophy: the camera firmware relies on image compression to overcome the bottleneck of the 1394b 800Mbps interface.  This, however, imposes a slight processing burden on the software running on the host to then decompress these images for display.  It will prove desirable to monitor unstitched images as part of the pipeline for realtime monitoring of the system (i.e. is it running and recording data?).
 
+Billable hours:
+2.5
+
+== 2019-05-17 ==
+
+Investigated and added mono support for the ladybug3camera nodes.
+
+Billable hours:
+0.25
+
+== 2019-05-20 ==
+
+Onsite, ran through camera connectivity checks.  Verified operational under Windows; found we were using wrong PCIe slot.  Attempting to run LadyBugRecorderConsole on Linux failed.  Attempting to get ladybug3camera ros nodelet running as this will afford a finer grain of control over the camera registers.
+
+10:43 a.m.: Achieved output from camera.  It is not correct image data, but this is expected as the image data is in JPEG format.  We will need to extract the JPEG...  Want to see if I can run camera directly from my development system...
+
+Attempted to run virtualization of PCI from host; not worth the effor, per https://www.virtualbox.org/manual/ch09.html#pcipassthrough.  Would need to install full ROS stack on host.  Abandoning this effort for now.
+
+
+
 
