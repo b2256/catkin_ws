@@ -211,9 +211,9 @@ namespace ladybug3camera_driver
             sensor_msgs::CompressedImagePtr compressed_image[NUM_CAMERAS];
             for (int i=0; i<NUM_CAMERAS; i++)
               compressed_image[i] = sensor_msgs::CompressedImagePtr(new sensor_msgs::CompressedImage);
-            sensor_msgs::Image image_decompressed[NUM_CAMERAS];
+            sensor_msgs::ImagePtr image_decompressed[NUM_CAMERAS];
             // GPH MARK: This is where we call the read
-            if (read(compressed_image, image_decompressed[0]))
+            if (read(image_decompressed[0]))
               {
                 // GPH MARK: Let's put the decompression of JPG here just
                 // before publish.
@@ -235,7 +235,7 @@ namespace ladybug3camera_driver
                 cv::imdecode(*image[0], cv::IMREAD_COLOR);
 #endif
 
-                publish(&image_decompressed);
+                publish(image_decompressed);
               }
           }
       }
@@ -308,7 +308,7 @@ namespace ladybug3camera_driver
    * @param image points to camera Image message
    * @return true if successful, with image filled in
    */
-  bool Ladybug3CameraDriver::read(sensor_msgs::CompressedImagePtr image[NUM_CAMERAS], sensor_msgs::ImagePtr& out)
+  bool Ladybug3CameraDriver::read(sensor_msgs::ImagePtr out)
   {
     bool success = true;
     try
@@ -317,7 +317,7 @@ namespace ladybug3camera_driver
         ROS_DEBUG_STREAM("[" << camera_name_ << "] reading data");
         // GPH MARK: This is where we read over 1394.
 				// GPH NOTE: "Right" is ignored; will be whacking stereo-related paraphanelia
-        success = dev_->readCompressedData(*(image[LEFT]), *(image[RIGHT]), out);
+        success = dev_->readCompressedData(*out);
         ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
       }
     catch (ladybug3camera::Exception& e)

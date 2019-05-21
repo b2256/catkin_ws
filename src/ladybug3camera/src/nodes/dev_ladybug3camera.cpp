@@ -646,13 +646,8 @@ bool Ladybug3Camera::readData(
 
 // GPH Added
 bool Ladybug3Camera::readCompressedData(
-    sensor_msgs::CompressedImage& image_compressed,
-    sensor_msgs::CompressedImage& image2_compressed,
     sensor_msgs::Image& image)
 {
-  readData(image,
-    image);
-  return true;
   ROS_ASSERT_MSG(camera_, "Attempt to read from camera that is not open.");
 
   dc1394video_frame_t * frame = NULL;
@@ -749,7 +744,8 @@ bool Ladybug3Camera::readCompressedData(
 
   cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
   //sensor_msgs::ImagePtr image = cv_image.toImageMsg();
-  image = cv_image.toImageMsg();
+  sensor_msgs::ImagePtr image_ptr;
+  cv_image.toImageMsg(image);
   image.header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
   image.width = frame->size[0];
   image.height = frame->size[1];
@@ -819,7 +815,7 @@ bool Ladybug3Camera::readCompressedData(
           image.encoding = sensor_msgs::image_encodings::RGB8;
           image.data.resize(image_size);
 #if 0
-          memcpy(&image->data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], capture_buffer, image_size);
 #endif
         }
       break;
@@ -828,23 +824,23 @@ bool Ladybug3Camera::readCompressedData(
       if (DoBayerConversion_)
         {
           // @todo test Bayer conversions for mono16
-          image->step=image->width*3;
-          image_size = image->height*image->step;
-          image->encoding = sensor_msgs::image_encodings::RGB8;
-          image->data.resize(image_size);
+          image.step=image.width*3;
+          image_size = image.height*image.step;
+          image.encoding = sensor_msgs::image_encodings::RGB8;
+          image.data.resize(image_size);
 #if 0
-          memcpy(&image->data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], capture_buffer, image_size);
 #endif
         }
       else
         {
-          image->step=image->width*2;
-          image_size = image->height*image->step;
-          image->encoding = bayer_string(BayerPattern_, 16);
-          image->is_bigendian = false;    // check Bumblebee2 endianness
-          image->data.resize(image_size);
+          image.step=image.width*2;
+          image_size = image.height*image.step;
+          image.encoding = bayer_string(BayerPattern_, 16);
+          image.is_bigendian = false;    // check Bumblebee2 endianness
+          image.data.resize(image_size);
 #if 0
-          memcpy(&image->data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], capture_buffer, image_size);
 #endif
         }
       break;

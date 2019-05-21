@@ -78,9 +78,7 @@ namespace ladybug3camera
     int open(ladybug3camera::Ladybug3CameraConfig &newconfig);
     int close();
     bool readData (sensor_msgs::Image &image, sensor_msgs::Image &image2);
-    bool readCompressedData (sensor_msgs::CompressedImage &image_compressed,
-			sensor_msgs::CompressedImage &image_compressed2,
-			sensor_msgs::Image& image);
+    bool readCompressedData (sensor_msgs::Image& image);
 
     /** check whether CameraInfo matches current video mode
      *
