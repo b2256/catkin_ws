@@ -744,7 +744,6 @@ bool Ladybug3Camera::readCompressedData(
 
   ROS_ASSERT(capture_buffer);
 
-  // GPH: Do compression here
 	cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
   //sensor_msgs::ImagePtr image = cv_image.toImageMsg();
   image = cv_image.toImageMsg();
@@ -760,34 +759,42 @@ bool Ladybug3Camera::readCompressedData(
       image_size = image->height*image->step;
       image->encoding = sensor_msgs::image_encodings::RGB8;
       image->data.resize(image_size);
+#if 0
       yuv::uyv2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
                    reinterpret_cast<unsigned char *> (&image->data[0]),
                    image->width * image->height);
+#endif
       break;
     case DC1394_COLOR_CODING_YUV411:
       image->step=image->width*3;
       image_size = image->height*image->step;
       image->encoding = sensor_msgs::image_encodings::RGB8;
       image->data.resize(image_size);
+#if 0
       yuv::uyyvyy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
                       reinterpret_cast<unsigned char *> (&image->data[0]),
                       image->width * image->height);
+#endif
       break;
     case DC1394_COLOR_CODING_YUV422:
       image->step=image->width*3;
       image_size = image->height*image->step;
       image->encoding = sensor_msgs::image_encodings::RGB8;
       image->data.resize(image_size);
+#if 0
       yuv::uyvy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
                     reinterpret_cast<unsigned char *> (&image->data[0]),
                     image->width * image->height);
+#endif
       break;
     case DC1394_COLOR_CODING_RGB8:
       image->step=image->width*3;
       image_size = image->height*image->step;
       image->encoding = sensor_msgs::image_encodings::RGB8;
       image->data.resize(image_size);
+#if 0
       memcpy(&image->data[0], capture_buffer, image_size);
+#endif
       break;
     case DC1394_COLOR_CODING_MONO8:
     case DC1394_COLOR_CODING_RAW8:
@@ -798,7 +805,9 @@ bool Ladybug3Camera::readCompressedData(
           // set Bayer encoding in ROS Image message
           image->encoding = bayer_string(BayerPattern_, 8);
           image->data.resize(image_size);
+#if 0
           memcpy(&image->data[0], capture_buffer, image_size);
+#endif
         }
       else
         {
@@ -806,7 +815,9 @@ bool Ladybug3Camera::readCompressedData(
           image_size = image->height*image->step;
           image->encoding = sensor_msgs::image_encodings::RGB8;
           image->data.resize(image_size);
+#if 0
           memcpy(&image->data[0], capture_buffer, image_size);
+#endif
         }
       break;
     case DC1394_COLOR_CODING_MONO16:
@@ -818,7 +829,9 @@ bool Ladybug3Camera::readCompressedData(
           image_size = image->height*image->step;
           image->encoding = sensor_msgs::image_encodings::RGB8;
           image->data.resize(image_size);
+#if 0
           memcpy(&image->data[0], capture_buffer, image_size);
+#endif
         }
       else
         {
@@ -827,7 +840,9 @@ bool Ladybug3Camera::readCompressedData(
           image->encoding = bayer_string(BayerPattern_, 16);
           image->is_bigendian = false;    // check Bumblebee2 endianness
           image->data.resize(image_size);
+#if 0
           memcpy(&image->data[0], capture_buffer, image_size);
+#endif
         }
       break;
     default:
