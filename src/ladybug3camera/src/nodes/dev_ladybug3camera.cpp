@@ -722,6 +722,21 @@ bool Ladybug3Camera::readCompressedData(
 
   ROS_ASSERT(capture_buffer);
   ROS_ASSERT(frame->image);
+#if 1
+  static int fidx = 0;
+  {
+    FILE *pf;
+    char *fpath = "/home/afl03/catkin_ws/notes/outbig";
+    char buf[256];
+    sprintf(buf, "%s%d", fpath, fidx);
+    fidx++;
+    pf = fopen( buf, "w");
+    if (pf) {
+      fwrite( frame->image, 1, frame->total_bytes, pf);
+      fclose(pf);
+    }
+  }
+#endif
 
   std_msgs::Header header;
 
@@ -737,10 +752,10 @@ bool Ladybug3Camera::readCompressedData(
   image.height = frame->size[1];
 
   ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
-  //char *return_buff = new char[(int) (matImg.total() * 
-  //  matImg.channels())];
+  char *return_buff = new char[(int) (matImg.total() * 
+    matImg.channels())];
 
-  char *return_buff = ( char * ) matImg.ptr(0);
+  //char *return_buff = ( char * ) matImg.ptr(0);
 
   //Mat src; src.create(cv::Size(cols,rows),CV_8UC1);
   //memcpy(matImg.ptr(0), return_buff, 2000); // image.width * image.height);

@@ -1,7 +1,7 @@
 <launch>
 
   <node pkg="ladybug3camera" type="ladybug3camera_node" name="ladybug3camera_node" output="screen" >
-    <param name="video_mode" value="format7_mode2" />
+    <param name="video_mode" value="format7_mode0" />
     <param name="format7_color_coding" value="rgb8" />
     <param name="bayer_pattern" value="grbg" />
     <param name="bayer_method" value="Simple" />
