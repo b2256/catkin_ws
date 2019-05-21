@@ -207,39 +207,18 @@ namespace ladybug3camera_driver
         do_sleep = (state_ == Driver::CLOSED);
         if (!do_sleep)
           {
-            // driver is open, read the next image still holding lock
-            sensor_msgs::CompressedImagePtr compressed_image[NUM_CAMERAS];
-            for (int i=0; i<NUM_CAMERAS; i++)
-              compressed_image[i] = sensor_msgs::CompressedImagePtr(new sensor_msgs::CompressedImage);
             sensor_msgs::ImagePtr image_decompressed[NUM_CAMERAS];
+            for (int i=0; i<NUM_CAMERAS; i++)
+              image_decompressed[i] = sensor_msgs::ImagePtr(new sensor_msgs::Image);
             // GPH MARK: This is where we call the read
             if (read(image_decompressed[0]))
               {
                 // GPH MARK: Let's put the decompression of JPG here just
                 // before publish.
-#if 0
-                // TEMP CODE - in situ compilation test
-                std::vector<int> params;
-                params.resize(3, 0);
-                params[0] = CV_IMWRITE_JPEG_QUALITY;
-                // params[1] = config_.jpeg_quality;
-                std::string targetFormat;
-                targetFormat = "bgr8";
-                //boost::shared_ptr<image[0]> tracked_object;
-                sensor_msgs::CompressedImage compressed;
-
-                boost::shared_ptr<compressed_image_transport::CompressedPublisher> tracked_object;
-                //cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(*image[0], tracked_object, targetFormat);
-                //cv::imencode(".jpg", cv_ptr->image, compressed.data, params);
-                // END TEMP CODE
-                cv::imdecode(*image[0], cv::IMREAD_COLOR);
-#endif
-
                 publish(image_decompressed);
               }
           }
       }
-
     if (do_sleep)
       {
         // device was closed or poll is not running, sleeping avoids
@@ -254,8 +233,9 @@ namespace ladybug3camera_driver
    */
   void Ladybug3CameraDriver::publish(const sensor_msgs::ImagePtr image[NUM_CAMERAS])
   {
-    for (int i=0; i<NUM_CAMERAS; i++)
+    //for (int i=0; i<NUM_CAMERAS; i++)
       {
+        int i = 0;
         image[i]->header.frame_id = config_.frame_id;
 
         // get current CameraInfo data
@@ -317,8 +297,9 @@ namespace ladybug3camera_driver
         ROS_DEBUG_STREAM("[" << camera_name_ << "] reading data");
         // GPH MARK: This is where we read over 1394.
 				// GPH NOTE: "Right" is ignored; will be whacking stereo-related paraphanelia
-        success = dev_->readCompressedData(*out);
-        ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
+        success = dev_->readData(*out,*out);
+        //success = dev_->readCompressedData(*out);
+        //ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
       }
     catch (ladybug3camera::Exception& e)
       {
