@@ -211,7 +211,7 @@ namespace ladybug3camera_driver
             sensor_msgs::CompressedImagePtr compressed_image[NUM_CAMERAS];
             for (int i=0; i<NUM_CAMERAS; i++)
               compressed_image[i] = sensor_msgs::CompressedImagePtr(new sensor_msgs::CompressedImage);
-            sensor_msgs::ImagePtr image_decompressed[NUM_CAMERAS];
+            sensor_msgs::Image image_decompressed[NUM_CAMERAS];
             // GPH MARK: This is where we call the read
             if (read(compressed_image, image_decompressed[0]))
               {
@@ -235,7 +235,7 @@ namespace ladybug3camera_driver
                 cv::imdecode(*image[0], cv::IMREAD_COLOR);
 #endif
 
-                publish(image_decompressed);
+                publish(&image_decompressed);
               }
           }
       }

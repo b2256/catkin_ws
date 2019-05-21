@@ -87,7 +87,7 @@ private:
   void closeCamera();
   bool openCamera(Config &newconfig);
   void publish(const sensor_msgs::ImagePtr image[NUM_CAMERAS]);
-  bool read(sensor_msgs::CompressedImagePtr image[NUM_CAMERAS], sensor_msgs::ImagePtr& out);
+  bool read(sensor_msgs::CompressedImagePtr image[NUM_CAMERAS], sensor_msgs::Image& out);
   void reconfig(ladybug3camera::Ladybug3CameraConfig &newconfig, uint32_t level);
 
   /** Non-recursive mutex for serializing callbacks with device polling. */

@@ -648,8 +648,11 @@ bool Ladybug3Camera::readData(
 bool Ladybug3Camera::readCompressedData(
     sensor_msgs::CompressedImage& image_compressed,
     sensor_msgs::CompressedImage& image2_compressed,
-		sensor_msgs::ImagePtr& image)
+    sensor_msgs::Image& image)
 {
+  readData(image,
+    image);
+  return true;
   ROS_ASSERT_MSG(camera_, "Attempt to read from camera that is not open.");
 
   dc1394video_frame_t * frame = NULL;
@@ -744,77 +747,77 @@ bool Ladybug3Camera::readCompressedData(
 
   ROS_ASSERT(capture_buffer);
 
-	cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
+  cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
   //sensor_msgs::ImagePtr image = cv_image.toImageMsg();
   image = cv_image.toImageMsg();
-  image->header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
-  image->width = frame->size[0];
-  image->height = frame->size[1];
+  image.header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
+  image.width = frame->size[0];
+  image.height = frame->size[1];
 
   int image_size;
   switch (colorCoding_)
     {
     case DC1394_COLOR_CODING_YUV444:
-      image->step=image->width*3;
-      image_size = image->height*image->step;
-      image->encoding = sensor_msgs::image_encodings::RGB8;
-      image->data.resize(image_size);
+      image.step=image.width*3;
+      image_size = image.height*image.step;
+      image.encoding = sensor_msgs::image_encodings::RGB8;
+      image.data.resize(image_size);
 #if 0
       yuv::uyv2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
-                   reinterpret_cast<unsigned char *> (&image->data[0]),
-                   image->width * image->height);
+                   reinterpret_cast<unsigned char *> (&image.data[0]),
+                   image.width * image.height);
 #endif
       break;
     case DC1394_COLOR_CODING_YUV411:
-      image->step=image->width*3;
-      image_size = image->height*image->step;
-      image->encoding = sensor_msgs::image_encodings::RGB8;
-      image->data.resize(image_size);
+      image.step=image.width*3;
+      image_size = image.height*image.step;
+      image.encoding = sensor_msgs::image_encodings::RGB8;
+      image.data.resize(image_size);
 #if 0
       yuv::uyyvyy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
-                      reinterpret_cast<unsigned char *> (&image->data[0]),
-                      image->width * image->height);
+                      reinterpret_cast<unsigned char *> (&image.data[0]),
+                      image.width * image.height);
 #endif
       break;
     case DC1394_COLOR_CODING_YUV422:
-      image->step=image->width*3;
-      image_size = image->height*image->step;
-      image->encoding = sensor_msgs::image_encodings::RGB8;
-      image->data.resize(image_size);
+      image.step=image.width*3;
+      image_size = image.height*image.step;
+      image.encoding = sensor_msgs::image_encodings::RGB8;
+      image.data.resize(image_size);
 #if 0
       yuv::uyvy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
-                    reinterpret_cast<unsigned char *> (&image->data[0]),
-                    image->width * image->height);
+                    reinterpret_cast<unsigned char *> (&image.data[0]),
+                    image.width * image.height);
 #endif
       break;
     case DC1394_COLOR_CODING_RGB8:
-      image->step=image->width*3;
-      image_size = image->height*image->step;
-      image->encoding = sensor_msgs::image_encodings::RGB8;
-      image->data.resize(image_size);
+      image.step=image.width*3;
+      image_size = image.height*image.step;
+      image.encoding = sensor_msgs::image_encodings::RGB8;
+      image.data.resize(image_size);
 #if 0
-      memcpy(&image->data[0], capture_buffer, image_size);
+      memcpy(&image.data[0], capture_buffer, image_size);
 #endif
       break;
     case DC1394_COLOR_CODING_MONO8:
     case DC1394_COLOR_CODING_RAW8:
       if (!DoBayerConversion_)
         {
-          image->step=image->width;
-          image_size = image->height*image->step;
+          image.step=image.width;
+          image_size = image.height*image.step;
           // set Bayer encoding in ROS Image message
-          image->encoding = bayer_string(BayerPattern_, 8);
-          image->data.resize(image_size);
+          image.encoding = bayer_string(BayerPattern_, 8);
+          image.data.resize(image_size);
 #if 0
-          memcpy(&image->data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], capture_buffer, image_size);
 #endif
         }
       else
         {
-          image->step=image->width*3;
-          image_size = image->height*image->step;
-          image->encoding = sensor_msgs::image_encodings::RGB8;
-          image->data.resize(image_size);
+          image.step=image.width*3;
+          image_size = image.height*image.step;
+          image.encoding = sensor_msgs::image_encodings::RGB8;
+          image.data.resize(image_size);
 #if 0
           memcpy(&image->data[0], capture_buffer, image_size);
 #endif
