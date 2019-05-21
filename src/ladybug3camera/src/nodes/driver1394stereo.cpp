@@ -92,7 +92,7 @@ namespace ladybug3camera_driver
     camera_name_("ladybug3_camera"),
     dev_(new ladybug3camera::Ladybug3Camera()),
     srv_(priv_nh),
-    cycle_(1.0),                        // slow poll when closed
+    cycle_(0.2),                        // slow poll when closed
     it_(new image_transport::ImageTransport(camera_nh_))
   {
     for (int i=0; i< NUM_CAMERAS; i++)
@@ -207,11 +207,10 @@ namespace ladybug3camera_driver
         do_sleep = (state_ == Driver::CLOSED);
         if (!do_sleep)
           {
-            sensor_msgs::ImagePtr image_decompressed[NUM_CAMERAS];
-            for (int i=0; i<NUM_CAMERAS; i++)
-              image_decompressed[i] = sensor_msgs::ImagePtr(new sensor_msgs::Image);
+            sensor_msgs::ImagePtr image_decompressed;
+            image_decompressed = sensor_msgs::ImagePtr(new sensor_msgs::Image);
             // GPH MARK: This is where we call the read
-            if (read(image_decompressed[0]))
+            if (read(image_decompressed))
               {
                 // GPH MARK: Let's put the decompression of JPG here just
                 // before publish.
@@ -231,17 +230,15 @@ namespace ladybug3camera_driver
    *
    *  @param image points to latest camera frame
    */
-  void Ladybug3CameraDriver::publish(const sensor_msgs::ImagePtr image[NUM_CAMERAS])
+  void Ladybug3CameraDriver::publish(const sensor_msgs::ImagePtr image)
   {
-    //for (int i=0; i<NUM_CAMERAS; i++)
-      {
-        int i = 0;
-        image[i]->header.frame_id = config_.frame_id;
-
+        image->header.frame_id = config_.frame_id;
+	int i = 0;	// TODO: Whack all stereo-indexed data structures
         // get current CameraInfo data
         sensor_msgs::CameraInfoPtr
           ci(new sensor_msgs::CameraInfo(cinfo_[i]->getCameraInfo()));
 
+#if 0
         // check whether CameraInfo matches current video mode
         if (!dev_->checkCameraInfo(*(image[i]), *ci))
           {
@@ -268,19 +265,23 @@ namespace ladybug3camera_driver
                             << "_" << CameraSelectorString[i]
                             << "] calibration matches video mode now");
           }
+#endif
+
+        ci.reset(new sensor_msgs::CameraInfo());
+        ci->height = image->height;
+        ci->width =  image->width;
 
         // fill in operational parameters
         dev_->setOperationalParameters(*ci);
 
         ci->header.frame_id = config_.frame_id;
-        ci->header.stamp = image[i]->header.stamp;
+        ci->header.stamp = image->header.stamp;
 
         // @todo log a warning if (filtered) time since last published
         // image is not reasonably close to configured frame_rate
 
         // Publish via image_transport
-        image_pub_[i].publish(image[i], ci);
-      }
+        image_pub_[i].publish(image, ci);
   }
 
   /** Read camera data.
@@ -297,8 +298,8 @@ namespace ladybug3camera_driver
         ROS_DEBUG_STREAM("[" << camera_name_ << "] reading data");
         // GPH MARK: This is where we read over 1394.
 				// GPH NOTE: "Right" is ignored; will be whacking stereo-related paraphanelia
-        success = dev_->readData(*out,*out);
-        //success = dev_->readCompressedData(*out);
+        //success = dev_->readData(*out,*out);
+        success = dev_->readCompressedData(*out);
         //ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
       }
     catch (ladybug3camera::Exception& e)

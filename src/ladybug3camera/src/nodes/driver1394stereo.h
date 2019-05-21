@@ -86,7 +86,7 @@ private:
   // private methods
   void closeCamera();
   bool openCamera(Config &newconfig);
-  void publish(const sensor_msgs::ImagePtr image[NUM_CAMERAS]);
+  void publish(const sensor_msgs::ImagePtr image);
   bool read(sensor_msgs::ImagePtr out);
   void reconfig(ladybug3camera::Ladybug3CameraConfig &newconfig, uint32_t level);
 

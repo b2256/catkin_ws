@@ -647,7 +647,6 @@ bool Ladybug3Camera::readData(
 bool Ladybug3Camera::readCompressedData(
     sensor_msgs::Image& image)
 {
-  return true;
   ROS_ASSERT_MSG(camera_, "Attempt to read from camera that is not open.");
 
   dc1394video_frame_t * frame = NULL;
@@ -668,12 +667,13 @@ bool Ladybug3Camera::readCompressedData(
      }
   }
 
+
   dc1394video_frame_t frame1 = *frame;
 
   if (DoStereoExtract_)
     {
       // deinterlace frame into two images one on top the other
-      size_t frame1_size = frame->total_bytes * 4;    // GPH TEMP -- don't know final decompressed size
+      size_t frame1_size = frame->total_bytes;
       frame1.image = (unsigned char *) malloc(frame1_size);
       frame1.allocated_image_bytes = frame1_size;
       switch (frame->color_coding)
@@ -697,9 +697,8 @@ bool Ladybug3Camera::readCompressedData(
         }
     }
 
-  cv::InputArray capture_buffer_compressed = reinterpret_cast<cv::InputArray>(frame1.image);
   uint8_t* capture_buffer = reinterpret_cast<uint8_t *>(frame1.image);
-#if 0
+
   if (DoBayerConversion_)
     {
       // debayer frame into RGB8
@@ -718,37 +717,40 @@ bool Ladybug3Camera::readCompressedData(
           CAM_EXCEPT(ladybug3camera::Exception, "Could not convert/debayer frames");
           return false;
         }
-
-      capture_buffer_compressed = reinterpret_cast<cv::InputArray>(frame2.image);
+      capture_buffer = reinterpret_cast<uint8_t *>(frame2.image);
     }
-#endif
-  // GPH: Decompress
-  cv::Mat out_mat;
-  std_msgs::Header header;
-  header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
-  out_mat = cv::imdecode(capture_buffer_compressed, cv::IMREAD_COLOR);
-#if 0
-	cv_bridge::CvImagePtr cv_ptr = reinterpret_cast<cv_bridge::CvImagePtr> out_mat;
-  try
-	{
-		cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-	}
-	catch (cv_bridge::Exception& e)
-	{
-		ROS_ERROR("cv_bridge exception: %s", e.what());
-		return;
-	}
-#endif
 
   ROS_ASSERT(capture_buffer);
+  ROS_ASSERT(frame->image);
 
-  cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
-  //sensor_msgs::ImagePtr image = cv_image.toImageMsg();
-  sensor_msgs::ImagePtr image_ptr;
+  std_msgs::Header header;
+
+  char *buffer = (char *)frame->image;
+  cv::Mat matImg;
+  matImg = cv::imdecode(cv::Mat(1, frame->total_bytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
+
+  cv_bridge::CvImage cv_image(header, "bgr8", matImg);
   cv_image.toImageMsg(image);
+
   image.header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
   image.width = frame->size[0];
   image.height = frame->size[1];
+
+  ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
+  //char *return_buff = new char[(int) (matImg.total() * 
+  //  matImg.channels())];
+
+  char *return_buff = ( char * ) matImg.ptr(0);
+
+  //Mat src; src.create(cv::Size(cols,rows),CV_8UC1);
+  //memcpy(matImg.ptr(0), return_buff, 2000); // image.width * image.height);
+/*
+  int cols = image.width;
+  int rows = image.height; 
+  for (int i = 0;i < rows; i++) {
+    memcpy(matImg.ptr(i), return_buff+i*cols, cols);
+  } 
+*/
 
   int image_size;
   switch (colorCoding_)
@@ -758,7 +760,7 @@ bool Ladybug3Camera::readCompressedData(
       image_size = image.height*image.step;
       image.encoding = sensor_msgs::image_encodings::RGB8;
       image.data.resize(image_size);
-      yuv::uyv2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+      yuv::uyv2rgb(reinterpret_cast<unsigned char *> (return_buff),
                    reinterpret_cast<unsigned char *> (&image.data[0]),
                    image.width * image.height);
       break;
@@ -767,7 +769,7 @@ bool Ladybug3Camera::readCompressedData(
       image_size = image.height*image.step;
       image.encoding = sensor_msgs::image_encodings::RGB8;
       image.data.resize(image_size);
-      yuv::uyyvyy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+      yuv::uyyvyy2rgb(reinterpret_cast<unsigned char *> (return_buff),
                       reinterpret_cast<unsigned char *> (&image.data[0]),
                       image.width * image.height);
       break;
@@ -776,7 +778,7 @@ bool Ladybug3Camera::readCompressedData(
       image_size = image.height*image.step;
       image.encoding = sensor_msgs::image_encodings::RGB8;
       image.data.resize(image_size);
-      yuv::uyvy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+      yuv::uyvy2rgb(reinterpret_cast<unsigned char *> (return_buff),
                     reinterpret_cast<unsigned char *> (&image.data[0]),
                     image.width * image.height);
       break;
@@ -785,7 +787,7 @@ bool Ladybug3Camera::readCompressedData(
       image_size = image.height*image.step;
       image.encoding = sensor_msgs::image_encodings::RGB8;
       image.data.resize(image_size);
-      memcpy(&image.data[0], capture_buffer, image_size);
+      memcpy(&image.data[0], return_buff, image_size);
       break;
     case DC1394_COLOR_CODING_MONO8:
     case DC1394_COLOR_CODING_RAW8:
@@ -796,7 +798,7 @@ bool Ladybug3Camera::readCompressedData(
           // set Bayer encoding in ROS Image message
           image.encoding = bayer_string(BayerPattern_, 8);
           image.data.resize(image_size);
-          memcpy(&image.data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], return_buff, image_size);
         }
       else
         {
@@ -804,7 +806,7 @@ bool Ladybug3Camera::readCompressedData(
           image_size = image.height*image.step;
           image.encoding = sensor_msgs::image_encodings::RGB8;
           image.data.resize(image_size);
-          memcpy(&image.data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], return_buff, image_size);
         }
       break;
     case DC1394_COLOR_CODING_MONO16:
@@ -816,7 +818,7 @@ bool Ladybug3Camera::readCompressedData(
           image_size = image.height*image.step;
           image.encoding = sensor_msgs::image_encodings::RGB8;
           image.data.resize(image_size);
-          memcpy(&image.data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], return_buff, image_size);
         }
       else
         {
@@ -825,7 +827,7 @@ bool Ladybug3Camera::readCompressedData(
           image.encoding = bayer_string(BayerPattern_, 16);
           image.is_bigendian = false;    // check Bumblebee2 endianness
           image.data.resize(image_size);
-          memcpy(&image.data[0], capture_buffer, image_size);
+          memcpy(&image.data[0], return_buff, image_size);
         }
       break;
     default:
@@ -838,11 +840,9 @@ bool Ladybug3Camera::readCompressedData(
   dc1394_capture_enqueue(camera_, frame);
 
   if (DoStereoExtract_ || DoBayerConversion_)
-    {
+  {
       free(capture_buffer);
-      if (DoStereoExtract_ && DoBayerConversion_)
-         free(frame1.image);
-    }
+  }
   return true;
 }
 
