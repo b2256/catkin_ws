@@ -498,3 +498,9 @@ https://stackoverflow.com/questions/15101281/libjpeg-api-and-reference
 Fixed crash (shared_ptr scoping issue).
 
 More unraveling of the image pipeline challenges.  Achieved what is purported to be decompression of a JPEG.  Images appear, but they are in the wrong places and jump around, indicating the unpacking is starting at the wrong place.
+
+Spending too much time waiting for the console computer in the Jeep.  Limited memory makes it difficult to run a browser and ROS (runs out of memory and segfaults on larger image sizes).  Would be very convenient and more efficient to be able to instrument the console desktop remotely, so spent 1/2 hour investigating remote desktop; set it up with VNC server and tightvnc; found that network security does not permit computers on the guest network to connect to each other.
+
+As a secondary option, wrote out several JPEG frames as binary.  Found that the actual JPEG data starts at byte offset 0x0400 (1024), in modes 0 and 3.
+
+The mode 0 output showed two (two) JPEG headers, and the mode 3 (three) showed 7 in one case and 8 in another.  Was unable to obtain more than one mode 0 frame since further downstream it crashes the whole system (too big? wrong dimensions somewhere?)
