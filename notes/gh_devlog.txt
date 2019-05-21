@@ -471,11 +471,30 @@ image_transport::ImageTransport --> compressed_image_transport::CompressedPublis
 
 Also had to comment out references to image.width and image.height since CompressedImage lacks these (impossible to know without decompressing the image).
 
-Came across the exact unanswered problem designated here:
+Came across the exact unanswered problem described here:
 http://ros-users.122217.n3.nabble.com/Publishing-jpeg-images-directly-from-a-webcam-td3018614.html
 The real challenges seem to begin when it comes to publishing the compressed image: from http://wiki.ros.org/image_transport/Tutorials/WritingNewTransport
 Looks like a ROS hack...  "Why this indirection? It turns out that in ROS there are two distinct ways to publish messages to a subscriber. The normal way is to broadcast a message to all subscribers; the other way, seldom used, is to publish a message to a single subscriber within a subscriber status callback. SimplePublisherPlugin performs some tricky plumbing to use our implementation of publish() in both cases."
 
 Not sure how far we want to go down this path as it's nonstandard -- words like "to a single publisher" make me very nervous as that's a clue to a deviation from standard ROS behavior -- but will continue investigating.
 
+Decided to save off the work and instead look at decompressing the JPEG into standard raw, uncompressed format and shoehorn it into standard image_transport constructs.
 
+Investigated ros-opencv bridge.  Began with attempt to get this code to compile in-situ to validate dependency satisfaction: http://docs.ros.org/jade/api/compressed_image_transport/html/compressed__publisher_8cpp_source.html  ; if we could get it to compress to jpg in situ, we could decompress as well.
+
+There is an element of added complexity owing to the fact that, at the time the above-referenced code was written, OpenCV2 was standard whereas now, the cv:: namespace has become cv2::, with only some select pieces of OpenCV2.
+
+Now, attempting decode.  CV_LOAD_IMAGE_COLOR has been replaced by IMREAD_COLOR.  Dealt with Image vs ImagePtr vs ImagePtr& deferencing issues in the method signatures and calls.
+
+Billable hours:
+9.5
+
+== 2019-05-21 ==
+
+Investigating libjpeg to try to extract the data directly, bypassing opencv altoegher (which uses it).  Using OpenCV elicits an error.
+
+https://stackoverflow.com/questions/15101281/libjpeg-api-and-reference
+
+Fixed crash (shared_ptr scoping issue).
+
+More unraveling of the image pipeline challenges.  Achieved what is purported to be decompression of a JPEG.  Images appear, but they are in the wrong places and jump around, indicating the unpacking is starting at the wrong place.
