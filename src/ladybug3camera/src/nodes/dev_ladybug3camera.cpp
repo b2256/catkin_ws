@@ -739,8 +739,8 @@ bool Ladybug3Camera::readCompressedData(
 #endif
 
   std_msgs::Header header;
-
-  char *buffer = (char *)frame->image;
+#define LADYBUG3_IMOFFS 1024
+  char *buffer = (char *)&frame->image[LADYBUG3_IMOFFS];
   cv::Mat matImg;
   matImg = cv::imdecode(cv::Mat(1, frame->total_bytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
@@ -752,7 +752,7 @@ bool Ladybug3Camera::readCompressedData(
   image.height = frame->size[1];
 
   ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
-  char *return_buff = new char[(int) (matImg.total() * 
+  char *return_buff = new char[(int) (matImg.total() *
     matImg.channels())];
 
   //char *return_buff = ( char * ) matImg.ptr(0);
@@ -761,10 +761,10 @@ bool Ladybug3Camera::readCompressedData(
   //memcpy(matImg.ptr(0), return_buff, 2000); // image.width * image.height);
 /*
   int cols = image.width;
-  int rows = image.height; 
+  int rows = image.height;
   for (int i = 0;i < rows; i++) {
     memcpy(matImg.ptr(i), return_buff+i*cols, cols);
-  } 
+  }
 */
 
   int image_size;
