@@ -35,14 +35,22 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
+#ifndef _DEV_DRIVER1394_H_
+#define _DEV_DRIVER1394_H_
+
 #include <boost/thread/mutex.hpp>
 
 #include <ros/ros.h>
-#include <camera_info_manager/camera_info_manager.h>
+
+//#include <compressed_image_transport/compressed_publisher.h>
+//#include <camera_info_manager/camera_info_manager.h>
+
 #include <driver_base/driver.h>
 #include <dynamic_reconfigure/server.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/CameraInfo.h>
+#include <sensor_msgs/CompressedImage.h>
+#include <camera_info_manager/camera_info_manager.h>
 
 #include "dev_ladybug3camera.h"
 #include "ladybug3camera/Ladybug3CameraConfig.h"
@@ -79,7 +87,7 @@ private:
   void closeCamera();
   bool openCamera(Config &newconfig);
   void publish(const sensor_msgs::ImagePtr image[NUM_CAMERAS]);
-  bool read(sensor_msgs::ImagePtr image[NUM_CAMERAS]);
+  bool read(sensor_msgs::CompressedImagePtr image[NUM_CAMERAS], sensor_msgs::ImagePtr& out);
   void reconfig(ladybug3camera::Ladybug3CameraConfig &newconfig, uint32_t level);
 
   /** Non-recursive mutex for serializing callbacks with device polling. */
@@ -112,3 +120,4 @@ private:
 }; // end class Camera1394Driver
 
 }; // end namespace camera1394_driver
+#endif

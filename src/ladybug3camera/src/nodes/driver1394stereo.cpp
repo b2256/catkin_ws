@@ -34,11 +34,15 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
+//#include <string>
+//#include <sstream>
 #include <boost/format.hpp>
 
 #include <driver_base/SensorLevels.h>
 #include <tf/transform_listener.h>
-
+#include <cv_bridge/cv_bridge.h>
+#include <opencv2/imgcodecs/imgcodecs_c.h>
+#include <opencv2/imgcodecs.hpp>
 #include "driver1394stereo.h"
 #include "ladybug3camera/Ladybug3CameraConfig.h"
 #include "featuresstereo.h"
@@ -204,15 +208,34 @@ namespace ladybug3camera_driver
         if (!do_sleep)
           {
             // driver is open, read the next image still holding lock
-            sensor_msgs::ImagePtr image[NUM_CAMERAS];
+            sensor_msgs::CompressedImagePtr compressed_image[NUM_CAMERAS];
             for (int i=0; i<NUM_CAMERAS; i++)
-              image[i] = sensor_msgs::ImagePtr(new sensor_msgs::Image);
+              compressed_image[i] = sensor_msgs::CompressedImagePtr(new sensor_msgs::CompressedImage);
+            sensor_msgs::ImagePtr image_decompressed[NUM_CAMERAS];
             // GPH MARK: This is where we call the read
-            if (read(image))
+            if (read(compressed_image, image_decompressed[0]))
               {
                 // GPH MARK: Let's put the decompression of JPG here just
                 // before publish.
-                publish(image);
+#if 0
+                // TEMP CODE - in situ compilation test
+                std::vector<int> params;
+                params.resize(3, 0);
+                params[0] = CV_IMWRITE_JPEG_QUALITY;
+                // params[1] = config_.jpeg_quality;
+                std::string targetFormat;
+                targetFormat = "bgr8";
+                //boost::shared_ptr<image[0]> tracked_object;
+                sensor_msgs::CompressedImage compressed;
+
+                boost::shared_ptr<compressed_image_transport::CompressedPublisher> tracked_object;
+                //cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(*image[0], tracked_object, targetFormat);
+                //cv::imencode(".jpg", cv_ptr->image, compressed.data, params);
+                // END TEMP CODE
+                cv::imdecode(*image[0], cv::IMREAD_COLOR);
+#endif
+
+                publish(image_decompressed);
               }
           }
       }
@@ -285,7 +308,7 @@ namespace ladybug3camera_driver
    * @param image points to camera Image message
    * @return true if successful, with image filled in
    */
-  bool Ladybug3CameraDriver::read(sensor_msgs::ImagePtr image[NUM_CAMERAS])
+  bool Ladybug3CameraDriver::read(sensor_msgs::CompressedImagePtr image[NUM_CAMERAS], sensor_msgs::ImagePtr& out)
   {
     bool success = true;
     try
@@ -293,7 +316,8 @@ namespace ladybug3camera_driver
         // Read data from the Camera
         ROS_DEBUG_STREAM("[" << camera_name_ << "] reading data");
         // GPH MARK: This is where we read over 1394.
-        success = dev_->readData(*(image[LEFT]), *(image[RIGHT]));
+				// GPH NOTE: "Right" is ignored; will be whacking stereo-related paraphanelia
+        success = dev_->readCompressedData(*(image[LEFT]), *(image[RIGHT]), out);
         ROS_DEBUG_STREAM("[" << camera_name_ << "] read returned");
       }
     catch (ladybug3camera::Exception& e)

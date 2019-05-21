@@ -46,7 +46,10 @@
 
 // ROS includes
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/CompressedImage.h>
 #include <sensor_msgs/CameraInfo.h>
+//#include <compressed_image_transport/compression_common.h>
+
 #include "ladybug3camera/Ladybug3CameraConfig.h"
 #include "format7.h"
 
@@ -75,6 +78,9 @@ namespace ladybug3camera
     int open(ladybug3camera::Ladybug3CameraConfig &newconfig);
     int close();
     bool readData (sensor_msgs::Image &image, sensor_msgs::Image &image2);
+    bool readCompressedData (sensor_msgs::CompressedImage &image_compressed,
+			sensor_msgs::CompressedImage &image_compressed2,
+			sensor_msgs::ImagePtr& image);
 
     /** check whether CameraInfo matches current video mode
      *

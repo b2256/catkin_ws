@@ -9,7 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
 	nodelet
 	roscpp
 	rospy
-	tf)
+	tf
+  cv_bridge)
 
 # This driver uses Boost threads
 find_package(Boost REQUIRED COMPONENTS thread)

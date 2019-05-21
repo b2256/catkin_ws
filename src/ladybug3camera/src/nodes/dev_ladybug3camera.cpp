@@ -52,6 +52,10 @@
 
 #include "yuv.h"
 #include <sensor_msgs/image_encodings.h>
+//#include <opencv2/imgcodecs/imgcodecs_c.h>
+#include <opencv2/imgcodecs.hpp>
+#include <cv_bridge/cv_bridge.h>
+
 #include "dev_ladybug3camera.h"
 #include "featuresstereo.h"
 #include "modes.h"
@@ -639,3 +643,208 @@ bool Ladybug3Camera::readData(
     }
   return true;
 }
+
+// GPH Added
+bool Ladybug3Camera::readCompressedData(
+    sensor_msgs::CompressedImage& image_compressed,
+    sensor_msgs::CompressedImage& image2_compressed,
+		sensor_msgs::ImagePtr& image)
+{
+  ROS_ASSERT_MSG(camera_, "Attempt to read from camera that is not open.");
+
+  dc1394video_frame_t * frame = NULL;
+  if (features_->isTriggerPowered())
+  {
+    ROS_DEBUG("[%016lx] polling camera", camera_->guid);
+    dc1394_capture_dequeue (camera_, DC1394_CAPTURE_POLICY_POLL, &frame);
+    if (!frame) return false;
+  }
+  else
+  {
+    ROS_DEBUG("[%016lx] waiting camera", camera_->guid);
+    dc1394_capture_dequeue (camera_, DC1394_CAPTURE_POLICY_WAIT, &frame);
+    if (!frame)
+    {
+      CAM_EXCEPT(ladybug3camera::Exception, "Unable to capture frame");
+      return false;
+     }
+  }
+
+  dc1394video_frame_t frame1 = *frame;
+
+  if (DoStereoExtract_)
+    {
+      // deinterlace frame into two images one on top the other
+      size_t frame1_size = frame->total_bytes * 4;    // GPH TEMP -- don't know final decompressed size
+      frame1.image = (unsigned char *) malloc(frame1_size);
+      frame1.allocated_image_bytes = frame1_size;
+      switch (frame->color_coding)
+        {
+        case DC1394_COLOR_CODING_MONO16:
+          frame1.color_coding = DC1394_COLOR_CODING_MONO8;
+          break;
+        case DC1394_COLOR_CODING_RAW16:
+          frame1.color_coding = DC1394_COLOR_CODING_RAW8;
+          break;
+        default:
+          ROS_WARN("Stereo extract in a non 16bit video mode");
+        };
+        int err = dc1394_deinterlace_stereo_frames(frame, &frame1, stereoMethod_);
+        if (err != DC1394_SUCCESS)
+        {
+          free(frame1.image);
+          dc1394_capture_enqueue(camera_, frame);
+          CAM_EXCEPT(ladybug3camera::Exception, "Could not extract stereo frames");
+          return false;
+        }
+    }
+
+  cv::InputArray capture_buffer_compressed = reinterpret_cast<cv::InputArray>(frame1.image);
+  uint8_t* capture_buffer = reinterpret_cast<uint8_t *>(frame1.image);
+#if 0
+  if (DoBayerConversion_)
+    {
+      // debayer frame into RGB8
+      dc1394video_frame_t frame2;
+      size_t frame2_size = (frame1.size[0] * frame1.size[1]
+                            * 3 * sizeof(unsigned char));
+      frame2.image = (unsigned char *) malloc(frame2_size);
+      frame2.allocated_image_bytes = frame2_size;
+      frame2.color_coding = DC1394_COLOR_CODING_RGB8;
+      frame1.color_filter = BayerPattern_;
+      int err = dc1394_debayer_frames(&frame1, &frame2, BayerMethod_);
+      if (err != DC1394_SUCCESS)
+        {
+          free(frame2.image);
+          dc1394_capture_enqueue(camera_, frame);
+          CAM_EXCEPT(ladybug3camera::Exception, "Could not convert/debayer frames");
+          return false;
+        }
+
+      capture_buffer_compressed = reinterpret_cast<cv::InputArray>(frame2.image);
+    }
+#endif
+  // GPH: Decompress
+  cv::Mat out_mat;
+  std_msgs::Header header;
+  header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
+  out_mat = cv::imdecode(capture_buffer_compressed, cv::IMREAD_COLOR);
+#if 0
+	cv_bridge::CvImagePtr cv_ptr = reinterpret_cast<cv_bridge::CvImagePtr> out_mat;
+  try
+	{
+		cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+	}
+	catch (cv_bridge::Exception& e)
+	{
+		ROS_ERROR("cv_bridge exception: %s", e.what());
+		return;
+	}
+#endif
+
+  ROS_ASSERT(capture_buffer);
+
+  // GPH: Do compression here
+	cv_bridge::CvImage cv_image(header, "bgr8", out_mat);
+  //sensor_msgs::ImagePtr image = cv_image.toImageMsg();
+  image = cv_image.toImageMsg();
+  image->header.stamp = ros::Time( double(frame->timestamp) * 1.e-6 );
+  image->width = frame->size[0];
+  image->height = frame->size[1];
+
+  int image_size;
+  switch (colorCoding_)
+    {
+    case DC1394_COLOR_CODING_YUV444:
+      image->step=image->width*3;
+      image_size = image->height*image->step;
+      image->encoding = sensor_msgs::image_encodings::RGB8;
+      image->data.resize(image_size);
+      yuv::uyv2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+                   reinterpret_cast<unsigned char *> (&image->data[0]),
+                   image->width * image->height);
+      break;
+    case DC1394_COLOR_CODING_YUV411:
+      image->step=image->width*3;
+      image_size = image->height*image->step;
+      image->encoding = sensor_msgs::image_encodings::RGB8;
+      image->data.resize(image_size);
+      yuv::uyyvyy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+                      reinterpret_cast<unsigned char *> (&image->data[0]),
+                      image->width * image->height);
+      break;
+    case DC1394_COLOR_CODING_YUV422:
+      image->step=image->width*3;
+      image_size = image->height*image->step;
+      image->encoding = sensor_msgs::image_encodings::RGB8;
+      image->data.resize(image_size);
+      yuv::uyvy2rgb(reinterpret_cast<unsigned char *> (capture_buffer),
+                    reinterpret_cast<unsigned char *> (&image->data[0]),
+                    image->width * image->height);
+      break;
+    case DC1394_COLOR_CODING_RGB8:
+      image->step=image->width*3;
+      image_size = image->height*image->step;
+      image->encoding = sensor_msgs::image_encodings::RGB8;
+      image->data.resize(image_size);
+      memcpy(&image->data[0], capture_buffer, image_size);
+      break;
+    case DC1394_COLOR_CODING_MONO8:
+    case DC1394_COLOR_CODING_RAW8:
+      if (!DoBayerConversion_)
+        {
+          image->step=image->width;
+          image_size = image->height*image->step;
+          // set Bayer encoding in ROS Image message
+          image->encoding = bayer_string(BayerPattern_, 8);
+          image->data.resize(image_size);
+          memcpy(&image->data[0], capture_buffer, image_size);
+        }
+      else
+        {
+          image->step=image->width*3;
+          image_size = image->height*image->step;
+          image->encoding = sensor_msgs::image_encodings::RGB8;
+          image->data.resize(image_size);
+          memcpy(&image->data[0], capture_buffer, image_size);
+        }
+      break;
+    case DC1394_COLOR_CODING_MONO16:
+    case DC1394_COLOR_CODING_RAW16:
+      if (DoBayerConversion_)
+        {
+          // @todo test Bayer conversions for mono16
+          image->step=image->width*3;
+          image_size = image->height*image->step;
+          image->encoding = sensor_msgs::image_encodings::RGB8;
+          image->data.resize(image_size);
+          memcpy(&image->data[0], capture_buffer, image_size);
+        }
+      else
+        {
+          image->step=image->width*2;
+          image_size = image->height*image->step;
+          image->encoding = bayer_string(BayerPattern_, 16);
+          image->is_bigendian = false;    // check Bumblebee2 endianness
+          image->data.resize(image_size);
+          memcpy(&image->data[0], capture_buffer, image_size);
+        }
+      break;
+    default:
+        {
+          CAM_EXCEPT(ladybug3camera::Exception, "Unknown image mode and coding");
+          return false;
+        }
+    }
+
+  dc1394_capture_enqueue(camera_, frame);
+
+  if (DoStereoExtract_ || DoBayerConversion_)
+    {
+      free(capture_buffer);
+      if (DoStereoExtract_ && DoBayerConversion_)
+         free(frame1.image);
+    }
+  return true;
+}
+
