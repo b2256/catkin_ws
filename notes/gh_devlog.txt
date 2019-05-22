@@ -541,4 +541,24 @@ Dependencies:
   sudo apt install libpcl-apps1.7
   sudo apt install libarmadillo-dev
 
+From autoware, extracted pointgrey package and imported into our own repository.  Note, it uses Apache2 license (free, as-is, must include license notice).
 
+Successfully ran autoware pointgrey ladybug with output from all six lenses, including a consolidated output of all six.
+
+Launch file for autoware pointgrey ladybug offers a scale parameter; need to attpet to publish at 100% scale.
+
+Running at full scale yields a sluggish and choppy image.  They are doing stitching in-situ; CPU cconsistently 125-140% (two CPUs).  Removing (in pointgray/nodes/ladybug/ladybug.cpp) the calls to cv:resize() and cv::hconcat() reduced CPU usage to a consistent range of 117-119%.
+
+autoware's driver was set to poll at 10Hz.  Experimenting with 16Hz (per LadybugTechnical Reference).  CPU usage (again, with cv::resize() and cv::hconcat() still disabled) not appreciably changed.
+
+Testing whether decreasing the polling rate decreases the delay.  At present, we are seeing a seven-second delay at 16Hz.  This made it worse, with delay jumping from 7 seconds to 12.  Possible indicator the bottleneck is upstream (i.e. toward the camera).
+
+Dropping scale and jpeg quality way down helps framerate markedly.  Noted that scale does not seem to "take" each time.  However, raising it back to 80% and still performance is good, though before it was poor.  Does not make sense; investigating...
+
+The good frame rate is tied to the call to cv::resize -- even if SCALE param is 100%.
+
+Parameterized camera's JPEG quality as jpeg_quality; parameterized polling_rate ceiling.
+
+Measured collection data rate.  If six camera images are published, one from each Ladybug lens, the data rate works out to about 530MB/min.  With 400GB of storage, that allows for ~750 minutes of recording, or 12.5 hours.
+
+Created bag files and copied to external drive; attempting to check them into git induced aberrant behavior, probably owing to the extreme size of these files.
