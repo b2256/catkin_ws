@@ -31,8 +31,7 @@ LadybugDataFormat m_dataFormat;
 //camera config settings
 float m_frameRate;
 bool m_isFrameRateAuto;
-int m_jpegQualityPercentage;
-int m_pollingRate; // GPH added - FPS.  Note, cannot exceed what camera can produce.
+unsigned int m_jpegQualityPercentage;
 
 ros::Publisher pub[LADYBUG_NUM_CAMERAS + 1];
 
@@ -284,33 +283,6 @@ int main (int argc, char **argv)
 	m_isFrameRateAuto = true;
 	m_jpegQualityPercentage = 80;
 
-  // GPH Added: parameterized jpeg quality; must be set
-  // prior to start_camera()
-	if (private_nh.getParam("jpeg_quality", m_jpegQualityPercentage) && m_jpegQualityPercentage>0 && m_jpegQualityPercentage<100)
-	{
-		ROS_INFO("Ladybug JPEG Quality > %i%%", m_jpegQualityPercentage);
-	}
-	else
-	{
-		ROS_INFO("Ladybug JPEG quality must be (0,100]. Defaulting to 80 ");
-    m_jpegQualityPercentage=80;
-	}
-
-  // GPH Added: parameterized polling rate.
-  // Note, if rate is too high it will be upper-bound
-  // by camera throughput...
-	if (private_nh.getParam("polling_rate", m_pollingRate) && m_pollingRate>0 && m_pollingRate<100)
-	{
-		ROS_INFO("Polling rate up to %i FPS (camera-bound)", m_pollingRate);
-	}
-	else
-	{
-    m_pollingRate=80;
-		ROS_INFO("POlling rate: defaulting to %i per second", m_pollingRate);
-	}
-
-
-
 	// Initialize ladybug camera
 	const LadybugError grabberInitError = init_camera();
 	if (LADYBUG_OK != init_camera())
@@ -364,7 +336,7 @@ int main (int argc, char **argv)
 	//////////////////
 
 	//start camera
-	ros::Rate loop_rate(m_pollingRate);
+	ros::Rate loop_rate(15);
 	long int count = 0;
 	while (running_ && ros::ok())
 	{
@@ -381,8 +353,6 @@ int main (int argc, char **argv)
 		//receive Bayer Image, convert to Color 3 channels
 		cv::Size size(currentImage.uiFullCols, currentImage.uiFullRows);
 
-    //ROS_INFO_STREAM("Dimensions:" << currentImage.uiFullCols << " " << currentImage.uiFullRows);
-
 		cv::Mat full_size;
 		for(size_t i =0;i<LADYBUG_NUM_CAMERAS; i++)
 		{
@@ -392,6 +362,7 @@ int main (int argc, char **argv)
 			cv::Mat image(size, CV_8UC3);
 			cv::cvtColor(rawImage, image, cv::COLOR_BayerBG2RGB);
 			cv::resize(image,image,cv::Size(size.width*image_scale/100, size.height*image_scale/100));
+			//
 			cv::transpose(image, image);
 			//cv::flip(image, image, 1);
 
@@ -403,6 +374,7 @@ int main (int argc, char **argv)
 			unlock_image(currentImage.uiBufferIndex);
 
 			publishImage(image, pub[LADYBUG_NUM_CAMERAS - i], count, LADYBUG_NUM_CAMERAS - i);
+
 		}
 		//publish stitched one
 		publishImage(full_size, pub[0], count, LADYBUG_NUM_CAMERAS);
