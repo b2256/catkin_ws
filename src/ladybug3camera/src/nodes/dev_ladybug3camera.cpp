@@ -722,11 +722,11 @@ bool Ladybug3Camera::readCompressedData(
 
   ROS_ASSERT(capture_buffer);
   ROS_ASSERT(frame->image);
-#if 1
+#if 0
   static int fidx = 0;
   {
     FILE *pf;
-    char *fpath = "/home/afl03/catkin_ws/notes/outbig";
+    char *fpath = "/home/afl03/catkin_ws/notes/outseven";
     char buf[256];
     sprintf(buf, "%s%d", fpath, fidx);
     fidx++;
