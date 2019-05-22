@@ -504,3 +504,41 @@ Spending too much time waiting for the console computer in the Jeep.  Limited me
 As a secondary option, wrote out several JPEG frames as binary.  Found that the actual JPEG data starts at byte offset 0x0400 (1024), in modes 0 and 3.
 
 The mode 0 output showed two (two) JPEG headers, and the mode 3 (three) showed 7 in one case and 8 in another.  Was unable to obtain more than one mode 0 frame since further downstream it crashes the whole system (too big? wrong dimensions somewhere?)
+
+Two mode 7 files featured 11 and 10 JPEG headers.  The nature of the data in the file changes abruptly at 0x2f9a50 and 0x2f9730 respectively, indicating a transition from compressed imagery (JPEG) to exif, lens intrinsics, and other data.  The imagery component comprises a small minority of the data of each frame.
+
+In summary, it's clear that the Ladybug frame output is highly proprietary.
+
+We will be looking more deeply into the SDK and the autoware Ladybug implementations.  Autoware will require newer hardware: they recommend at least 8 cores, 32GB RAM (my development workstation has only 16GB).
+
+Began the process of satisfying dependencies to build autoware.
+
+Billable hours: 9.0
+
+== 2019-05-22 ==
+
+Moved camera and field console laptop to desktop environment.
+
+Autoware: Build successfully completed in ~25 minutes on virtual machine.
+
+Dependencies:
+
+  sudo apt install ros-kinetic-pcl-*
+  sudo apt install ros-kinetic-pcl-*
+  sudo apt install ros-kinetic-jsk-rviz-plugins
+  sudo apt install ros-kinetic-nmea_msgs
+  sudo apt install ros-kinetic-nmea*
+  sudo apt install ros-kinetic-nmea_msgs
+  sudo apt install ros-kinetic-automotive-platform-msgs
+  sudo apt install ros-kinetic-automotive*
+  sudo apt install ros-kinetic-pacmod*
+  sudo apt install ros-kinetic-velodyne*
+  sudo apt install ros-kinetic-grid-map*
+  sudo apt install sudo apt install libglew-dev
+  sudo apt install libglew-dev
+  sudo apt install ros-kinetic-controller-manager*
+  sudo apt install ros-kinetic-joint-state-controller
+  sudo apt install libpcl-apps1.7
+  sudo apt install libarmadillo-dev
+
+
