@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.8.12)
 project(autoware_pointgrey_drivers)
 
 find_package(catkin REQUIRED COMPONENTS
-        autoware_build_flags
         roscpp
         std_msgs
         message_generation
@@ -14,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
     	cv_bridge
 )
 
-set(CMAKE_CXX_FLAGS "-O2 -Wall ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 link_directories(/usr/lib/ladybug)
 find_package(OpenCV REQUIRED)
 
