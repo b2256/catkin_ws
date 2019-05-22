@@ -562,3 +562,6 @@ Parameterized camera's JPEG quality as jpeg_quality; parameterized polling_rate 
 Measured collection data rate.  If six camera images are published, one from each Ladybug lens, the data rate works out to about 530MB/min.  With 400GB of storage, that allows for ~750 minutes of recording, or 12.5 hours.
 
 Created bag files and copied to external drive; attempting to check them into git induced aberrant behavior, probably owing to the extreme size of these files.
+
+Standard command-line launch:
+  roslaunch autoware_pointgrey_drivers ladybug.launch scale:=100 jpeg_quality:=80 polling_rate:=10
