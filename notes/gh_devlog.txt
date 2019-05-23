@@ -565,3 +565,40 @@ Created bag files and copied to external drive; attempting to check them into gi
 
 Standard command-line launch:
   roslaunch autoware_pointgrey_drivers ladybug.launch scale:=100 jpeg_quality:=80 polling_rate:=10
+
+Thoughts on image correlation
+Need a way to stamp frame id with GPS correlation data.
+
+Stepped through OBDII-odometry problem with 2003 Jeep Liberty - polling frequency quickly drops to zero.
+
+Zeroed in on problem with starting a Ladybug datastream when data format is LADYBUG_DATAFORMAT_COLOR_SEP_JPEG8 (Format 7, Mode 7).  This is the mode we need for a framerate higher than 6 FPS...
+
+Billable hours: 10.5
+
+== 2019-05-23 ==
+
+Continuing to press forward on the inability to open data stream set up for jpeg images.  LadyBugRecorderConsole cannot open.  It appears, however, that the LadyBugRecorderConsole is built for Windows, since it errors out if a line in the LadybugRecorderConsole.xml that's commented as being "Windows Only" is removed; if it's "Windows only" why should it affect operation under Linux?
+
+Got LadybugRecorderConsole to start and appear that it's capturing data by changing the GPS linein the xml configuration:
+  <GPS>
+    <UseGps>false</UseGps>
+    ...
+  </GPS>
+
+Getting into the Windows examples, they use Microsoft's Document/View paradigm, so looking at the *Doc.cpp files, where the meat is.
+
+ladybugConvertImageEx() converts ladybug frames six (6) BGRA buffers.  However, it returns error 5 ("LADYBUG_NOT_SUPPORTED").  Need to find way to get the data in extracted form.
+
+There are multiple LadybugRecorderConsole.xml configuration files on the machine.  The one used is
+  /etc/ladybug/LadybugRecorderConsole.xml
+
+Compared LadybugRecorderConsole/ImageGrabber.cpp to pointgrey/nodes/ladybug.cpp.  Generally congruent -- in fact, large portions of the initialization seem to be straight copy-and-past from ImageGrabber.cpp.  Found and fixed possible scoping bug in unlocking of image - should be unlocking the entire frame, not for each of the six images within the frame.
+
+Made call to FLIR and obtained the following information:
+  1.16.3.48 is latest version of Linux SDK
+  LadybugSimpleProcessStream post-processes PGR files into individual images
+  LadybugSimpleRecording views what camera is seeing.
+
+Support rep (Steven) claims it's not possible to do real-time image conversion.  I'm skeptical about this and plan to use LadybugSimpleRecording as an example.
+
+Verifying that SDK on the field notebook PC is the latest and greatest (1.16.3.48)udo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
