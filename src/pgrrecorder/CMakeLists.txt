@@ -18,10 +18,14 @@ find_package(catkin REQUIRED COMPONENTS
 	camera_info_manager
   image_transport
   cv_bridge
+  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
 find_package(OpenCV REQUIRED)
+
+# auto-generated dynamic reconfiguration GUI
+generate_dynamic_reconfigure_options(cfg/Ladybug3Camera.cfg)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -124,6 +128,7 @@ catkin_package(
 include_directories(
   /usr/include/ladybug
   include/pgrrecorder
+  cfg/cpp
   ${OpenCV_INCLUDE_DIRS}
   ${XercesC_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
@@ -139,6 +144,7 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
@@ -152,6 +158,8 @@ add_executable(pgrrecorder
   src/pgrrecorder_node.cpp
   src/stdafx.cpp
 )
+
+add_dependencies(pgrrecorder ladybug3camera_gencfg)
 
 target_compile_options(pgrrecorder PUBLIC -std=c++11 -fpermissive -w -Wall)
 
