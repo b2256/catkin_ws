@@ -20,6 +20,15 @@
 
 #include "stdafx.h"
 
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+
+
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/Image.h>
@@ -50,6 +59,8 @@
 #include <iostream>
 
 using namespace std;
+
+static volatile int running_ = 1;
 
 namespace
 {

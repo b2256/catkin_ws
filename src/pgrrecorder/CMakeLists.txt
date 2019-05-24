@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 2.8.3)
 project(pgrrecorder)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
-#add_compile_options(-std=c++11)
+#set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
+link_directories(/usr/lib/ladybug)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
