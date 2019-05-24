@@ -601,4 +601,30 @@ Made call to FLIR and obtained the following information:
 
 Support rep (Steven) claims it's not possible to do real-time image conversion.  I'm skeptical about this and plan to use LadybugSimpleRecording as an example.
 
-Verifying that SDK on the field notebook PC is the latest and greatest (1.16.3.48)udo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+Verifying that SDK on the field notebook PC is the latest and greatest (1.16.3.48); reinstalled for good measure.
+
+Cannot get camera to connect at all now.  Completely powered off laptop and cold-started.
+
+Ubuntu update happened earlier.  Going back to earlier kernel to see if problem resolves.
+
+Verified coriander works and displays images, so hardware is fine and recognized on Linux.
+
+This fixed it:
+
+  sudo apt purge ladybug
+  sudo apt install ladybug-1.15.0.11_amd64.deb
+  cd ~/scrap
+  LadybugRecorderConsole
+
+(Device still not recognized)
+
+  rebooted system
+  cd ~/scrap
+  LadybugRecorderConsole
+
+Device recognized, images captured.
+
+Built ROS-ified wrapper around LadybugRecorderConsole.
+
+Billable hours: 11.25
+
