@@ -104,7 +104,8 @@ namespace
 void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
 {
   LadybugImage currentImage;
-  while (!WasKeyPressed())
+
+  while (running_ && ros::ok())
   {
     const LadybugError acquisitionError = grabber.Acquire(currentImage);
     if (acquisitionError != LADYBUG_OK)
@@ -129,6 +130,8 @@ void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
     cout << imagesWritten << " images - " << mbWritten << "MB" << endl;
 
     grabber.Unlock(currentImage.uiBufferIndex);
+    ros::spinOnce();
+
   }
 }
 
@@ -147,7 +150,6 @@ int main (int argc, char **argv)
   ros::NodeHandle private_nh("~");
 
   signal(SIGTERM, signalHandler);//detect closing
-
 
   // Load configuration from XML
   ConfigurationProperties config;
