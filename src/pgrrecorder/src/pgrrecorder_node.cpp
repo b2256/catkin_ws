@@ -87,7 +87,6 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// their starting locations are unknown as each JPEG image of a given size
 	// will fluctuate owing to the compression.
 #define LADYBUG3_IMOFFS 1024
-	sensor_msgs::Image image;		// image for publication
 	char *buffer = (char *)&currentImage.pData[LADYBUG3_IMOFFS];
 	cv::Mat matImg;
 	// cv::imdecode will detect JPEG format from the header bytes (0xff 0xf8 0xff 0xe0)
@@ -95,17 +94,19 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// own buffer, which we then publish.
 	matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
+	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", matImg).toImageMsg();		// image for publication
+/*
 	std_msgs::Header header;
 	cv_bridge::CvImage cv_image(header, "bgr8", matImg);
 	cv_image.toImageMsg(image);
 
-	//image.header.stamp = ros::Time::now();
+	image.header.stamp = ros::Time::now();
 	//image.width = currentImage.uiFullCols;
 	//image.height = currentImage.uiFullRows;
+*/
+	//ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
 
-	ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
-
-	image_pub_->publish(image);
+	image_pub_->publish(msg);
 }
 
 // GrabLoop
