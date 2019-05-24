@@ -18,10 +18,12 @@
 #include <sensor_msgs/CameraInfo.h>
 #include <tf/transform_broadcaster.h>
 #include <tf/transform_datatypes.h>
-
+#include <image_transport/image_transport.h>
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <cv_bridge/cv_bridge.h>
 
 #include "ladybug.h"
 
@@ -43,7 +45,53 @@
 using namespace std;
 
 static volatile int running_ = 1;
+image_transport::CameraPublisher image_pub_; // the single-channel monitor image
+boost::shared_ptr<image_transport::ImageTransport> it_;
 
+// InitPublishMonitor
+// Init publication of the camera-is-running monitor image
+void InitPublishMonitor()
+{
+	image_pub_ = it_->advertiseCamera("/ladybug3_monitor/image_raw", 1);
+}
+
+// PublishMonitorImage
+// Peridocially publish one color channel from a single camera lens for
+// camera operation monitoring purposes.
+// Entry: LadybugImage
+void PublishMonitorImage(LadybugImage& currentImage)
+{
+	// Publish image from the first camera.  Note that the offset of this
+	// image is known.  It is possible to publish images from other cameras, but
+	// their starting locations are unknown as each JPEG image of a given size
+	// will fluctuate owing to the compression.
+#define LADYBUG3_IMOFFS 1024
+	sensor_msgs::Image image;		// image for publication
+	char *buffer = (char *)&currentImage.pData[LADYBUG3_IMOFFS];
+	cv::Mat matImg;
+  // cv::imdecode will detect JPEG format from the header bytes (0xff 0xf8 0xff 0xe0)
+  // It will be decompressed into a 1-dimensional matrix (matImg) with its
+  // own buffer, which we then publish.
+	matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
+
+	std_msgs::Header header;
+	cv_bridge::CvImage cv_image(header, "bgr8", matImg);
+	cv_image.toImageMsg(image);
+
+	image.header.stamp = ros::Time::now();
+	image.width = currentImage.uiFullCols;
+	image.height = currentImage.uiFullRows;
+
+	ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
+  // TODO: is this extra copy really necessary?
+	char *pub_buff = new char[(int) (matImg.total() * matImg.channels())];
+
+	//
+}
+
+// GrabLoop
+// This sits in a  ROS-ified loop and grabs images from the camera
+// as fast as it can send them.
 void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
 {
   LadybugImage currentImage;
@@ -60,21 +108,10 @@ void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
 
     cout << "Image acquired - " << currentImage.timeStamp.ulCycleSeconds << ":" << currentImage.timeStamp.ulCycleCount << endl;
 
-    // GPH: Let's take a peek at the data
-    ROS_INFO("Img offs 0:  %x %x %x %x",
-      currentImage.pData[0],
-      currentImage.pData[1],
-      currentImage.pData[2],
-      currentImage.pData[3]
-    );
-
-    ROS_INFO("Img offs 1024:  %x %x %x %x",
-      currentImage.pData[1024+0],
-      currentImage.pData[1024+1],
-      currentImage.pData[1024+2],
-      currentImage.pData[1024+3]
-    );
-
+static int monitor_count = 0;
+		// Only publish every few frames -- a couple times a second should suffice.
+		if(!(++monitor_count & 0x07))	// TODO: parameterize this
+			PublishMonitorImage(currentImage);
 
     double mbWritten = 0.0;
     unsigned long imagesWritten = 0;
