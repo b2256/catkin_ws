@@ -88,6 +88,15 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// own buffer, which we then publish.
 	cv::Mat matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
+  #if 0
+  double angle = -90;
+  cv::Point2f center((matImg.cols-1)/2.0, (matImage.rows-1)/2.0);
+  cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
+  cv::Rect2f bbox = cv::RotatedRect(cv::Point2f(), matImg.size(), angle)
+  #endif
+
+  transpose(matImg, matImg);
+
 	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", matImg).toImageMsg();		// image for publication
 	msg->header.stamp = ros::Time::now();
 	image_pub_.publish(msg);
