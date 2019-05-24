@@ -50,12 +50,8 @@ using namespace std;
 
 //ros::NodeHandle nh_;
 static volatile int running_ = 1;
-//image_transport::CameraPublisher image_pub_; // the single-channel monitor image
 image_transport::ImageTransport *it_;
-image_transport::Publisher *image_pub_;
-//boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
-////boost::shared_ptr<ladybug3camera::Ladybug3Camera> dev_;
-
+image_transport::Publisher image_pub_;
 
 // InitPublishMonitor
 // Init publication of the camera-is-running monitor image
@@ -63,8 +59,7 @@ void InitPublishMonitor(ros::NodeHandle nh)
 {
 //	cinfo_ = boost::shared_ptr<camera_info_manager::CameraInfoManager>(new camera_info_manager::CameraInfoManager(nh));
 	it_ = new image_transport::ImageTransport(nh);
-////  dev_ = new ladybug3camera::Ladybug3Camera();
-	image_pub_ = it_->advertiseCamera("/ladybug3_monitor/image_raw", 1);
+	image_pub_ = it_->advertise("/ladybug3_monitor/image_raw", 8);
 }
 
 // DeInintPublishMonitor
@@ -93,19 +88,9 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// own buffer, which we then publish.
 	cv::Mat matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
-	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", matImg).toImageMsg();		// image for publication
-/*
-	std_msgs::Header header;
-	cv_bridge::CvImage cv_image(header, "bgr8", matImg);
-	cv_image.toImageMsg(image);
-
-	image.header.stamp = ros::Time::now();
-	//image.width = currentImage.uiFullCols;
-	//image.height = currentImage.uiFullRows;
-*/
-	//ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
-
-	image_pub_->publish(msg);
+	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", matImg).toImageMsg();		// image for publication
+	msg->header.stamp = ros::Time::now();
+	image_pub_.publish(msg);
 }
 
 // GrabLoop
