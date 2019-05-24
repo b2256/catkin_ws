@@ -50,8 +50,9 @@ using namespace std;
 
 //ros::NodeHandle nh_;
 static volatile int running_ = 1;
-image_transport::CameraPublisher image_pub_; // the single-channel monitor image
+//image_transport::CameraPublisher image_pub_; // the single-channel monitor image
 image_transport::ImageTransport *it_;
+image_transport::Publisher *image_pub_;
 boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
 ////boost::shared_ptr<ladybug3camera::Ladybug3Camera> dev_;
 
@@ -64,6 +65,15 @@ void InitPublishMonitor(ros::NodeHandle nh)
 	it_= new image_transport::ImageTransport(nh);
 ////  dev_ = new ladybug3camera::Ladybug3Camera();
 	image_pub_ = it_->advertiseCamera("/ladybug3_monitor/image_raw", 1);
+}
+
+// DeInintPublishMonitor
+void DeInitPublishMonitor()
+{
+	if (it_) {
+		delete it_;
+		it_ = NULL;
+  }
 }
 
 // PublishMonitorImage
@@ -89,28 +99,13 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	cv_bridge::CvImage cv_image(header, "bgr8", matImg);
 	cv_image.toImageMsg(image);
 
-	image.header.stamp = ros::Time::now();
-	image.width = currentImage.uiFullCols;
-	image.height = currentImage.uiFullRows;
+	//image.header.stamp = ros::Time::now();
+	//image.width = currentImage.uiFullCols;
+	//image.height = currentImage.uiFullRows;
 
 	ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
 
-	sensor_msgs::CameraInfoPtr
-		ci(new sensor_msgs::CameraInfo(cinfo_->getCameraInfo()));
-
-	ci.reset(new sensor_msgs::CameraInfo());
-	ci->height = image.height;
-	ci->width =  image.width;
-
-	// fill in operational parameters
-////	dev_->setOperationalParameters(*ci);
-
-////	ci->header.frame_id = 0;   // config_.frame_id;  TODO
-	ci->header.stamp = image.header.stamp;
-
-	image_pub_.publish(image, *ci);
-	// TODO: is this extra copy really necessary?
-	//char *pub_buff = new char[(int) (matImg.total() * matImg.channels())];
+	image_pub_->publish(image);
 }
 
 // GrabLoop
