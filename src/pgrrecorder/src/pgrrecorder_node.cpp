@@ -53,7 +53,7 @@ static volatile int running_ = 1;
 //image_transport::CameraPublisher image_pub_; // the single-channel monitor image
 image_transport::ImageTransport *it_;
 image_transport::Publisher *image_pub_;
-boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
+//boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
 ////boost::shared_ptr<ladybug3camera::Ladybug3Camera> dev_;
 
 
@@ -61,8 +61,8 @@ boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
 // Init publication of the camera-is-running monitor image
 void InitPublishMonitor(ros::NodeHandle nh)
 {
-	cinfo_ = boost::shared_ptr<camera_info_manager::CameraInfoManager>(new camera_info_manager::CameraInfoManager(nh));
-	it_= new image_transport::ImageTransport(nh);
+//	cinfo_ = boost::shared_ptr<camera_info_manager::CameraInfoManager>(new camera_info_manager::CameraInfoManager(nh));
+	it_ = new image_transport::ImageTransport(nh);
 ////  dev_ = new ladybug3camera::Ladybug3Camera();
 	image_pub_ = it_->advertiseCamera("/ladybug3_monitor/image_raw", 1);
 }
@@ -88,11 +88,10 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// will fluctuate owing to the compression.
 #define LADYBUG3_IMOFFS 1024
 	char *buffer = (char *)&currentImage.pData[LADYBUG3_IMOFFS];
-	cv::Mat matImg;
 	// cv::imdecode will detect JPEG format from the header bytes (0xff 0xf8 0xff 0xe0)
 	// It will be decompressed into a 1-dimensional matrix (matImg) with its
 	// own buffer, which we then publish.
-	matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
+	cv::Mat matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
 	sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", matImg).toImageMsg();		// image for publication
 /*
@@ -116,6 +115,7 @@ void GrabLoop( ros::NodeHandle nh, ImageGrabber &grabber, ImageRecorder &recorde
 {
 	LadybugImage currentImage;
 
+	ros::Rate loop_rate(1);
 	while (running_ && ros::ok())
 	{
 		const LadybugError acquisitionError = grabber.Acquire(currentImage);
