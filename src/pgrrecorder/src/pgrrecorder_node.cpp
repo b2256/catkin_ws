@@ -26,6 +26,7 @@
 #include <cv_bridge/cv_bridge.h>
 
 #include "ladybug.h"
+#include "ladybug3camera/Ladybug3CameraConfig.h"
 
 #include "Configuration.h"
 #include "ConfigurationLoader.h"
@@ -44,14 +45,18 @@
 
 using namespace std;
 
+//ros::NodeHandle nh_;
 static volatile int running_ = 1;
 image_transport::CameraPublisher image_pub_; // the single-channel monitor image
-boost::shared_ptr<image_transport::ImageTransport> it_;
+image_transport::ImageTransport *it_;
+boost::shared_ptr<camera_info_manager::CameraInfoManager> cinfo_;
 
 // InitPublishMonitor
 // Init publication of the camera-is-running monitor image
-void InitPublishMonitor()
+void InitPublishMonitor(ros::NodeHandle nh)
 {
+  cinfo_ = boost::shared_ptr<camera_info_manager::CameraInfoManager>(new camera_info_manager::CameraInfoManager(single_camera_nh_[i]));
+  it_= new image_transport::ImageTransport(nh);
 	image_pub_ = it_->advertiseCamera("/ladybug3_monitor/image_raw", 1);
 }
 
@@ -59,7 +64,7 @@ void InitPublishMonitor()
 // Peridocially publish one color channel from a single camera lens for
 // camera operation monitoring purposes.
 // Entry: LadybugImage
-void PublishMonitorImage(LadybugImage& currentImage)
+void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 {
 	// Publish image from the first camera.  Note that the offset of this
 	// image is known.  It is possible to publish images from other cameras, but
@@ -83,16 +88,31 @@ void PublishMonitorImage(LadybugImage& currentImage)
 	image.height = currentImage.uiFullRows;
 
 	ROS_WARN_STREAM("w:" << image.width << " h:" << image.height);
-  // TODO: is this extra copy really necessary?
-	char *pub_buff = new char[(int) (matImg.total() * matImg.channels())];
 
-	//
+	sensor_msgs::CameraInfoPtr
+  	ci(new sensor_msgs::CameraInfo(cinfo_->getCameraInfo()));
+
+
+	ci.reset(new sensor_msgs::CameraInfo());
+	ci->height = image->height;
+	ci->width =  image->width;
+
+	// fill in operational parameters
+	dev_->setOperationalParameters(*ci);
+
+	ci->header.frame_id = config_.frame_id;
+	ci->header.stamp = image->header.stamp;
+
+  image_pub_.publish(image,
+  // TODO: is this extra copy really necessary?
+	//char *pub_buff = new char[(int) (matImg.total() * matImg.channels())];
+
 }
 
 // GrabLoop
 // This sits in a  ROS-ified loop and grabs images from the camera
 // as fast as it can send them.
-void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
+void GrabLoop( ros::NodeHandle nh, ImageGrabber &grabber, ImageRecorder &recorder )
 {
   LadybugImage currentImage;
 
@@ -111,7 +131,7 @@ void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
 static int monitor_count = 0;
 		// Only publish every few frames -- a couple times a second should suffice.
 		if(!(++monitor_count & 0x07))	// TODO: parameterize this
-			PublishMonitorImage(currentImage);
+			PublishMonitorImage(nh, currentImage);
 
     double mbWritten = 0.0;
     unsigned long imagesWritten = 0;
@@ -141,11 +161,15 @@ static void signalHandler(int)
 int main (int argc, char **argv)
 {
   ////ROS STUFF
-  ros::init(argc, argv, "ladybug_camera");
-  ros::NodeHandle n;
-  ros::NodeHandle private_nh("~");
+  ros::init(argc, argv, "pgrrecorder");
+  //nhros::NodeHandle = ros::getNodeHandle(); //node(getNodeHandle());
+  //nh_ = ros::NodeHandle(node, "pgrrecorder");
+  ros::NodeHandle nh;
 
   signal(SIGTERM, signalHandler);//detect closing
+
+  // Initialize the monitor-image publisher
+  InitPublishMonitor(nh);
 
   // Load configuration from XML
   ConfigurationProperties config;
@@ -208,7 +232,7 @@ int main (int argc, char **argv)
 
   cout << "Successfully started camera and stream" << endl;
 
-  GrabLoop(grabber, recorder);
+  GrabLoop(nh, grabber, recorder);
 
   cout << "Stopping..." << endl;
 
@@ -220,472 +244,3 @@ int main (int argc, char **argv)
 
   return 0;
 }
-
-#if 0
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <stdexcept>
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
-
-#include <ros/ros.h>
-#include <sensor_msgs/image_encodings.h>
-#include <sensor_msgs/Image.h>
-
-#include <sensor_msgs/CameraInfo.h>
-#include <tf/transform_broadcaster.h>
-#include <tf/transform_datatypes.h>
-
-#include "opencv2/core/core.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include <opencv2/imgproc/imgproc.hpp>
-
-#include "ladybug.h"
-#include "ladybugstream.h"
-
-using namespace std;
-
-static volatile int running_ = 1;
-
-
-LadybugContext m_context;
-LadybugDataFormat m_dataFormat;
-//camera config settings
-float m_frameRate;
-bool m_isFrameRateAuto;
-int m_jpegQualityPercentage;
-int m_pollingRate; // GPH added - FPS.  Note, cannot exceed what camera can produce.
-
-// GPH: +1 because we also publish the aggregated strip.
-ros::Publisher pub[LADYBUG_NUM_CAMERAS + 1];
-
-static void signalHandler(int)
-{
-  running_ = 0;
-  ros::shutdown();
-}
-
-void parseCameraInfo(const cv::Mat  &camMat,
-    const cv::Mat  &disCoeff,
-    const cv::Size &imgSize,
-    sensor_msgs::CameraInfo &msg)
-{
-  msg.header.frame_id = "camera";
-
-  msg.height = imgSize.height;
-  msg.width  = imgSize.width;
-
-  for (int row=0; row<3; row++)
-  {
-    for (int col=0; col<3; col++)
-    {
-      msg.K[row * 3 + col] = camMat.at<double>(row, col);
-    }
-  }
-
-  for (int row=0; row<3; row++)
-  {
-    for (int col=0; col<4; col++)
-    {
-      if (col == 3)
-      {
-        msg.P[row * 4 + col] = 0.0f;
-      } else
-      {
-        msg.P[row * 4 + col] = camMat.at<double>(row, col);
-      }
-    }
-  }
-
-  for (int row=0; row<disCoeff.rows; row++)
-  {
-    for (int col=0; col<disCoeff.cols; col++)
-    {
-      msg.D.push_back(disCoeff.at<double>(row, col));
-    }
-  }
-}
-
-void GetMatricesFromFile(ros::NodeHandle nh, sensor_msgs::CameraInfo &camerainfo_msg)
-{
-  //////////////////CAMERA INFO/////////////////////////////////////////
-  cv::Mat  cameraExtrinsicMat;
-  cv::Mat  cameraMat;
-  cv::Mat  distCoeff;
-  cv::Size imageSize;
-  std::string filename;
-
-  if (nh.getParam("calibrationfile", filename) && filename!="")
-  {
-    ROS_INFO("Trying to parse calibrationfile :");
-    ROS_INFO("> %s", filename.c_str());
-  }
-  else
-  {
-    ROS_INFO("No calibrationfile param was received");
-    return;
-  }
-
-  cv::FileStorage fs(filename, cv::FileStorage::READ);
-  if (!fs.isOpened())
-  {
-    ROS_INFO("Cannot open %s", filename.c_str());;
-    return;
-  }
-  else
-  {
-    fs["CameraMat"] >> cameraMat;
-    fs["DistCoeff"] >> distCoeff;
-    fs["ImageSize"] >> imageSize;
-  }
-  parseCameraInfo(cameraMat, distCoeff, imageSize, camerainfo_msg);
-}
-
-void publishImage(cv::Mat& image, ros::Publisher& image_pub, long int& count, size_t camera_id)
-{
-  sensor_msgs::Image msg;
-  //publish*******************
-  msg.header.seq = count;
-  std::string frame = "camera" + std::to_string(camera_id);
-  msg.header.frame_id = frame;
-  msg.header.stamp.sec = ros::Time::now().sec; msg.header.stamp.nsec = ros::Time::now().nsec;
-  msg.height = image.size().height; msg.width  = image.size().width;
-  msg.encoding = "rgb8";
-  msg.step = image.cols * image.elemSize();
-  size_t image_size = image.rows * image.cols * image.elemSize();
-
-  msg.data.resize(image_size);
-  memcpy(msg.data.data(), image.data, image_size);
-
-  image_pub.publish(msg);
-}
-
-LadybugError init_camera()
-{
-  LadybugError error;
-  error = ladybugCreateContext(&m_context);
-  if (error != LADYBUG_OK)
-  {
-    throw std::runtime_error("Unable to create Ladybug context.");
-  }
-
-  LadybugCameraInfo enumeratedCameras[16];
-  unsigned int numCameras = 16;
-
-  error = ladybugBusEnumerateCameras(m_context, enumeratedCameras, &numCameras);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  cout << "Cameras detected: " << numCameras << endl << endl;
-
-  if (numCameras == 0)
-  {
-    ROS_INFO("Insufficient number of cameras detected. ");
-    return LADYBUG_FAILED;
-  }
-
-  error = ladybugInitializeFromIndex(m_context, 0);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  LadybugCameraInfo camInfo;
-  error = ladybugGetCameraInfo(m_context, &camInfo);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  ROS_INFO("Camera information: ");
-
-  ROS_INFO("Base s/n: %d", camInfo.serialBase );
-  ROS_INFO("Head s/n: %d", camInfo.serialHead );
-  ROS_INFO("Model: %s", camInfo.pszModelName );
-  ROS_INFO("Sensor: %s", camInfo.pszSensorInfo);
-  ROS_INFO("Vendor: %s", camInfo.pszVendorName);
-  ROS_INFO("Bus / Node: %d ,%d" , camInfo.iBusNum , camInfo.iNodeNum );
-
-  switch (camInfo.deviceType)
-  {
-    case LADYBUG_DEVICE_LADYBUG3:
-      {
-        m_dataFormat = LADYBUG_DATAFORMAT_COLOR_SEP_JPEG8;
-        //m_dataFormat = LADYBUG_DATAFORMAT_RAW8;
-        m_frameRate = 10.0f;
-        m_isFrameRateAuto = true;
-        m_jpegQualityPercentage = 80;
-      }
-      break;
-
-    case LADYBUG_DEVICE_LADYBUG5:
-      {
-        m_dataFormat = LADYBUG_DATAFORMAT_RAW8;
-        m_frameRate = 10.0f;
-        m_isFrameRateAuto = true;
-        m_jpegQualityPercentage = 80;
-      }
-      break;
-
-    default: assert(false); break;
-  }
-
-  // GPH Set some properties
-
-  return error;
-}
-
-LadybugError start_camera()
-{
-  LadybugError error;
-  error = ladybugStartLockNext(m_context, m_dataFormat);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  error = ladybugSetAbsPropertyEx(
-      m_context, LADYBUG_FRAME_RATE,
-      false,
-      true,
-      m_isFrameRateAuto,
-      m_frameRate
-      );
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  error = ladybugSetJPEGQuality(m_context, m_jpegQualityPercentage);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  // Perform a quick test to make sure images can be successfully acquired
-  for (int i=0; i < 10; i++)
-  {
-    LadybugImage tempImage;
-    error = ladybugLockNext(m_context, &tempImage);
-  }
-
-  error = ladybugUnlockAll(m_context);
-  if (error != LADYBUG_OK)
-  {
-    return error;
-  }
-
-  return error;
-}
-
-LadybugError stop_camera()
-{
-  const LadybugError cameraError = ladybugStop(m_context);
-  if (cameraError != LADYBUG_OK)
-  {
-    ROS_INFO("Error: Unable to stop camera (%s)", ladybugErrorToString(cameraError) );
-  }
-  return cameraError;
-}
-
-LadybugError acquire_image( LadybugImage& image )
-{
-  return ladybugLockNext(m_context, &image);
-}
-
-LadybugError unlock_image( unsigned int bufferIndex )
-{
-  return ladybugUnlock(m_context, bufferIndex);
-}
-
-int main (int argc, char **argv)
-{
-  ////ROS STUFF
-  ros::init(argc, argv, "ladybug_camera");
-  ros::NodeHandle n;
-  ros::NodeHandle private_nh("~");
-
-  signal(SIGTERM, signalHandler);//detect closing
-
-  /////////////////////////////
-  //Config camera
-  m_dataFormat = LADYBUG_DATAFORMAT_RAW8;
-  m_frameRate = 10;
-  m_isFrameRateAuto = true;
-  m_jpegQualityPercentage = 80;
-
-  // GPH Added: parameterized jpeg quality; must be set
-  // prior to start_camera()
-  if (private_nh.getParam("jpeg_quality", m_jpegQualityPercentage) && m_jpegQualityPercentage>0 && m_jpegQualityPercentage<100)
-  {
-    ROS_INFO("Ladybug JPEG Quality > %i%%", m_jpegQualityPercentage);
-  }
-  else
-  {
-    ROS_INFO("Ladybug JPEG quality must be (0,100]. Defaulting to 80 ");
-    m_jpegQualityPercentage=80;
-  }
-
-  // GPH Added: parameterized polling rate.
-  // Note, if rate is too high it will be upper-bound
-  // by camera throughput...
-  if (private_nh.getParam("polling_rate", m_pollingRate) && m_pollingRate>0 && m_pollingRate<100)
-  {
-    ROS_INFO("Polling rate up to %i FPS (camera-bound)", m_pollingRate);
-  }
-  else
-  {
-    m_pollingRate=10;
-    ROS_INFO("POlling rate: defaulting to %i per second", m_pollingRate);
-  }
-
-
-
-  // Initialize ladybug camera
-  const LadybugError grabberInitError = init_camera();
-  if (LADYBUG_OK != init_camera())
-  {
-    ROS_INFO("Error: Failed to initialize camera (%s). Terminating...", ladybugErrorToString(grabberInitError) );
-    return -1;
-  }
-
-  LadybugCameraInfo camInfo;
-  if (LADYBUG_OK != ladybugGetCameraInfo(m_context, &camInfo))
-  {
-    ROS_INFO("Error: Failed to get camera information. Terminating...");
-    return -1;
-  }
-
-  const LadybugError startError = start_camera();
-  if (startError != LADYBUG_OK)
-  {
-    ROS_INFO("Error: Failed to start camera (%s). Terminating...", ladybugErrorToString(startError) );
-    return -1;
-  }
-  /////////////////////
-  //ROS
-  // Get the camera information
-  ///////calibration data
-  sensor_msgs::CameraInfo camerainfo_msg;
-  GetMatricesFromFile(private_nh, camerainfo_msg);
-  int image_scale = 100;
-  if (private_nh.getParam("scale", image_scale) && image_scale>0 && image_scale<100)
-  {
-    ROS_INFO("Ladybug ImageScale > %i%%", image_scale);
-  }
-  else
-  {
-    ROS_INFO("Ladybug ImageScale scale must be (0,100]. Defaulting to 20 ");
-    image_scale=20;
-  }
-
-  ros::Publisher camera_info_pub;
-
-  camera_info_pub = n.advertise<sensor_msgs::CameraInfo>("/camera/camera_info", 1, true);
-  ROS_INFO("Successfully started ladybug camera and stream");
-  for (int i = 0; i < LADYBUG_NUM_CAMERAS + 1; i++) {
-    std::string topic(std::string("image_raw"));
-
-    topic = "camera" + std::to_string(i) + "/" + topic;
-
-    pub[i] = n.advertise<sensor_msgs::Image>(topic, 100);
-    ROS_INFO("Publishing.. %s", topic.c_str());
-  }
-  //////////////////
-
-  //start camera
-  ros::Rate loop_rate(m_pollingRate);
-  long int count = 0;
-
-  // GPH Added
-  unsigned char *imageBuf[LADYBUG_NUM_CAMERAS + 1];
-  for (int i = 0; i < LADYBUG_NUM_CAMERAS + 1; i++) {
-    // For each camera, allocate an image buffer
-    imageBuf[i] = (unsigned char *) malloc(1616 * 1232 * 4);
-    assert(imageBuf[i]);
-  }
-
-  while (running_ && ros::ok())
-  {
-    LadybugImage currentImage;
-
-    const LadybugError acquisitionError = acquire_image(currentImage);
-    if (acquisitionError != LADYBUG_OK)
-    {
-      ROS_INFO("Failed to acquire image. Error (%s). Trying to continue..", ladybugErrorToString(acquisitionError) );
-      continue;
-    }
-
-    LadybugError ci_error;
-    ConvertImageOutput ci_result;
-    ci_error = ladybugConvertImageEx(
-        m_context,
-        &currentImage,
-        imageBuf,
-        LADYBUG_UNSPECIFIED_PIXEL_FORMAT,
-        ci_result
-        );
-    ROS_INFO_STREAM("Error: " << ci_error);
-
-    // convert to OpenCV Mat
-    //receive Bayer Image, convert to Color 3 channels
-    cv::Size size(currentImage.uiFullCols, currentImage.uiFullRows);
-
-    //ROS_INFO_STREAM("Dimensions:" << currentImage.uiFullCols << " " << currentImage.uiFullRows);
-    cv::Mat full_size;
-    for(size_t i =0;i<LADYBUG_NUM_CAMERAS; i++)
-    {
-
-      std::ostringstream out;
-      out << "image" << i;
-      //cv::Mat rawImage(size, CV_8UC1, currentImage.pData + (i * size.width*size.height));
-      cv::Mat rawImage(size, CV_8UC1, imageBuf[i]);
-      cv::Mat image(size, CV_8UC3);
-      cv::cvtColor(rawImage, image, cv::COLOR_BayerBG2RGB);
-      cv::resize(image,image,cv::Size(size.width*image_scale/100, size.height*image_scale/100));
-      cv::transpose(image, image);
-      //cv::flip(image, image, 1);
-
-      if (i==0)
-        image.copyTo(full_size);
-      else {
-        cv::hconcat(image, full_size, full_size);
-      }
-      //unlock_image(currentImage.uiBufferIndex);
-#if 1
-      publishImage(image, pub[LADYBUG_NUM_CAMERAS - i], count, LADYBUG_NUM_CAMERAS - i);
-#endif
-    }
-    unlock_image(currentImage.uiBufferIndex);
-#if 0
-    //publish stitched one
-    publishImage(full_size, pub[0], count, LADYBUG_NUM_CAMERAS);
-#endif
-    ros::spinOnce();
-    loop_rate.sleep();
-    count++;
-  }
-
-  cout << "Stopping ladybug_camera..." << endl;
-
-  // Shutdown
-  stop_camera();
-
-  // Free image buffers
-  for (int i = 0; i < LADYBUG_NUM_CAMERAS + 1; i++) {
-    // For each camera, allocate an image buffer
-    free(imageBuf[i]);
-    imageBuf[i] = NULL;
-  }
-
-
-
-  ROS_INFO("ladybug_camera stopped");
-
-  return 0;
-}
-#endif

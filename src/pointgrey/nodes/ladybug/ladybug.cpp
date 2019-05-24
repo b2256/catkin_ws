@@ -34,6 +34,7 @@ bool m_isFrameRateAuto;
 int m_jpegQualityPercentage;
 int m_pollingRate; // GPH added - FPS.  Note, cannot exceed what camera can produce.
 
+// GPH: +1 because we also publish the aggregated strip.
 ros::Publisher pub[LADYBUG_NUM_CAMERAS + 1];
 
 static void signalHandler(int)
@@ -189,8 +190,9 @@ LadybugError init_camera()
 	{
 		case LADYBUG_DEVICE_LADYBUG3:
 		{
-			m_dataFormat = LADYBUG_DATAFORMAT_RAW8;
-			m_frameRate = 16.0f;
+			m_dataFormat = LADYBUG_DATAFORMAT_COLOR_SEP_JPEG8;
+			//m_dataFormat = LADYBUG_DATAFORMAT_RAW8;
+			m_frameRate = 10.0f;
 			m_isFrameRateAuto = true;
 			m_jpegQualityPercentage = 80;
 		}
@@ -208,6 +210,8 @@ LadybugError init_camera()
 		default: assert(false); break;
 	}
 
+  // GPH Set some properties
+
 	return error;
 }
 
@@ -220,7 +224,13 @@ LadybugError start_camera()
 		return error;
 	}
 
-	error = ladybugSetAbsPropertyEx(m_context, LADYBUG_FRAME_RATE, false, true, m_isFrameRateAuto, m_frameRate);
+	error = ladybugSetAbsPropertyEx(
+    m_context, LADYBUG_FRAME_RATE,
+    false,
+    true,
+    m_isFrameRateAuto,
+    m_frameRate
+  );
 	if (error != LADYBUG_OK)
 	{
 		return error;
@@ -305,7 +315,7 @@ int main (int argc, char **argv)
 	}
 	else
 	{
-    m_pollingRate=80;
+    m_pollingRate=10;
 		ROS_INFO("POlling rate: defaulting to %i per second", m_pollingRate);
 	}
 
@@ -366,6 +376,15 @@ int main (int argc, char **argv)
 	//start camera
 	ros::Rate loop_rate(m_pollingRate);
 	long int count = 0;
+
+  // GPH Added
+  unsigned char *imageBuf[LADYBUG_NUM_CAMERAS + 1];
+  for (int i = 0; i < LADYBUG_NUM_CAMERAS + 1; i++) {
+    // For each camera, allocate an image buffer
+    imageBuf[i] = (unsigned char *) malloc(1616 * 1232 * 4);
+    assert(imageBuf[i]);
+  }
+
 	while (running_ && ros::ok())
 	{
 		LadybugImage currentImage;
@@ -377,18 +396,30 @@ int main (int argc, char **argv)
 			continue;
 		}
 
+	  LadybugError ci_error;
+    ConvertImageOutput ci_result;
+    ci_error = ladybugConvertImageEx(
+      m_context,
+      &currentImage,
+      imageBuf,
+      LADYBUG_UNSPECIFIED_PIXEL_FORMAT,
+      ci_result
+    );
+    ROS_INFO_STREAM("Error: " << ci_error);
+
 		// convert to OpenCV Mat
 		//receive Bayer Image, convert to Color 3 channels
 		cv::Size size(currentImage.uiFullCols, currentImage.uiFullRows);
 
     //ROS_INFO_STREAM("Dimensions:" << currentImage.uiFullCols << " " << currentImage.uiFullRows);
-
 		cv::Mat full_size;
 		for(size_t i =0;i<LADYBUG_NUM_CAMERAS; i++)
 		{
+
 			std::ostringstream out;
 			out << "image" << i;
-			cv::Mat rawImage(size, CV_8UC1, currentImage.pData + (i * size.width*size.height));
+			//cv::Mat rawImage(size, CV_8UC1, currentImage.pData + (i * size.width*size.height));
+			cv::Mat rawImage(size, CV_8UC1, imageBuf[i]);
 			cv::Mat image(size, CV_8UC3);
 			cv::cvtColor(rawImage, image, cv::COLOR_BayerBG2RGB);
 			cv::resize(image,image,cv::Size(size.width*image_scale/100, size.height*image_scale/100));
@@ -400,12 +431,16 @@ int main (int argc, char **argv)
 			else {
 				cv::hconcat(image, full_size, full_size);
       }
-			unlock_image(currentImage.uiBufferIndex);
-
+			//unlock_image(currentImage.uiBufferIndex);
+#if 1
 			publishImage(image, pub[LADYBUG_NUM_CAMERAS - i], count, LADYBUG_NUM_CAMERAS - i);
+#endif
 		}
+    unlock_image(currentImage.uiBufferIndex);
+#if 0
 		//publish stitched one
 		publishImage(full_size, pub[0], count, LADYBUG_NUM_CAMERAS);
+#endif
 		ros::spinOnce();
 		loop_rate.sleep();
 		count++;
@@ -415,6 +450,15 @@ int main (int argc, char **argv)
 
 	// Shutdown
 	stop_camera();
+
+  // Free image buffers
+  for (int i = 0; i < LADYBUG_NUM_CAMERAS + 1; i++) {
+    // For each camera, allocate an image buffer
+    free(imageBuf[i]);
+    imageBuf[i] = NULL;
+  }
+
+
 
 	ROS_INFO("ladybug_camera stopped");
 

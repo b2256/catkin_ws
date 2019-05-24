@@ -88,7 +88,7 @@ void publishNavVelNED(const ublox_msgs::NavVELNED& m)
   publisher.publish(m);
 
   // Example geometry message
-  static ros::Publisher velocityPublisher = 
+  static ros::Publisher velocityPublisher =
       nh->advertise<geometry_msgs::TwistWithCovarianceStamped>("fix_velocity", kROSQueueSize);
   if (m.iTOW == last_nav_pos.iTOW) {
     //  use same time as las navposllh message
@@ -98,20 +98,20 @@ void publishNavVelNED(const ublox_msgs::NavVELNED& m)
     velocity.header.stamp = ros::Time::now();
   }
   velocity.header.frame_id = frame_id;
-  
+
   //  convert to XYZ linear velocity
   velocity.twist.twist.linear.x = m.velE/100.0;
   velocity.twist.twist.linear.y = m.velN/100.0;
   velocity.twist.twist.linear.z = -m.velD/100.0;
-  
+
   const double stdSpeed = (m.sAcc/100.0) * 3;
-  
+
   const int cols = 6;
   velocity.twist.covariance[cols*0 + 0] = stdSpeed*stdSpeed;
   velocity.twist.covariance[cols*1 + 1] = stdSpeed*stdSpeed;
   velocity.twist.covariance[cols*2 + 2] = stdSpeed*stdSpeed;
   velocity.twist.covariance[cols*3 + 3] = -1; //  angular rate unsupported
-  
+
   velocityPublisher.publish(velocity);
   last_nav_vel = m;
 }
@@ -142,13 +142,13 @@ void publishNavPosLLH(const ublox_msgs::NavPOSLLH& m)
   //  calculate covariance (convert from mm to m too)
   const double stdH = (m.hAcc / 1000.0) * 3.0;
   const double stdV = (m.vAcc / 1000.0) * 3.0;
-  
+
   fix.position_covariance[0] = stdH*stdH;
   fix.position_covariance[4] = stdH*stdH;
   fix.position_covariance[8] = stdV*stdV;
-  fix.position_covariance_type = 
+  fix.position_covariance_type =
       sensor_msgs::NavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
-  
+
   fix.status.service = fix.status.SERVICE_GPS;
   fixPublisher.publish(fix);
   last_nav_pos = m;
@@ -220,17 +220,17 @@ void publish(const MessageT& m, const std::string& topic) {
 void pollMessages(const ros::TimerEvent& event)
 {
   static std::vector<uint8_t> payload(1,1);
-  if (enabled["aid_alm"]) { 
+  if (enabled["aid_alm"]) {
     gps.poll(ublox_msgs::Class::AID, ublox_msgs::Message::AID::ALM, payload);
   }
-  if (enabled["aid_eph"]) { 
+  if (enabled["aid_eph"]) {
     gps.poll(ublox_msgs::Class::AID, ublox_msgs::Message::AID::EPH, payload);
   }
-  if (enabled["aid_hui"]) { 
+  if (enabled["aid_hui"]) {
     gps.poll(ublox_msgs::Class::AID, ublox_msgs::Message::AID::HUI);
   }
   payload[0]++;
-  if (payload[0] > 32) { 
+  if (payload[0] > 32) {
     payload[0] = 1;
   }
 }
@@ -261,7 +261,7 @@ void fix_diagnostic(diagnostic_updater::DiagnosticStatusWrapper &stat) {
     stat.level = diagnostic_msgs::DiagnosticStatus::WARN;
     stat.message = "Time fix only";
   }
- 
+
   //  append last fix position
   stat.add("iTOW", last_nav_pos.iTOW);
   stat.add("lon", last_nav_pos.lon);
@@ -279,15 +279,15 @@ int main(int argc, char **argv) {
   boost::shared_ptr<boost::asio::ip::tcp::socket> tcp_handle;
   boost::shared_ptr<boost::asio::serial_port> serial_handle;
   bool setup_ok = true;
-  
+
   ros::init(argc, argv, "ublox_gps");
   nh.reset(new ros::NodeHandle("~"));
   if (!nh->hasParam("diagnostic_period")) {
-    nh->setParam("diagnostic_period", 0.2); //  5Hz diagnostic period 
+    nh->setParam("diagnostic_period", 0.2); //  5Hz diagnostic period
   }
   updater.reset(new diagnostic_updater::Updater());
   updater->setHardwareID("ublox");
-  
+
   std::string device;
   int baudrate;
   int rate, meas_rate;
@@ -308,23 +308,23 @@ int main(int argc, char **argv) {
   param.param("fix_mode", fix_mode, std::string("both"));
   param.param("dr_limit", dr_limit, 0);
   param.param("ublox_version", ublox_version, 6); /// @todo: temporary workaround
-    
+
   if (enable_ppp) {
     ROS_WARN("Warning: PPP is enabled - this is an expert setting.");
   }
-  
+
   if (rate <= 0) {
     ROS_ERROR("Invalid settings: rate must be > 0");
     return 1;
   }
   //  measurement rate param for ublox, units of ms
   meas_rate = 1000 / rate;
-  
+
   if (dr_limit < 0 || dr_limit > 255) {
     ROS_ERROR("Invalid settings: dr_limit must be between 0 and 255");
     return 1;
   }
-  
+
   DynamicModel dmodel;
   FixMode fmode;
   try {
@@ -334,21 +334,21 @@ int main(int argc, char **argv) {
     ROS_ERROR("Invalid settings: %s", e.what());
     return 1;
   }
-  
+
   //  configure diagnostic updater for frequency
   updater->add("fix", &fix_diagnostic);
   updater->force_update();
-  
+
   const double target_freq = 1000.0 / meas_rate;  //  actual update frequency
   double min_freq = target_freq;
   double max_freq = target_freq;
   diagnostic_updater::FrequencyStatusParam freq_param(&min_freq, &max_freq, 0.05, 10);
   diagnostic_updater::TimeStampStatusParam time_param(0,meas_rate * 1e-3 * 0.05);
-  freq_diag.reset(new diagnostic_updater::TopicDiagnostic(std::string("fix"), 
-                                                          *updater, 
+  freq_diag.reset(new diagnostic_updater::TopicDiagnostic(std::string("fix"),
+                                                          *updater,
                                                           freq_param,
                                                           time_param));
-  
+
   boost::smatch match;
   if (boost::regex_match(device, match, boost::regex("(tcp|udp)://(.+):(\\d+)"))) {
     std::string proto(match[1]);
@@ -376,7 +376,7 @@ int main(int argc, char **argv) {
         ROS_ERROR("Could not connect to %s:%s: %s", endpoint->host_name().c_str(), endpoint->service_name().c_str(), e.what());
         return 1; //  exit
       }
-    
+
       ROS_INFO("Connected to %s:%s.", endpoint->host_name().c_str(), endpoint->service_name().c_str());
       gps.initialize(*socket, io_service);
     } else {
@@ -411,7 +411,7 @@ int main(int argc, char **argv) {
       throw std::runtime_error(ss.str());
     }
     if (!gps.enableSBAS(enable_sbas)) {
-      throw std::runtime_error(std::string("Failed to ") + 
+      throw std::runtime_error(std::string("Failed to ") +
                                ((enable_sbas) ? "enable" : "disable") + " SBAS.");
     }
     if (!gps.setPPPEnabled(enable_ppp)) {
@@ -419,7 +419,7 @@ int main(int argc, char **argv) {
                                ((enable_ppp) ? "enable" : "disable") + " PPP.");
     }
     if (!gps.setDynamicModel(dmodel)) {
-      throw std::runtime_error("Failed to set model: " + 
+      throw std::runtime_error("Failed to set model: " +
                                dynamic_model + ".");
     }
     if (!gps.setFixMode(fmode)) {
@@ -430,7 +430,7 @@ int main(int argc, char **argv) {
       ss << "Failed to set dead reckoning limit: " << dr_limit << ".";
       throw std::runtime_error(ss.str());
     }
-    
+
     if (ublox_version >= 7) {
       ublox_msgs::CfgGNSS cfgGNSS;
       if (gps.poll(cfgGNSS)) {
@@ -440,12 +440,12 @@ int main(int argc, char **argv) {
       } else {
         throw std::runtime_error("Failed to read the GNSS config.");
       }
-      
+
       cfgGNSS.numConfigBlocks = 1;  //  do services one by one
       cfgGNSS.msgVer = 0;
       cfgGNSS.resTrkCh = 8;   //  taken as defaults from ublox manual
       cfgGNSS.maxTrkCh = 16;
-      
+
       //  configure glonass
       cfgGNSS.gnssId = ublox_msgs::CfgGNSS::GNSS_ID_GLONASS;
       cfgGNSS.flags = enable_glonass;
@@ -474,12 +474,12 @@ int main(int argc, char **argv) {
 
   if (setup_ok) {
     ROS_INFO("U-Blox configured successfully.");
-    
+
     // subscribe messages
     param.param("all", enabled["all"], false);
     param.param("rxm", enabled["rxm"], false);
     param.param("aid", enabled["aid"], false);
-    
+
     param.param("nav_sol", enabled["nav_sol"], true);
     if (enabled["nav_sol"]) gps.subscribe<ublox_msgs::NavSOL>(boost::bind(&publish<ublox_msgs::NavSOL>, _1, "navsol"), 1);
     param.param("nav_status", enabled["nav_status"], true);
@@ -502,7 +502,7 @@ int main(int argc, char **argv) {
     if (enabled["aid_eph"]) gps.subscribe<ublox_msgs::AidEPH>(&publishAidEPH);
     param.param("aid_hui", enabled["aid_hui"], enabled["all"] || enabled["aid"]);
     if (enabled["aid_hui"]) gps.subscribe<ublox_msgs::AidHUI>(&publishAidHUI);
-    
+
     poller = nh->createTimer(ros::Duration(1.0), &pollMessages);
     poller.start();
     ros::spin();
