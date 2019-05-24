@@ -1,22 +1,4 @@
-//=============================================================================
-// Copyright © 2013 Point Grey Research, Inc. All Rights Reserved.
 //
-// This software is the confidential and proprietary information of Point
-// Grey Research, Inc. ("Confidential Information").  You shall not
-// disclose such Confidential Information and shall use it only in
-// accordance with the terms of the license agreement you entered into
-// with Point Grey Research, Inc. (PGR).
-//
-// PGR MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE
-// SOFTWARE, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-// PURPOSE, OR NON-INFRINGEMENT. PGR SHALL NOT BE LIABLE FOR ANY DAMAGES
-// SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING
-// THIS SOFTWARE OR ITS DERIVATIVES.
-//=============================================================================
-//=============================================================================
-// $Id: LadybugRecorderConsole.cpp 331721 2017-07-11 20:56:19Z qsmith $
-//=============================================================================
 
 #include "stdafx.h"
 
@@ -62,45 +44,6 @@ using namespace std;
 
 static volatile int running_ = 1;
 
-namespace
-{
-#ifndef _WIN32
-
-  int kbhit()
-  {
-    int count = 0;
-    struct termios otty, ntty;
-
-    tcgetattr(STDIN_FILENO, &otty);
-    ntty = otty;
-    ntty.c_lflag &= ~ICANON;
-
-    if(tcsetattr(STDIN_FILENO, TCSANOW, &ntty) == 0)
-    {
-      ioctl(STDIN_FILENO, FIONREAD, &count);
-      tcsetattr(STDIN_FILENO, TCSANOW, &otty);
-    }
-
-    return count;
-  }
-
-#endif
-
-  bool WasKeyPressed()
-  {
-#ifdef _WIN32
-
-    return _kbhit() != 0;
-
-#else
-
-    return kbhit() != 0;
-
-#endif
-  }
-
-}
-
 void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
 {
   LadybugImage currentImage;
@@ -111,11 +54,27 @@ void GrabLoop( ImageGrabber &grabber, ImageRecorder &recorder )
     if (acquisitionError != LADYBUG_OK)
     {
       // Error
-      cerr << "Failed to acquire image. Error (" << ladybugErrorToString(acquisitionError) << ")" << endl;
+      ROS_ERROR_STREAM ("Failed to acquire image. Error (" << ladybugErrorToString(acquisitionError) << ")");
       continue;
     }
 
     cout << "Image acquired - " << currentImage.timeStamp.ulCycleSeconds << ":" << currentImage.timeStamp.ulCycleCount << endl;
+
+    // GPH: Let's take a peek at the data
+    ROS_INFO("Img offs 0:  %x %x %x %x",
+      currentImage.pData[0],
+      currentImage.pData[1],
+      currentImage.pData[2],
+      currentImage.pData[3]
+    );
+
+    ROS_INFO("Img offs 1024:  %x %x %x %x",
+      currentImage.pData[1024+0],
+      currentImage.pData[1024+1],
+      currentImage.pData[1024+2],
+      currentImage.pData[1024+3]
+    );
+
 
     double mbWritten = 0.0;
     unsigned long imagesWritten = 0;
@@ -220,8 +179,7 @@ int main (int argc, char **argv)
   grabber.Stop();
   recorder.Stop();
 
-  cout << "Stopped" << endl;
-  cout << "Goodbye" << endl;
+  ROS_INFO_STREAM("Camera grabbing stopped...");
 
   return 0;
 }
