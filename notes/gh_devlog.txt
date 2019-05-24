@@ -626,5 +626,8 @@ Device recognized, images captured.
 
 Built ROS-ified wrapper around LadybugRecorderConsole.
 
-Billable hours: 11.25
+Billable hours: 10.25
 
+== 2019-05-24 ==
+
+Began exploring header data from PGR stream.  Is it the same data we acquired earlier in the week, with the JPEG header beginning at offset 1024 bytes?
