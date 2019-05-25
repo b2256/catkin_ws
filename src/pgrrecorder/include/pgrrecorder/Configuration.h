@@ -1,12 +1,12 @@
 //=============================================================================
 // Copyright © 2013 Point Grey Research, Inc. All Rights Reserved.
-// 
+//
 // This software is the confidential and proprietary information of Point
 // Grey Research, Inc. ("Confidential Information").  You shall not
 // disclose such Confidential Information and shall use it only in
 // accordance with the terms of the license agreement you entered into
 // with Point Grey Research, Inc. (PGR).
-// 
+//
 // PGR MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE
 // SOFTWARE, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -38,12 +38,27 @@ struct GeneralConfiguration
     }
 };
 
+
 struct CameraConfiguration
 {
     LadybugDataFormat dataFormat;
     float frameRate;
+    // GPH Added
+    float gain;
+    bool use_gain;
+    float brightness;
+    bool use_brightness;
+    float autoexposure;
+    bool use_autoexposure;
+    float whitebalance;
+    bool use_whitebalance;
+    float gamma;
+    bool use_gamma;
+    float shutter;
+    bool use_shutter;
+    // End GPH
     bool isFrameRateAuto;
-    unsigned int jpegQualityPercentage;    
+    unsigned int jpegQualityPercentage;
 
     // TODO: Trigger configuration?
 
@@ -53,6 +68,11 @@ struct CameraConfiguration
         frameRate = 16.0f;
         isFrameRateAuto = true;
         jpegQualityPercentage = 80;
+
+        // GPH Added
+        use_gain = use_brightness = use_autoexposure =
+          use_whitebalance = use_gamma = use_shutter =
+          false;
     }
 
     /** Better initialization for the type of camera. */
@@ -135,7 +155,7 @@ struct GpsConfiguration
         output << "GPS Configuration" << endl;
         output << " Use GPS: " << (useGps ? "Yes" : "No") << endl;
         output << " Port: " << port << endl;
-        output << " Device name: " << deviceName << endl;        
+        output << " Device name: " << deviceName << endl;
         output << " Baud rate: " << baudRate << endl;
         output << " Refresh interval (ms): " << refreshInterval << endl;
 
@@ -162,17 +182,17 @@ struct StreamConfiguration
     }
 };
 
-struct ConfigurationProperties 
+struct ConfigurationProperties
 {
     GeneralConfiguration general;
     CameraConfiguration camera;
     GpsConfiguration gps;
-    StreamConfiguration stream;    
+    StreamConfiguration stream;
 
     ConfigurationProperties()
     {
         general = GeneralConfiguration();
-        camera = CameraConfiguration(); 
+        camera = CameraConfiguration();
         gps = GpsConfiguration();
         stream = StreamConfiguration();
     }
@@ -180,7 +200,7 @@ struct ConfigurationProperties
     ConfigurationProperties(LadybugDeviceType deviceType)
     {
         general = GeneralConfiguration();
-        camera = CameraConfiguration(deviceType); 
+        camera = CameraConfiguration(deviceType);
         gps = GpsConfiguration();
         stream = StreamConfiguration();
     }

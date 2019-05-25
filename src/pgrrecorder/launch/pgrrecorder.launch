@@ -2,13 +2,34 @@
 	<!-- declare arguments with default values -->
 	<arg name="scale" default="20"/>
 	<arg name="jpeg_quality" default="80"/>
-	<arg name="polling_rate" default="15"/>
-	<arg name="CalibrationFile" default=""/>
+	<arg name="frame_rate" default="15"/>
+  <!-- GPH: Setting the below to zero will use default camera params -->
+  <arg name="gain" default="0.0"/>
+  <arg name="brightness" default="0.0"/>
+  <arg name="autoexposure" default="0.0"/>
+  <arg name="whitebalance" default="0.0"/>
+  <arg name="gamma" default="2.3"/>
+  <arg name="shutter" default="0.0"/>
 
-	<node pkg="pgrrecorder" type="pgrrecorder" name="pgrrecorder" output="screen">
-		<param name="scale" value="$(arg scale)"/>
-		<param name="jpeg_quality" value="$(arg jpeg_quality)"/>
-		<param name="polling_rate" value="$(arg polling_rate)"/>
-		<param name="calibrationfile" value="$(arg CalibrationFile)"/>
-	</node>
+  <!-- GPH: ADD launch-prefix="gdb {DOUBLE-DASH}args" TO BELOW FOR GDB DEBUGGING -->
+	<!-- node pkg="pgrrecorder"
+    type="pgrrecorder"
+    name="pgrrecorder"
+    output="screen"
+    launch-prefix="gdb {DOUBLEDASH}args" -->
+
+  <node pkg="pgrrecorder"
+    type="pgrrecorder"
+    name="pgrrecorder"
+    output="screen">
+    <param name="scale" value="$(arg scale)"/>
+    <param name="jpeg_quality" value="$(arg jpeg_quality)"/>
+    <param name="frame_rate" value="$(arg frame_rate)"/>
+    <param name="gain" value="$(arg gain)"/>
+    <param name="brightness" value="$(arg brightness)"/>
+    <param name="autoexposure" value="$(arg autoexposure)"/>
+    <param name="whitebalance" value="$(arg whitebalance)"/>
+    <param name="gamma" value="$(arg gamma)"/>
+    <param name="shutter" value="$(arg shutter)"/>
+  </node>
 </launch>

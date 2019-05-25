@@ -5,6 +5,9 @@ project(pgrrecorder)
 #set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 link_directories(/usr/lib/ladybug)
 add_compile_options(-std=c++11)
+# GPH added below for gdb debugging
+add_compile_options(-ggdb)
+add_compile_options(-O0)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)

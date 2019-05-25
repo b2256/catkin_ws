@@ -1,12 +1,12 @@
 //=============================================================================
 // Copyright © 2013 Point Grey Research, Inc. All Rights Reserved.
-// 
+//
 // This software is the confidential and proprietary information of Point
 // Grey Research, Inc. ("Confidential Information").  You shall not
 // disclose such Confidential Information and shall use it only in
 // accordance with the terms of the license agreement you entered into
 // with Point Grey Research, Inc. (PGR).
-// 
+//
 // PGR MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE
 // SOFTWARE, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -24,12 +24,12 @@
 
 using namespace std;
 
-ImageGrabber::ImageGrabber() : 
-m_camConfig(), 
+ImageGrabber::ImageGrabber() :
+m_camConfig(),
 m_gpsConfig()
-{    
+{
     LadybugError error;
-    error = ladybugCreateContext(&m_context);    
+    error = ladybugCreateContext(&m_context);
     if (error != LADYBUG_OK)
     {
         throw std::runtime_error("Unable to create Ladybug context.");
@@ -67,7 +67,7 @@ LadybugError ImageGrabber::Init()
         cerr << "Insufficient number of cameras detected." << endl;
         return LADYBUG_FAILED;
     }
-    
+
     error = ladybugInitializeFromIndex(m_context, 0);
     if (error != LADYBUG_OK)
     {
@@ -104,7 +104,7 @@ void ImageGrabber::SetConfiguration( const CameraConfiguration& camConfig, const
 }
 
 LadybugError ImageGrabber::Start()
-{    
+{
     LadybugError error;
     error = ladybugStartLockNext(m_context, m_camConfig.dataFormat);
     if (error != LADYBUG_OK)
@@ -135,7 +135,47 @@ LadybugError ImageGrabber::Start()
         {
             return error;
         }
-    }    
+    }
+
+    // GPH Added
+    if (m_camConfig.use_gain) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_GAIN, true, true, false, m_camConfig.gain);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    if (m_camConfig.use_brightness) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_BRIGHTNESS, false, true, false, m_camConfig.brightness);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    if (m_camConfig.use_autoexposure) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_AUTO_EXPOSURE, true, true, true, m_camConfig.autoexposure);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    if (m_camConfig.use_whitebalance) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_WHITE_BALANCE, false, true, false, m_camConfig.whitebalance);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    if (m_camConfig.use_gamma) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_GAMMA, false, true, false, m_camConfig.gamma);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    if (m_camConfig.use_shutter) {
+      error = ladybugSetAbsPropertyEx(m_context, LADYBUG_SHUTTER, true, true, false, m_camConfig.shutter);
+      if (error != LADYBUG_OK) {
+          return error;
+      }
+    }
+    // End GPH
+
 
     error = ladybugSetAbsPropertyEx(m_context, LADYBUG_FRAME_RATE, false, true, m_camConfig.isFrameRateAuto, m_camConfig.frameRate);
     if (error != LADYBUG_OK)
@@ -180,7 +220,7 @@ LadybugError ImageGrabber::Stop()
         {
             cerr << "Error: Unable to unregister GPS (" << ladybugErrorToString(gpsError) << ")" << endl;
         }
-    }    
+    }
 
     const LadybugError cameraError = ladybugStop(m_context);
     if (cameraError != LADYBUG_OK)

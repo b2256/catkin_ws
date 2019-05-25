@@ -46,6 +46,8 @@
 
 #include <iostream>
 
+#include "ladybug3_limits.h"
+
 using namespace std;
 
 //ros::NodeHandle nh_;
@@ -120,11 +122,11 @@ void GrabLoop( ros::NodeHandle nh, ImageGrabber &grabber, ImageRecorder &recorde
 			continue;
 		}
 
-		cout << "Image acquired - " << currentImage.timeStamp.ulCycleSeconds << ":" << currentImage.timeStamp.ulCycleCount << endl;
+		//cout << "Image acquired - " << currentImage.timeStamp.ulCycleSeconds << ":" << currentImage.timeStamp.ulCycleCount << endl;
 
 		static int monitor_count = 0;
 		// Only publish every few frames -- a couple times a second should suffice.
-		if(!(++monitor_count & 0x07))	// TODO: parameterize this
+		//if(!(++monitor_count & 0x07))	// TODO: parameterize this
 			PublishMonitorImage(nh, currentImage);
 
 		double mbWritten = 0.0;
@@ -137,7 +139,7 @@ void GrabLoop( ros::NodeHandle nh, ImageGrabber &grabber, ImageRecorder &recorde
 			continue;
 		}
 
-		cout << imagesWritten << " images - " << mbWritten << "MB" << endl;
+		// cout << imagesWritten << " images - " << mbWritten << "MB" << endl;
 
 		grabber.Unlock(currentImage.uiBufferIndex);
 		ros::spinOnce();
@@ -157,7 +159,7 @@ int main (int argc, char **argv)
 	//nhros::NodeHandle = ros::getNodeHandle(); //node(getNodeHandle());
 	//nh_ = ros::NodeHandle(node, "pgrrecorder");
 	ros::NodeHandle nh;
-
+  ros::NodeHandle private_nh("~");
 	signal(SIGTERM, signalHandler);//detect closing
 
 	// Initialize the monitor-image publisher
@@ -192,6 +194,80 @@ int main (int argc, char **argv)
 		cerr << "Error: " << "Failed to initialize camera (" << ladybugErrorToString(grabberInitError) << ")" << endl;
 		return -1;
 	}
+
+  // GPH ADDED - Get the GAIN and other parameters into the config.
+  // Note, owing to a(n apparent) limitation in ROS launch files,
+  // there is no way to CONDITIONALLY map a parameter based on
+  // its presence or absence.  Therefore, as a fallback we will
+  // use the value of 0 to mean "Use the camera default".
+  double param;
+  if (ros::param::has("gain") && ros::param::get("gain", param)) {
+    if (param) {
+      if (param >= kGainMin && param < kGainMax) {
+        config.camera.gain = param;
+        config.camera.use_gain = true;
+        ROS_INFO("Set gain to %f", param);
+      } else {
+        ROS_WARN("Gain limits: %f - %f", (double)kGainMin, (double)kGainMax);
+      }
+    }
+  }
+  if (ros::param::has("brightness") && ros::param::get("brightness", param)) {
+    if (param) {
+      if (param >= kBrightnessMin && param < kBrightnessMax) {
+        config.camera.brightness = param;
+        config.camera.use_brightness = true;
+        ROS_INFO("Set brightness to %f", param);
+      } else {
+        ROS_WARN("brightness limits: %f - %f", (double)kBrightnessMin, (double)kBrightnessMax);
+      }
+    }
+  }
+  if (ros::param::has("autoexposure") && ros::param::get("autoexposure", param)) {
+    if (param) {
+      if (param >= kAutoExposureMin && param < kAutoExposureMax) {
+        config.camera.autoexposure = param;
+        config.camera.use_autoexposure = true;
+        ROS_INFO("Set autoexposure to %f", param);
+      } else {
+        ROS_WARN("autoexposure limits: %f - %f", (double)kAutoExposureMin, (double)kAutoExposureMax);
+      }
+    }
+  }
+  if (ros::param::has("whitebalance") && ros::param::get("whitebalance", param)) {
+    if (param) {
+      if (param >= kWhiteBalanceMin && param < kWhiteBalanceMax) {
+        config.camera.whitebalance = param;
+        config.camera.use_whitebalance = true;
+        ROS_INFO("Set whitebalance to %f", param);
+      } else {
+        ROS_WARN("whitebalance limits: %d - %d", (int)kWhiteBalanceMin, (int)kWhiteBalanceMax);
+      }
+    }
+  }
+  if (ros::param::get("~gamma", param)) {
+    if (param) {
+      if (param >= kGammaMin && param < kGammaMax) {
+        config.camera.gamma = param;
+        config.camera.use_gamma = true;
+        ROS_INFO("Set gamma to %f", param);
+      } else {
+        ROS_WARN("gamma limits: %f - %f", (double)kGammaMin, (double)kGammaMax);
+      }
+    }
+  }
+  if (ros::param::has("shutter") && ros::param::get("shutter", param)) {
+    if (param) {
+      if (param >= kShutterMin && param < kShutterMax) {
+        config.camera.shutter = param;
+        config.camera.use_shutter = true;
+        ROS_INFO("Set shutter to %f seconds", param);
+      } else {
+        ROS_WARN("shutter limits: %f - %f seconds", (double)kShutterMin, (double)kShutterMax);
+      }
+    }
+  }
+  // END GPH
 
 	grabber.SetConfiguration(config.camera, config.gps);
 
