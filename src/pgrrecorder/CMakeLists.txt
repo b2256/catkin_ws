@@ -6,8 +6,8 @@ project(pgrrecorder)
 link_directories(/usr/lib/ladybug)
 add_compile_options(-std=c++11)
 # GPH added below for gdb debugging
-add_compile_options(-ggdb)
-add_compile_options(-O0)
+# add_compile_options(-ggdb)
+# add_compile_options(-O0)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)

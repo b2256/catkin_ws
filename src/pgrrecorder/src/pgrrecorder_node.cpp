@@ -121,6 +121,22 @@ void GrabLoop( ros::NodeHandle nh, ImageGrabber &grabber, ImageRecorder &recorde
 			ROS_ERROR_STREAM ("Failed to acquire image. Error (" << ladybugErrorToString(acquisitionError) << ")");
 			continue;
 		}
+//#define GRAB_FILE_DATA
+#ifdef GRAB_FILE_DATA
+  {
+    static int fidx = 0;
+    FILE *pf;
+    char *fpath = "/home/afl03/catkin_ws/notes/cameraraw";
+    char buf[256];
+    sprintf(buf, "%s%d", fpath, fidx);
+    fidx++;
+    pf = fopen( buf, "w");
+    if (pf) {
+      fwrite( currentImage.pData, 1, currentImage.uiDataSizeBytes, pf);
+      fclose(pf);
+    }
+  }
+#endif
 
 		//cout << "Image acquired - " << currentImage.timeStamp.ulCycleSeconds << ":" << currentImage.timeStamp.ulCycleCount << endl;
 
