@@ -624,10 +624,18 @@ This fixed it:
 
 Device recognized, images captured.
 
-Built ROS-ified wrapper around LadybugRecorderConsole.
+Built ROS-ified wrapper around LadybugRecorderConsole, with pgrrecorder_node.cppas entry point..
 
 Billable hours: 10.25
 
 == 2019-05-24 ==
 
 Began exploring header data from PGR stream.  Is it the same data we acquired earlier in the week, with the JPEG header beginning at offset 1024 bytes?
+
+Yep, offset 1024 contains the JPEG header (0xff 0xd8 0xff 0xf0).  This gives us a way to publish the first color channel of the first image as a raw8 mono image for monitoring purposes; implemented this, with publication to /ladybug3_camera/image_raw, which displays at a high frame rate (~15FPS), indicating the rest of the PGR data is being garnered at this rate.
+
+Deteremined where in the code to set camera registers and implemented parameterized control of gain, brightness, autoexposure, whitebalance, gamma, and shutter.
+
+Implemented plumbing to pull these six camera settings in via ROS parameters, accounting for data type.  Did not have time to thoroughly test final effect on camera.
+
+Billable hours: 9.5
