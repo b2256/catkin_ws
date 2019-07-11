@@ -91,6 +91,7 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	cv::Mat matImg = cv::imdecode(cv::Mat(1, currentImage.uiDataSizeBytes, CV_8UC1, buffer), cv::IMREAD_UNCHANGED);
 
   #if 0
+  // Comment in if the image must be rotated in the frame by 90 degrees.
   double angle = -90;
   cv::Point2f center((matImg.cols-1)/2.0, (matImage.rows-1)/2.0);
   cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
@@ -167,6 +168,93 @@ static void signalHandler(int)
 	running_ = 0;
 	ros::shutdown();
 }
+// setCameraParams
+// Get the GAIN and other parameters into the config.
+// Note, owing to a(n apparent) limitation in ROS launch files,
+// there is no way to CONDITIONALLY map a parameter based on
+// its presence or absence.  Therefore, as a fallback we will
+// use the value of 0 to mean "Use the camera default".
+// Entry: ConfigurationProperties
+// Exit: true == success
+bool setCameraParams(ConfigurationProperties& config)
+{
+  double param;
+  bool success = true;
+  if (ros::param::has("gain") && ros::param::get("gain", param)) {
+    if (param) {
+      if (param >= kGainMin && param < kGainMax) {
+        config.camera.gain = param;
+        config.camera.use_gain = true;
+        ROS_INFO("Set gain to %f", param);
+      } else {
+        ROS_WARN("Gain limits: %f - %f", (double)kGainMin, (double)kGainMax);
+        success = false;
+      }
+    }
+  }
+  if (ros::param::has("brightness") && ros::param::get("brightness", param)) {
+    if (param) {
+      if (param >= kBrightnessMin && param < kBrightnessMax) {
+        config.camera.brightness = param;
+        config.camera.use_brightness = true;
+        ROS_INFO("Set brightness to %f", param);
+      } else {
+        ROS_WARN("brightness limits: %f - %f", (double)kBrightnessMin, (double)kBrightnessMax);
+        success = false;
+      }
+    }
+  }
+  if (ros::param::has("autoexposure") && ros::param::get("autoexposure", param)) {
+    if (param) {
+      if (param >= kAutoExposureMin && param < kAutoExposureMax) {
+        config.camera.autoexposure = param;
+        config.camera.use_autoexposure = true;
+        ROS_INFO("Set autoexposure to %f", param);
+      } else {
+        ROS_WARN("autoexposure limits: %f - %f", (double)kAutoExposureMin, (double)kAutoExposureMax);
+        success = false;
+      }
+    }
+  }
+  if (ros::param::has("whitebalance") && ros::param::get("whitebalance", param)) {
+    if (param) {
+      if (param >= kWhiteBalanceMin && param < kWhiteBalanceMax) {
+        config.camera.whitebalance = param;
+        config.camera.use_whitebalance = true;
+        ROS_INFO("Set whitebalance to %f", param);
+      } else {
+        ROS_WARN("whitebalance limits: %d - %d", (int)kWhiteBalanceMin, (int)kWhiteBalanceMax);
+        success = false;
+      }
+    }
+  }
+  if (ros::param::get("~gamma", param)) {
+    if (param) {
+      if (param >= kGammaMin && param < kGammaMax) {
+        config.camera.gamma = param;
+        config.camera.use_gamma = true;
+        ROS_INFO("Set gamma to %f", param);
+      } else {
+        ROS_WARN("gamma limits: %f - %f", (double)kGammaMin, (double)kGammaMax);
+        success = false;
+      }
+    }
+  }
+  if (ros::param::has("shutter") && ros::param::get("shutter", param)) {
+    if (param) {
+      if (param >= kShutterMin && param < kShutterMax) {
+        config.camera.shutter = param;
+        config.camera.use_shutter = true;
+        ROS_INFO("Set shutter to %f seconds", param);
+      } else {
+        ROS_WARN("shutter limits: %f - %f seconds", (double)kShutterMin, (double)kShutterMax);
+        success = false;
+      }
+    }
+  }
+  // END GPH
+  return success;
+}
 
 int main (int argc, char **argv)
 {
@@ -211,79 +299,11 @@ int main (int argc, char **argv)
 		return -1;
 	}
 
-  // GPH ADDED - Get the GAIN and other parameters into the config.
-  // Note, owing to a(n apparent) limitation in ROS launch files,
-  // there is no way to CONDITIONALLY map a parameter based on
-  // its presence or absence.  Therefore, as a fallback we will
-  // use the value of 0 to mean "Use the camera default".
-  double param;
-  if (ros::param::has("gain") && ros::param::get("gain", param)) {
-    if (param) {
-      if (param >= kGainMin && param < kGainMax) {
-        config.camera.gain = param;
-        config.camera.use_gain = true;
-        ROS_INFO("Set gain to %f", param);
-      } else {
-        ROS_WARN("Gain limits: %f - %f", (double)kGainMin, (double)kGainMax);
-      }
-    }
+  if (!setCameraParams(config))
+  {
+    cerr << "Error: Setting camera params -- check syntax" << endl;
+    return -1;
   }
-  if (ros::param::has("brightness") && ros::param::get("brightness", param)) {
-    if (param) {
-      if (param >= kBrightnessMin && param < kBrightnessMax) {
-        config.camera.brightness = param;
-        config.camera.use_brightness = true;
-        ROS_INFO("Set brightness to %f", param);
-      } else {
-        ROS_WARN("brightness limits: %f - %f", (double)kBrightnessMin, (double)kBrightnessMax);
-      }
-    }
-  }
-  if (ros::param::has("autoexposure") && ros::param::get("autoexposure", param)) {
-    if (param) {
-      if (param >= kAutoExposureMin && param < kAutoExposureMax) {
-        config.camera.autoexposure = param;
-        config.camera.use_autoexposure = true;
-        ROS_INFO("Set autoexposure to %f", param);
-      } else {
-        ROS_WARN("autoexposure limits: %f - %f", (double)kAutoExposureMin, (double)kAutoExposureMax);
-      }
-    }
-  }
-  if (ros::param::has("whitebalance") && ros::param::get("whitebalance", param)) {
-    if (param) {
-      if (param >= kWhiteBalanceMin && param < kWhiteBalanceMax) {
-        config.camera.whitebalance = param;
-        config.camera.use_whitebalance = true;
-        ROS_INFO("Set whitebalance to %f", param);
-      } else {
-        ROS_WARN("whitebalance limits: %d - %d", (int)kWhiteBalanceMin, (int)kWhiteBalanceMax);
-      }
-    }
-  }
-  if (ros::param::get("~gamma", param)) {
-    if (param) {
-      if (param >= kGammaMin && param < kGammaMax) {
-        config.camera.gamma = param;
-        config.camera.use_gamma = true;
-        ROS_INFO("Set gamma to %f", param);
-      } else {
-        ROS_WARN("gamma limits: %f - %f", (double)kGammaMin, (double)kGammaMax);
-      }
-    }
-  }
-  if (ros::param::has("shutter") && ros::param::get("shutter", param)) {
-    if (param) {
-      if (param >= kShutterMin && param < kShutterMax) {
-        config.camera.shutter = param;
-        config.camera.use_shutter = true;
-        ROS_INFO("Set shutter to %f seconds", param);
-      } else {
-        ROS_WARN("shutter limits: %f - %f seconds", (double)kShutterMin, (double)kShutterMax);
-      }
-    }
-  }
-  // END GPH
 
 	grabber.SetConfiguration(config.camera, config.gps);
 
