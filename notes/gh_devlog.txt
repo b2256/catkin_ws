@@ -639,3 +639,12 @@ Deteremined where in the code to set camera registers and implemented parameteri
 Implemented plumbing to pull these six camera settings in via ROS parameters, accounting for data type.  Did not have time to thoroughly test final effect on camera.
 
 Billable hours: 9.5
+
+== 2019-07-10 ==
+
+Resumed development on ladybug camera code, beginning with analysis of pgrrecorder node that I had adapted from the LadybugRecorderConsole source example...
+
+Whilst we have bagplay, bagfiles to go with it, and raw PGR output, we want to find a way to bypass pgrrecorder node's attempt to grab images directly from the camera and "fake" it using the raw images we captured onsite in May, since bagplay does not record/playback external peripherial signals (firewire, USB).
+
+For readability/manageability, refactored camera parameter grabbing into its own file.
+
