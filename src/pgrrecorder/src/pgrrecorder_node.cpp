@@ -73,6 +73,66 @@ void DeInitPublishMonitor()
   }
 }
 
+// getImageIndex
+// Find image nth index (according to JPG headers) past the index passed in in a stream of JPEG d in a string of data.
+// Looks for jpeg header data and, if found, looks around it to confirm it.
+char *getImageIndex(int start_index, int seek_index, int max_size, char *data)
+{
+  unsigned char *image_location = (unsigned char *) data;
+  unsigned char *image_candidate_location;
+  unsigned char *end = data + max_size;
+  char index = start_index;       // running count index
+
+  int current_image_index = 0;
+
+  // Table contains candidate index deltas to beginning of string
+  static char delta_lookup[256] =
+  {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x00-0x0f
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x10
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x20
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x30
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x40
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x50
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x60
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x70
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x80
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0x90
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0xa0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0xb0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0xc0
+    0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0,       // 0xd0
+    -3,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,       // 0xe0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2,       // 0xf0-0xff
+  };
+
+  // Don't start on the first JPEG header; advance index
+  image_location += 4;
+
+  // Since JPEG doesn't have compressed image size (see https://www.file-recovery.com/jpg-signature-format.htm)
+  // we are faced with the arduous task of searching for the next JPEG header
+  while(image_location < end) {
+    image_location += 4;
+    int delta_candidate_index;
+    // Yes, assignment below of delta_candidate_index is deliberate
+    if (delta_candidate_index = delta_lookup[*image_location]) {
+      image_candidate_location = image_location + delta_candidate_index;
+      if (0xff == image_candidate_location[0])
+        if (0xd8 == image_candidate_location[0])
+          if (0xff == image_candidate_location[0])
+            if (0xe0 == image_candidate_location[0]) {
+              current_image_index++;
+              if (current_image_index == seek_index) {
+                image_location = image_candidate_location;
+                break;
+              }
+            }
+    }
+  }
+
+  return image_location;
+}
+
 // PublishMonitorImage
 // Peridocially publish one color channel from a single camera lens for
 // camera operation monitoring purposes.
@@ -84,7 +144,10 @@ void PublishMonitorImage(ros::NodeHandle nh, LadybugImage& currentImage)
 	// their starting locations are unknown as each JPEG image of a given size
 	// will fluctuate owing to the compression.
 #define LADYBUG3_IMOFFS 1024
-	char *buffer = (char *)&currentImage.pData[LADYBUG3_IMOFFS];
+	char *buffer;
+  buffer = getImageIndex(0, 3, currentImage.uiDataSizeBytes, (char *)&currentImage.pData[LADYBUG3_IMOFFS]);
+
+  buffer = (char *)&currentImage.pData[LADYBUG3_IMOFFS];
 	// cv::imdecode will detect JPEG format from the header bytes (0xff 0xf8 0xff 0xe0)
 	// It will be decompressed into a 1-dimensional matrix (matImg) with its
 	// own buffer, which we then publish.
