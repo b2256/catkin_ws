@@ -10,6 +10,9 @@
   <arg name="whitebalance" default="0.0"/>
   <arg name="gamma" default="2.3"/>
   <arg name="shutter" default="0.0"/>
+  <arg name="monitor_lens" default="3"/>
+  <arg name="monitor_fixate" default="5.0"/>
+  <arg name="monitor_pan" default="0.5"/>
 
   <!-- GPH: ADD launch-prefix="gdb {DOUBLE-DASH}args" TO BELOW FOR GDB DEBUGGING -->
 	<!-- node pkg="pgrrecorder"
@@ -31,5 +34,8 @@
     <param name="whitebalance" value="$(arg whitebalance)"/>
     <param name="gamma" value="$(arg gamma)"/>
     <param name="shutter" value="$(arg shutter)"/>
+    <param name="monitor_lens" value="$(arg monitor_lens)"/>
+    <param name="monitor_fixate" value="$(arg monitor_fixate)"/>
+    <param name="monitor_pan" value="$(arg monitor_pan)"/>
   </node>
 </launch>
