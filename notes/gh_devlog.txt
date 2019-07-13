@@ -640,7 +640,7 @@ Implemented plumbing to pull these six camera settings in via ROS parameters, ac
 
 Billable hours: 9.5
 
-== 2019-07-10 ==
+== 2019-07-11 ==
 
 Resumed development on ladybug camera code, beginning with analysis of pgrrecorder node that I had adapted from the LadybugRecorderConsole source example...
 
@@ -648,3 +648,22 @@ Whilst we have bagplay, bagfiles to go with it, and raw PGR output, we want to f
 
 For readability/manageability, refactored camera parameter grabbing into its own file.
 
+Billable hours: 2.0
+
+== 2019-07-12
+
+Installed Ubuntu 16.04 from scratch.  Upon completion, encountered [ 6.364193] firewire_ohci 0000:0c:00.0: register access failure and a few other small errors on regular non-graphics text window.
+
+Booted successfully; changed graphics driver to be nvidia-384 instead of xserver-xorg-video-nouveau.
+
+Note on GPS: There are two topics: raw_gps.  raw is the one we will have to pull.
+
+Experiencing random freezes on desktop.  Ran memory test (hold left shift at beginning of boot sequence).  Cancelled at 10% with reasonable confidence level (no errors; full test takes 1/2 hour).
+
+Changed graphics driver back from nvidia 384.130 to noveau; checking for persistence of lock-ups.
+
+Tried several times to fix graphic driver problems; reinstalled "bricked" Ubuntu a total of three times; finally punted.
+
+Implemented and tested COLOR and asymmetrical PANNING for the images.
+
+Billable hours: 9.25
